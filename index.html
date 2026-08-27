@@ -42,12 +42,20 @@
   .ex-cn { font-size:16px; color:#212121; }
   .ex-py { font-size:13px; color:#666; font-style:italic; }
   .ex-vi { font-size:13px; color:#444; margin-top:2px; }
+  .download-banner { background:#FFF8E1; border:1px solid #FFE082; border-radius:10px; padding:12px 16px; margin-bottom:18px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .download-banner p { margin:0; font-size:13px; color:#5D4037; flex:1; min-width:200px; }
+  #downloadPageBtn { background:#EF6C00; }
 </style>
 </head>
 <body>
 
 <h1>Luyện viết chữ Hán <span class="badge-offline">⚡ Offline — không cần internet</span></h1>
 <div class="sub">Toàn bộ thư viện và dữ liệu nét chữ (2663 chữ Hán, HSK 1–6) đã được nhúng sẵn trong file này — kèm Pinyin, bộ thủ, nghĩa tiếng Việt và câu ví dụ. Mở file là dùng được, không cần mạng.</div>
+
+<div class="download-banner">
+  <p>📱 Trên điện thoại (đặc biệt iPhone/Safari), bấm nút này để tải hẳn 1 file về máy — dùng lại mãi mãi không cần mạng, kể cả ở chế độ máy bay.</p>
+  <button id="downloadPageBtn" onclick="downloadThisPage()">⬇ Tải file này về máy</button>
+</div>
 
 <h2>1. Xem thử một chữ</h2>
 <div class="controls">
@@ -154,6 +162,34 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
   // Tạo Blob URL cho gif.worker.js từ mã nguồn đã nhúng sẵn (không cần tải mạng)
   const GIF_WORKER_BLOB_URL = URL.createObjectURL(new Blob([GIF_WORKER_SRC], {type: 'application/javascript'}));
+
+  // Nút "Tải file này về máy" — tự đóng gói toàn bộ trang hiện tại thành 1 file .html
+  // và kích hoạt tải xuống thật sự (để Safari/Chrome trên điện thoại nhận diện là file, cho lưu vào Tệp/Files).
+  function downloadThisPage() {
+    const btn = document.getElementById('downloadPageBtn');
+    const originalText = btn.textContent;
+    btn.textContent = 'Đang chuẩn bị file...';
+    btn.disabled = true;
+    setTimeout(function() {
+      try {
+        const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'luyen-viet-chu-han.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+        btn.textContent = '✓ Đã tải — kiểm tra mục Tệp tải xuống';
+      } catch (e) {
+        btn.textContent = 'Lỗi, thử lại';
+      }
+      setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 4000);
+    }, 50);
+  }
+  window.downloadThisPage = downloadThisPage;
 
   function charDataLoader(char, onComplete, onError) {
     const data = window.HANZI_DATA_BUNDLE[char];
