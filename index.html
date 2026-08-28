@@ -200,14 +200,33 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     if (data) { onComplete(data); } else { if (onError) onError(); }
   }
 
+  let voicesReady = (window.speechSynthesis && window.speechSynthesis.getVoices().length > 0);
+  if (window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = function () { voicesReady = true; };
+  }
+
   function speak(text, lang) {
     try {
-      if (!window.speechSynthesis) { setStatus('Trình duyệt này không hỗ trợ phát âm offline.'); return; }
-      window.speechSynthesis.cancel(); // ngắt câu đang đọc dở (nếu có) trước khi đọc câu mới
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = lang || 'zh-CN';
-      u.rate = 0.85;
-      window.speechSynthesis.speak(u);
+      if (!window.speechSynthesis) { setStatus('Trình duyệt này không hỗ trợ phát âm.'); return; }
+      const doSpeak = function () {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = lang || 'zh-CN';
+        u.rate = 0.85;
+        u.onerror = function (e) {
+          if (e.error === 'not-allowed') setStatus('Trình duyệt chặn phát âm tự động — hãy bấm nút phát âm trực tiếp.');
+          else if (e.error === 'network') setStatus('Không phát âm được: cần kết nối mạng (giọng đọc tiếng Trung trên máy này chạy qua mạng, không phải giọng cài sẵn offline).');
+          else setStatus('Không phát âm được (' + e.error + ').');
+        };
+        window.speechSynthesis.speak(u);
+      };
+      if (voicesReady) {
+        doSpeak();
+      } else {
+        // giọng đọc chưa tải xong lần đầu — đợi rồi mới đọc, tránh im lặng không rõ lý do
+        setStatus('Đang tải giọng đọc lần đầu...');
+        setTimeout(function () { voicesReady = true; doSpeak(); }, 700);
+      }
     } catch (e) {
       setStatus('Không phát âm được: ' + e.message);
     }
@@ -219,7 +238,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     const m = window.CHAR_META[c];
     if (!m) { box.innerHTML = ''; return; }
     const rows = [];
-    if (m.py) rows.push('<div class="info-row"><span class="info-label">Pinyin</span><span class="info-pinyin">' + m.py + '</span> <button class="speak-btn" onclick="speak(' + JSON.stringify(c) + ')">🔊 phát âm</button></div>');
+    if (m.py) rows.push('<div class="info-row"><span class="info-label">Pinyin</span><span class="info-pinyin">' + m.py + '</span> <button class="speak-btn" onclick=\'speak(' + JSON.stringify(c) + ')\'>🔊 phát âm</button></div>');
     if (m.rad) rows.push('<div class="info-row"><span class="info-label">Bộ thủ</span><span>' + m.rad + '&nbsp;— ' + (m.radName || '') + '</span></div>');
     if (m.vi) {
       let tag = m.viSrc === 'verified' ? '<span class="badge-verified">✓ theo tài liệu HSK của anh</span>' : '<span class="badge-auto-vi">dịch tự động (Claude) — nên rà soát</span>';
@@ -229,7 +248,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       rows.push('<div class="info-row"><span class="info-label">Nghĩa EN</span><span>' + m.en + '</span></div>');
     }
     if (m.exCn) {
-      rows.push('<div class="info-row example"><span class="info-label">Câu ví dụ</span><div><div class="ex-cn">' + m.exCn + ' <button class="speak-btn" onclick="speak(' + JSON.stringify(m.exCn) + ')">🔊 phát âm</button></div><div class="ex-py">' + (m.exPy||'') + '</div><div class="ex-vi">' + (m.exVi||'') + '</div></div></div>');
+      rows.push('<div class="info-row example"><span class="info-label">Câu ví dụ</span><div><div class="ex-cn">' + m.exCn + ' <button class="speak-btn" onclick=\'speak(' + JSON.stringify(m.exCn) + ')\'>🔊 phát âm</button></div><div class="ex-py">' + (m.exPy||'') + '</div><div class="ex-vi">' + (m.exVi||'') + '</div></div></div>');
     }
     box.innerHTML = rows.join('');
   }
