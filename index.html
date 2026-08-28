@@ -64,7 +64,7 @@
 <div class="controls">
   <input type="text" id="charInput" maxlength="1" value="学" placeholder="汉">
   <button onclick="loadChar()">Tải chữ</button>
-  <button class="secondary" onclick="animate()">▶ Xem hoạt hình nét</button>
+  <button class="secondary" onclick="animateChar()">▶ Xem hoạt hình nét</button>
   <button class="secondary" onclick="startQuiz()">✍ Luyện viết (Quiz)</button>
 </div>
 <div id="status"></div>
@@ -253,7 +253,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     });
   }
 
-  function animate() {
+  function animateChar() {
     if (!writer) { setStatus('Hãy tải một chữ trước.'); return; }
     try {
       writer.cancelQuiz();
