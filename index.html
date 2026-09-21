@@ -208,25 +208,19 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function speak(text, lang) {
     try {
       if (!window.speechSynthesis) { setStatus('Trình duyệt này không hỗ trợ phát âm.'); return; }
-      const doSpeak = function () {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = lang || 'zh-CN';
-        u.rate = 0.85;
-        u.onerror = function (e) {
-          if (e.error === 'not-allowed') setStatus('Trình duyệt chặn phát âm tự động — hãy bấm nút phát âm trực tiếp.');
-          else if (e.error === 'network') setStatus('Không phát âm được: cần kết nối mạng (giọng đọc tiếng Trung trên máy này chạy qua mạng, không phải giọng cài sẵn offline).');
-          else setStatus('Không phát âm được (' + e.error + ').');
-        };
-        window.speechSynthesis.speak(u);
+      // Gọi speak() ĐỒNG BỘ, ngay trong cú chạm của người dùng — không setTimeout/await ở giữa.
+      // Safari trên iPhone/iPad âm thầm chặn phát âm nếu lệnh gọi bị trễ dù chỉ một chút so với thao tác chạm.
+      window.speechSynthesis.resume();
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang || 'zh-CN';
+      u.rate = 0.85;
+      u.onerror = function (e) {
+        if (e.error === 'not-allowed') setStatus('Trình duyệt chặn phát âm tự động — hãy bấm lại trực tiếp vào nút phát âm.');
+        else if (e.error === 'network') setStatus('Không phát âm được: cần kết nối mạng (giọng đọc tiếng Trung trên máy này chạy qua mạng, không phải giọng cài sẵn offline).');
+        else setStatus('Không phát âm được (' + e.error + ').');
       };
-      if (voicesReady) {
-        doSpeak();
-      } else {
-        // giọng đọc chưa tải xong lần đầu — đợi rồi mới đọc, tránh im lặng không rõ lý do
-        setStatus('Đang tải giọng đọc lần đầu...');
-        setTimeout(function () { voicesReady = true; doSpeak(); }, 700);
-      }
+      window.speechSynthesis.speak(u);
     } catch (e) {
       setStatus('Không phát âm được: ' + e.message);
     }
