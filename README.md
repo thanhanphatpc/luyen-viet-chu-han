@@ -59,3 +59,8 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 - Xếp theo **mức dùng** = số chữ trong 2663 chữ HSK 1–6 thuộc bộ đó; dạng giản thể/biến thể (氵 讠 钅 ⺼ 罒…) tính vào bộ gốc, 阝 trái = 阜, phải = 邑. Trang cho đổi cách xếp (Khang Hy / số nét), tìm bộ, bấm bộ để xem và luyện các chữ thuộc bộ.
 - Bảng đã xếp: `data/bo-thu-214.csv` (mở được bằng Excel).
 - Sửa file Excel thì chạy lại: `python3 tools/build_radicals.py` (ghi khối `RADICAL-DATA` trong `index.html`, không sửa tay).
+
+## 20 lượng từ thông dụng nhất (mục 5 trên trang)
+
+- Nguồn: `data/20-luong-tu-thong-dung-nhat.xlsx` (Lượng từ, Pinyin, Nghĩa Việt, Nghĩa Anh, Ứng dụng phổ biến, Ví dụ "câu (pinyin) nghĩa").
+- Sửa file Excel thì chạy lại: `python3 tools/build_measure_words.py` (ghi khối `MEASURE-DATA` trong `index.html`, không sửa tay).
