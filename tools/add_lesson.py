@@ -9,6 +9,7 @@ Cách dùng:
             Day3|发展|fāzhǎn|ĐT|phát triển|to develop|公司发展得很快。|Gōngsī fāzhǎn de hěn kuài.|Công ty phát triển rất nhanh.)
             Có thể dán nguyên cả bài, script tự lọc các dòng DATA. Dùng "-" để đọc từ stdin.
 - --topic : tên chủ đề (lấy từ tên file Docs "Day3-kinh-doanh-ban-hang"). Có thể truyền cả tên file.
+- --readme: cập nhật thêm bảng "Thống kê từ mới theo tuần" trong README.md.
 - --hwd   : thư mục gói npm hanzi-writer-data (chứa <chữ>.json). Bỏ trống → tự tải bằng `npm pack`.
 
 Chạy lại cùng một Day sẽ ghi đè Day đó (an toàn khi chạy lại).
@@ -135,8 +136,7 @@ def update_readme(lessons):
     else:
         r = r.rstrip('\n') + '\n\n## Thống kê từ mới theo tuần\n\nTự cập nhật mỗi lần chạy `tools/add_lesson.py` (tuần tính từ thứ Hai đến Chủ nhật; từ đã học ở ngày trước không tính lại).\n\n' + block + '\n'
     open(README, 'w', encoding='utf-8').write(r)
-    for mon in sorted(weeks, reverse=True)[:1]:
-        print(f"Tuần {mon:%d/%m}: {weeks[mon]['words']} từ mới, {weeks[mon]['chars']} chữ Hán mới")
+    print('Đã cập nhật bảng thống kê tuần trong README.md')
 
 
 def main():
@@ -145,6 +145,7 @@ def main():
     ap.add_argument('--topic', default='')
     ap.add_argument('--hwd', default='')
     ap.add_argument('--file', default=INDEX)
+    ap.add_argument('--readme', action='store_true', help='cập nhật bảng thống kê tuần trong README.md')
     a = ap.parse_args()
 
     text = sys.stdin.read() if a.input == '-' else open(a.input, encoding='utf-8').read()
@@ -217,7 +218,12 @@ def main():
     if missing:
         print('KHÔNG tìm thấy dữ liệu nét cho: ' + ', '.join(missing))
     print(f'Tổng số ngày đã học: {len(lessons)}')
-    update_readme(lessons)
+    weeks, _, _ = week_stats(lessons)
+    if weeks:
+        mon = max(weeks)
+        print(f"Tuần {mon:%d/%m}: {weeks[mon]['words']} từ mới, {weeks[mon]['chars']} chữ Hán mới")
+    if a.readme:
+        update_readme(lessons)
 
 
 if __name__ == '__main__':

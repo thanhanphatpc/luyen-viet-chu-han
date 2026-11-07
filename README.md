@@ -39,7 +39,7 @@ Chạy lại cùng một Day sẽ ghi đè Day đó, nên an toàn khi chạy l�
 
 ## Thống kê từ mới theo tuần
 
-Tự cập nhật mỗi lần chạy `tools/add_lesson.py` (tuần tính từ thứ Hai đến Chủ nhật; từ đã học ở ngày trước không tính lại).
+Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bảng 📊 ở mục Bài học hằng ngày luôn tự tính (tuần tính từ thứ Hai đến Chủ nhật; từ đã học ở ngày trước không tính lại).
 
 <!-- WEEK-STATS:BEGIN (tự động sinh bởi tools/add_lesson.py) -->
 | Tuần | Số bài | Từ mới | Chữ Hán mới |
