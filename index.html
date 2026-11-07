@@ -25,6 +25,10 @@
   .preset-list button { background:white; color:var(--ink); border:1px solid var(--accent); font-size:20px; padding:6px 14px; }
   .chip { background:var(--accent); color:var(--ink); border-radius:16px; padding:5px 12px; font-size:18px; }
   .chip-missing { background:#FFEBEE; color:#C62828; }
+  .chip-new { background:#E8F5E9; color:#1B5E20; box-shadow:0 0 0 2px #43A047 inset; font-weight:600; }
+  .chip-new.chip-missing { background:#FFEBEE; color:#C62828; box-shadow:0 0 0 2px #43A047 inset; }
+  .new-msg { font-size:14px; margin-top:8px; padding:8px 12px; border-radius:8px; background:#E8F5E9; color:#1B5E20; display:none; }
+  .new-msg.none { background:#F5F5F5; color:#555; }
   .progress-wrap { background:#EEE; border-radius:8px; height:10px; overflow:hidden; margin:10px 0; display:none; }
   .progress-bar { background:var(--ink); height:100%; width:0%; transition:width 0.2s; }
   .row { display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; }
@@ -99,7 +103,8 @@
 <h2>2. Nạp danh sách từ vựng</h2>
 <div class="sub">
   Cách 1: tải lên file Excel (.xlsx) theo mẫu HSK của anh (chọn được nhiều file cùng lúc) — tự tìm cột "Hán tự", tự tách từ nhiều chữ, tự loại trùng.<br>
-  Cách 2: dán tay danh sách chữ vào ô bên dưới.<br>
+  Cách 2: dán tay danh sách chữ vào ô bên dưới (chữ mới được cộng thêm vào danh sách cũ).<br>
+  Danh sách tự lưu trên máy này — tắt trình duyệt mở lại vẫn còn. Chữ mới của lần nạp gần nhất có viền xanh.<br>
   Lưu ý: bản offline này chỉ có dữ liệu nét cho 2663 chữ trong phạm vi HSK 1–6 — chữ ngoài phạm vi này sẽ hiện chip màu đỏ (không luyện/xuất GIF được khi offline).
 </div>
 <div class="controls">
@@ -114,6 +119,7 @@
   <button class="secondary" onclick="extractFromTextarea()">Trích xuất danh sách chữ</button>
   <span class="count-badge" id="charCount"></span>
 </div>
+<div class="new-msg" id="newCharsMsg"></div>
 <div class="chip-list" id="chipList"></div>
 
 <h2>3. Xuất GIF hàng loạt</h2>
@@ -347,13 +353,55 @@ window.EXTRA_META = {};
     return Array.from(set);
   }
 
+  // ---------- Lưu danh sách trên máy + phát hiện chữ mới ----------
+  const VOCAB_KEY = 'lvch_vocab_v1';
+  let lastNewChars = [];
+  function saveVocab() {
+    try { localStorage.setItem(VOCAB_KEY, JSON.stringify({chars: currentChars, last: lastNewChars})); } catch (e) { /* Safari riêng tư: bỏ qua */ }
+  }
+  function loadVocab() {
+    try {
+      const v = JSON.parse(localStorage.getItem(VOCAB_KEY) || 'null');
+      if (v && Array.isArray(v.chars)) {
+        currentChars = normalizeCharsInput(v.chars);
+        lastNewChars = Array.isArray(v.last) ? v.last.filter(c => currentChars.includes(c)) : [];
+      }
+    } catch (e) { /* ignore */ }
+  }
+  function showNewMsg(text, none) {
+    const el = document.getElementById('newCharsMsg');
+    if (!text) { el.style.display = 'none'; return; }
+    el.textContent = text;
+    el.className = 'new-msg' + (none ? ' none' : '');
+    el.style.display = 'block';
+  }
+  // Cộng dồn chữ vào danh sách, loại trùng, báo chữ mới, tự lưu.
+  function addChars(chars, sourceLabel) {
+    const before = new Set(currentChars);
+    const added = normalizeCharsInput(chars).filter(c => !before.has(c));
+    currentChars = currentChars.concat(added);
+    if (added.length) lastNewChars = added;
+    document.getElementById('vocabInput').value = currentChars.join('');
+    saveVocab();
+    renderChipList();
+    const src = sourceLabel ? sourceLabel + ': ' : '';
+    if (added.length) {
+      showNewMsg(src + '+' + added.length + ' chữ mới (' + added.join(' ') + '). Tổng ' + currentChars.length + ' chữ.');
+    } else {
+      showNewMsg(src + 'không có chữ mới — tất cả đã có trong danh sách (' + currentChars.length + ' chữ).', true);
+    }
+    return added;
+  }
+
   function renderChipList() {
     const chipList = document.getElementById('chipList');
     chipList.innerHTML = '';
+    const newSet = new Set(lastNewChars);
     currentChars.forEach(c => {
       const span = document.createElement('span');
       span.className = 'chip';
       if (!window.HANZI_DATA_BUNDLE[c]) span.classList.add('chip-missing');
+      if (newSet.has(c)) { span.classList.add('chip-new'); span.title = 'Chữ mới của lần nạp gần nhất'; }
       span.textContent = c;
       span.title = window.HANZI_DATA_BUNDLE[c] ? 'Bấm để nạp vào khung luyện viết ở mục 1' : 'Chữ này không có trong bộ dữ liệu offline';
       span.style.cursor = 'pointer';
@@ -370,12 +418,15 @@ window.EXTRA_META = {};
 
   function extractFromTextarea() {
     const raw = document.getElementById('vocabInput').value;
-    currentChars = normalizeCharsInput([raw]);
-    renderChipList();
+    addChars([raw], 'Dán tay');
   }
 
   function clearVocab() {
+    if (currentChars.length && !confirm('Xoá toàn bộ ' + currentChars.length + ' chữ đã lưu trong danh sách?')) return;
     currentChars = [];
+    lastNewChars = [];
+    saveVocab();
+    showNewMsg('');
     document.getElementById('vocabInput').value = '';
     document.getElementById('fileName').textContent = '';
     document.getElementById('fileInput').value = '';
@@ -426,12 +477,10 @@ window.EXTRA_META = {};
         failedFiles.push(file.name);
       }
     }
-    const newChars = normalizeCharsInput(allValues);
-    currentChars = Array.from(new Set([...currentChars, ...newChars]));
-    document.getElementById('vocabInput').value = currentChars.join('');
     document.getElementById('fileName').textContent = 'Đã nạp ' + files.length + ' file' +
       (failedFiles.length ? (' (lỗi: ' + failedFiles.join(', ') + ')') : '') + '.';
-    renderChipList();
+    addChars(allValues, 'File Excel');
+    e.target.value = '';
   });
 
   // ---------- Batch GIF export ----------
@@ -592,10 +641,7 @@ window.EXTRA_META = {};
     box.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
       const d = LESSONS.find(x => String(x.day) === b.dataset.day);
       if (!d) return;
-      const chars = normalizeCharsInput((d.words || []).map(w => w.hz));
-      currentChars = Array.from(new Set([...currentChars, ...chars]));
-      document.getElementById('vocabInput').value = currentChars.join('');
-      renderChipList();
+      addChars((d.words || []).map(w => w.hz), 'Day' + d.day);
       document.getElementById('chipList').scrollIntoView({behavior: 'smooth', block: 'center'});
     });
   }
@@ -614,6 +660,13 @@ window.EXTRA_META = {};
   }
 
   renderLessons();
+  loadVocab();
+  if (currentChars.length) {
+    document.getElementById('vocabInput').value = currentChars.join('');
+    renderChipList();
+    showNewMsg('Đã mở lại danh sách đã lưu: ' + currentChars.length + ' chữ' +
+      (lastNewChars.length ? ' (viền xanh = ' + lastNewChars.length + ' chữ mới của lần nạp gần nhất)' : '') + '.', true);
+  }
   initFromUrl();
 
 </script>

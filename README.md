@@ -29,3 +29,10 @@ Cũng dùng được dạng `#发展`, hoặc gõ cả từ vào ô ở mục 1 
    - `EXTRA_META`: pinyin/nghĩa cho các chữ bổ sung.
 
 Chạy lại cùng một Day sẽ ghi đè Day đó, nên an toàn khi chạy lại. Day1 = 07/11/2026.
+
+## Danh sách từ vựng (mục 2)
+
+- Mọi cách nạp (file Excel, dán tay, nút "Nạp cả ngày") đều **cộng dồn** vào danh sách cũ và tự loại trùng.
+- Mỗi lần nạp báo `+N chữ mới (…)`; chữ mới của lần nạp gần nhất có viền xanh.
+- Danh sách tự lưu trong trình duyệt (localStorage, khoá `lvch_vocab_v1`) — mở lại trang vẫn còn. Lưu theo từng trình duyệt/từng máy; Safari chế độ riêng tư không lưu.
+- "Xoá danh sách" hỏi xác nhận rồi xoá cả bản đã lưu.
