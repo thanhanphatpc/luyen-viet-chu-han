@@ -8,6 +8,15 @@
   * { box-sizing: border-box; }
   body { font-family:-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--paper); margin:0; padding:24px; color:#212121; }
   h1 { font-size:20px; color:var(--ink); margin:0 0 4px 0; }
+  .tabbar { position:sticky; top:0; z-index:20; display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    background:var(--paper); padding:8px 0; margin:12px 0 0; border-bottom:1px solid var(--outline); }
+  .tabbar::-webkit-scrollbar { display:none; }
+  .tabbar button { flex:0 0 auto; background:white; color:var(--ink); border:1px solid var(--outline); border-radius:20px; padding:8px 14px; font-size:14px; white-space:nowrap; }
+  .tabbar button.active { background:var(--ink); color:white; border-color:var(--ink); }
+  .tab-ic { margin-right:4px; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+  .tab-panel > h2:first-child { border-top:none; margin-top:14px; padding-top:0; }
   h2 { font-size:15px; color:var(--ink); margin:28px 0 8px 0; border-top:1px solid var(--outline); padding-top:20px; }
   .sub { color:#666; font-size:13px; margin-bottom:16px; }
   .badge-offline { display:inline-block; background:#E8F5E9; color:#2E7D32; font-size:12px; padding:3px 10px; border-radius:12px; margin-left:8px; vertical-align:middle; }
@@ -117,7 +126,17 @@
   <button id="downloadPageBtn" onclick="downloadThisPage()">⬇ Tải file này về máy</button>
 </div>
 
-<h2>1. Xem thử một chữ</h2>
+<nav class="tabbar" id="tabbar" role="tablist">
+  <button role="tab" data-tab="viet"><span class="tab-ic">✍️</span>1. Luyện viết</button>
+  <button role="tab" data-tab="bai"><span class="tab-ic">📅</span>2. Bài hằng ngày</button>
+  <button role="tab" data-tab="bothu"><span class="tab-ic">🧩</span>3. Bộ thủ</button>
+  <button role="tab" data-tab="luongtu"><span class="tab-ic">🔢</span>4. Lượng từ</button>
+  <button role="tab" data-tab="tuvung"><span class="tab-ic">📚</span>5. Từ vựng</button>
+  <button role="tab" data-tab="gif"><span class="tab-ic">🎞️</span>6. Xuất GIF</button>
+</nav>
+
+<section class="tab-panel" id="tab-viet" data-tab="viet">
+<h2>1. Luyện viết chữ</h2>
 <div id="wordStrip" class="word-strip"></div>
 <div class="controls">
   <input type="text" id="charInput" maxlength="8" value="学" placeholder="汉">
@@ -131,13 +150,43 @@
   <div id="charInfo"></div>
 </div>
 <div class="preset-list" id="presetList"></div>
+</section>
 
-<h2>📅 Bài học hằng ngày</h2>
+<section class="tab-panel" id="tab-bai" data-tab="bai">
+<h2>2. Bài học hằng ngày</h2>
 <div class="sub">Từ mới mỗi sáng (bài Gemini 7:00) được tự động thêm vào đây. Bấm vào chữ để xem nét và luyện viết. Mở thẳng một từ bằng link dạng <b>…/luyen-viet-chu-han/?chu=发展</b>.</div>
 <div id="weekStats"></div>
 <div id="lessonList"></div>
+</section>
 
-<h2>2. Nạp danh sách từ vựng</h2>
+<section class="tab-panel" id="tab-bothu" data-tab="bothu">
+<h2 id="radicalSection">3. 214 bộ thủ — xếp theo mức dùng</h2>
+<div class="sub">Danh sách 214 bộ thủ Khang Hy. <b>Mức dùng</b> = số chữ trong 2663 chữ HSK 1–6 thuộc bộ đó (dạng giản thể/biến thể như 氵 讠 钅 ⺼ được tính vào bộ gốc). Bấm vào một bộ để xem các chữ thuộc bộ và luyện viết.</div>
+<div class="controls">
+  <input type="search" id="radSearch" class="lesson-search" style="flex:1 1 220px;margin:0" placeholder="🔍 Tìm bộ: 氵, thuy, nước, shui…">
+  <select id="radSort" class="rad-sort" aria-label="Sắp xếp">
+    <option value="use">Dùng nhiều → ít</option>
+    <option value="kx">Thứ tự Khang Hy (1–214)</option>
+    <option value="strokes">Số nét ít → nhiều</option>
+  </select>
+</div>
+<div class="count-badge" id="radInfo" style="display:block;margin:6px 0"></div>
+<div id="radList" class="rad-list"></div>
+<div class="controls" style="margin-top:8px"><button class="secondary" id="radMore"></button></div>
+</section>
+
+<section class="tab-panel" id="tab-luongtu" data-tab="luongtu">
+<h2 id="measureSection">4. 20 lượng từ thông dụng nhất</h2>
+<div class="sub">Lượng từ (量词) đứng giữa số từ / 这 / 那 và danh từ: 一<b>本</b>书, 这<b>辆</b>车. Xếp từ thông dụng nhất trở xuống. Bấm vào lượng từ để xem nét và luyện viết.</div>
+<div class="controls">
+  <input type="search" id="mwSearch" class="lesson-search" style="flex:1 1 220px;margin:0" placeholder="🔍 Tìm: 本, ben, quyển, sách, vehicle…">
+  <button class="secondary" id="mwToVocab">Thêm 20 lượng từ vào danh sách (mục 5)</button>
+</div>
+<div id="mwList" class="mw-list"></div>
+</section>
+
+<section class="tab-panel" id="tab-tuvung" data-tab="tuvung">
+<h2>5. Danh sách từ vựng</h2>
 <div class="sub">
   Cách 1: tải lên file Excel (.xlsx) theo mẫu HSK của anh (chọn được nhiều file cùng lúc) — tự tìm cột "Hán tự", tự tách từ nhiều chữ, tự loại trùng.<br>
   Cách 2: dán tay danh sách chữ vào ô bên dưới (chữ mới được cộng thêm vào danh sách cũ).<br>
@@ -158,36 +207,17 @@
 </div>
 <div class="new-msg" id="newCharsMsg"></div>
 <div class="chip-list" id="chipList"></div>
+</section>
 
-<h2>3. Xuất GIF hàng loạt</h2>
-<div class="sub">Mỗi chữ sẽ được xuất thành 1 file GIF hoạt hình nét viết, đóng gói chung trong 1 file .zip.</div>
+<section class="tab-panel" id="tab-gif" data-tab="gif">
+<h2>6. Xuất GIF hàng loạt</h2>
+<div class="sub">Xuất các chữ trong danh sách từ vựng (mục 5). Mỗi chữ sẽ được xuất thành 1 file GIF hoạt hình nét viết, đóng gói chung trong 1 file .zip.</div>
 <div class="controls">
   <button id="exportBtn" onclick="exportAllGifs()">⬇ Xuất tất cả thành GIF (.zip)</button>
 </div>
 <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
 <div id="exportStatus" class="sub"></div>
-
-<h2 id="radicalSection">4. 214 bộ thủ — xếp theo mức dùng</h2>
-<div class="sub">Danh sách 214 bộ thủ Khang Hy. <b>Mức dùng</b> = số chữ trong 2663 chữ HSK 1–6 thuộc bộ đó (dạng giản thể/biến thể như 氵 讠 钅 ⺼ được tính vào bộ gốc). Bấm vào một bộ để xem các chữ thuộc bộ và luyện viết.</div>
-<div class="controls">
-  <input type="search" id="radSearch" class="lesson-search" style="flex:1 1 220px;margin:0" placeholder="🔍 Tìm bộ: 氵, thuy, nước, shui…">
-  <select id="radSort" class="rad-sort" aria-label="Sắp xếp">
-    <option value="use">Dùng nhiều → ít</option>
-    <option value="kx">Thứ tự Khang Hy (1–214)</option>
-    <option value="strokes">Số nét ít → nhiều</option>
-  </select>
-</div>
-<div class="count-badge" id="radInfo" style="display:block;margin:6px 0"></div>
-<div id="radList" class="rad-list"></div>
-<div class="controls" style="margin-top:8px"><button class="secondary" id="radMore"></button></div>
-
-<h2 id="measureSection">5. 20 lượng từ thông dụng nhất</h2>
-<div class="sub">Lượng từ (量词) đứng giữa số từ / 这 / 那 và danh từ: 一<b>本</b>书, 这<b>辆</b>车. Xếp từ thông dụng nhất trở xuống. Bấm vào lượng từ để xem nét và luyện viết.</div>
-<div class="controls">
-  <input type="search" id="mwSearch" class="lesson-search" style="flex:1 1 220px;margin:0" placeholder="🔍 Tìm: 本, ben, quyển, sách, vehicle…">
-  <button class="secondary" id="mwToVocab">Nạp cả 20 lượng từ vào mục 2</button>
-</div>
-<div id="mwList" class="mw-list"></div>
+</section>
 
 <script>/**
  * Hanzi Writer v3.7.3 | https://chanind.github.io/hanzi-writer
@@ -261,6 +291,31 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
 <!-- MEASURE-DATA:END -->
 <script>
   const GIF_SIZE = 200;
+  // ---------- Tab menu ----------
+  const TAB_KEY = 'lvch_tab_v1';
+  function showTab(name) {
+    const panel = document.getElementById('tab-' + name);
+    if (!panel) return;
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p === panel));
+    document.querySelectorAll('#tabbar button').forEach(b => {
+      const on = b.dataset.tab === name;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      if (on && b.scrollIntoView) b.scrollIntoView({block: 'nearest', inline: 'nearest'});
+    });
+    try { localStorage.setItem(TAB_KEY, name); } catch (e) { /* ignore */ }
+  }
+  // Chuyển sang tab chứa phần tử rồi cuộn tới phần tử đó.
+  function goTo(el, block) {
+    if (typeof el === 'string') el = document.getElementById(el);
+    if (!el) return;
+    const panel = el.closest('.tab-panel');
+    const wasHidden = panel && !panel.classList.contains('active');
+    if (panel) showTab(panel.dataset.tab);
+    setTimeout(() => el.scrollIntoView({behavior: wasHidden ? 'auto' : 'smooth', block: block || 'center'}), wasHidden ? 30 : 0);
+  }
+  window.showTab = showTab;
+  document.querySelectorAll('#tabbar button').forEach(b => b.onclick = () => { showTab(b.dataset.tab); window.scrollTo({top: document.getElementById('tabbar').offsetTop, behavior: 'auto'}); });
   // ---------- Bổ sung dữ liệu nét từ mạng cho chữ ngoài bộ có sẵn (cache trên máy) ----------
   const HZ_CACHE_KEY = 'lvch_hz_cache_v1';
   const HZ_CDN = c => 'https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/' + encodeURIComponent(c) + '.json';
@@ -520,11 +575,11 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
       if (!window.HANZI_DATA_BUNDLE[c]) span.classList.add('chip-missing');
       if (newSet.has(c)) { span.classList.add('chip-new'); span.title = 'Chữ mới của lần nạp gần nhất'; }
       span.textContent = c;
-      span.title = window.HANZI_DATA_BUNDLE[c] ? 'Bấm để nạp vào khung luyện viết ở mục 1' : 'Chưa có dữ liệu nét (cần mạng để tải)';
+      span.title = window.HANZI_DATA_BUNDLE[c] ? 'Bấm để luyện viết ở mục 1' : 'Chưa có dữ liệu nét (cần mạng để tải)';
       span.style.cursor = 'pointer';
       span.onclick = () => {
         loadChar(c);
-        document.getElementById('target').scrollIntoView({behavior: 'smooth', block: 'center'});
+        goTo('target');
       };
       chipList.appendChild(span);
     });
@@ -656,7 +711,7 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
 
   async function exportAllGifs() {
     if (!currentChars.length) {
-      document.getElementById('exportStatus').textContent = 'Chưa có danh sách chữ. Hãy nạp từ vựng ở bước 2 trước.';
+      document.getElementById('exportStatus').textContent = 'Chưa có danh sách chữ. Hãy thêm chữ vào danh sách ở mục 5 (Từ vựng) trước.';
       return;
     }
     const exportBtn = document.getElementById('exportBtn');
@@ -705,7 +760,7 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     return String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   }
   function scrollToTarget() {
-    document.getElementById('wordStrip').scrollIntoView({behavior: 'smooth', block: 'start'});
+    goTo('wordStrip', 'start');
   }
   function selectStripChar(c) {
     document.querySelectorAll('#wordStrip .ws-chars button').forEach(b => b.classList.toggle('active', b.dataset.c === c));
@@ -827,12 +882,12 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
           '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' +
           (w.exEn ? '<div class="ex-en">' + esc(w.exEn) + '</div>' : '') : '') +
         '</div>').join('') +
-      '<div class="controls" style="margin-top:8px"><button class="secondary" data-day="' + d.day + '">Nạp cả ngày vào mục 2 (luyện / xuất GIF)</button></div></div>';
+      '<div class="controls" style="margin-top:8px"><button class="secondary" data-day="' + d.day + '">Thêm cả ngày vào danh sách từ vựng (mục 5)</button></div></div>';
     box.querySelectorAll('.lw-hz').forEach(b => b.onclick = () => { openWord(b.dataset.w, {autoplay: true}); scrollToTarget(); });
     box.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say));
     box.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
       addChars((d.words || []).map(w => w.hz), 'Day' + d.day);
-      document.getElementById('chipList').scrollIntoView({behavior: 'smooth', block: 'center'});
+      goTo('chipList');
     });
   }
 
@@ -955,14 +1010,14 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     list.querySelectorAll('.rad-head').forEach(h => h.onclick = () => h.parentNode.classList.toggle('open'));
     list.querySelectorAll('.rad-chars button').forEach(b => b.onclick = () => {
       loadChar(b.dataset.c, {autoplay: true});
-      document.getElementById('target').scrollIntoView({behavior: 'smooth', block: 'center'});
+      goTo('target');
     });
   }
   function showRadical(kx) {
     document.getElementById('radSearch').value = '';
     renderRadicals(kx);
     const el = document.querySelector('.rad-item[data-kx="' + kx + '"]');
-    if (el) el.scrollIntoView({behavior: 'smooth', block: 'center'});
+    if (el) goTo(el);
   }
   window.showRadical = showRadical;
   document.getElementById('radSearch').oninput = () => renderRadicals();
@@ -989,14 +1044,14 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
       '</div>').join('') || '<div class="sub">Không tìm thấy lượng từ nào.</div>';
     box.querySelectorAll('.lw-hz').forEach(b => b.onclick = () => {
       loadChar(b.dataset.c, {autoplay: true});
-      document.getElementById('target').scrollIntoView({behavior: 'smooth', block: 'center'});
+      goTo('target');
     });
     box.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say));
   }
   document.getElementById('mwSearch').oninput = renderMeasureWords;
   document.getElementById('mwToVocab').onclick = () => {
     addChars(MWS.map(w => w.hz), '20 lượng từ');
-    document.getElementById('chipList').scrollIntoView({behavior: 'smooth', block: 'center'});
+    goTo('chipList');
   };
   renderMeasureWords();
 
@@ -1009,6 +1064,12 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
       (lastNewChars.length ? ' (viền xanh = ' + lastNewChars.length + ' chữ mới của lần nạp gần nhất)' : '') + '.', true);
   }
   initFromUrl();
+  (function () {
+    let t = '';
+    try { if (new URLSearchParams(location.search).get('chu') || new URLSearchParams(location.search).get('tu') || location.hash.length > 1) t = 'viet'; } catch (e) { /* ignore */ }
+    if (!t) { try { t = localStorage.getItem(TAB_KEY) || ''; } catch (e) { /* ignore */ } }
+    showTab(document.getElementById('tab-' + t) ? t : 'viet');
+  })();
 
 </script>
 

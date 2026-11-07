@@ -3,6 +3,10 @@
 Công cụ luyện viết chữ Hán offline (HSK 1–6), chạy trên GitHub Pages:
 https://thanhanphatpc.github.io/luyen-viet-chu-han/
 
+## Bố cục (tab menu)
+
+1. Luyện viết · 2. Bài hằng ngày · 3. Bộ thủ · 4. Lượng từ · 5. Từ vựng · 6. Xuất GIF — thanh tab dính trên cùng, trang nhớ tab mở gần nhất; link `?chu=` luôn mở tab 1. Bấm chữ ở tab nào cũng tự chuyển sang tab 1 để xem nét/luyện viết.
+
 ## Mở thẳng một từ bằng link
 
 ```
@@ -30,7 +34,7 @@ Cũng dùng được dạng `#发展`, hoặc gõ cả từ vào ô ở mục 1 
 
 Chạy lại cùng một Day sẽ ghi đè Day đó, nên an toàn khi chạy lại. Day1 = 07/11/2026.
 
-## Danh sách từ vựng (mục 2)
+## Danh sách từ vựng (tab 5)
 
 - Mọi cách nạp (file Excel, dán tay, nút "Nạp cả ngày") đều **cộng dồn** vào danh sách cũ và tự loại trùng.
 - Mỗi lần nạp báo `+N chữ mới (…)`; chữ mới của lần nạp gần nhất có viền xanh.
@@ -53,14 +57,14 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 - Chữ trong bài học hằng ngày: `tools/add_lesson.py` tự bổ sung dữ liệu nét vào `index.html` (dùng offline được ở mọi máy).
 - Chữ anh tự nạp/gõ (Excel, dán tay, mục 1): khi có mạng, trang tự tải nét từ `cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1` và lưu vào trình duyệt (khoá `lvch_hz_cache_v1`) → lần sau dùng không cần mạng trên máy đó. Không có mạng → chip đỏ, có mạng mở lại là tự bổ sung. Chữ không có trong hanzi-writer-data thì báo "không tìm thấy".
 
-## 214 bộ thủ (mục 4 trên trang)
+## 214 bộ thủ (tab 3)
 
 - Nguồn: `data/Danh_sach_214_Bo_Thu.xlsx` (STT, Bộ thủ, Số nét, Pinyin, Âm Hán Việt, Ý nghĩa).
 - Xếp theo **mức dùng** = số chữ trong 2663 chữ HSK 1–6 thuộc bộ đó; dạng giản thể/biến thể (氵 讠 钅 ⺼ 罒…) tính vào bộ gốc, 阝 trái = 阜, phải = 邑. Trang cho đổi cách xếp (Khang Hy / số nét), tìm bộ, bấm bộ để xem và luyện các chữ thuộc bộ.
 - Bảng đã xếp: `data/bo-thu-214.csv` (mở được bằng Excel).
 - Sửa file Excel thì chạy lại: `python3 tools/build_radicals.py` (ghi khối `RADICAL-DATA` trong `index.html`, không sửa tay).
 
-## 20 lượng từ thông dụng nhất (mục 5 trên trang)
+## 20 lượng từ thông dụng nhất (tab 4)
 
 - Nguồn: `data/20-luong-tu-thong-dung-nhat.xlsx` (Lượng từ, Pinyin, Nghĩa Việt, Nghĩa Anh, Ứng dụng phổ biến, Ví dụ "câu (pinyin) nghĩa").
 - Sửa file Excel thì chạy lại: `python3 tools/build_measure_words.py` (ghi khối `MEASURE-DATA` trong `index.html`, không sửa tay).
