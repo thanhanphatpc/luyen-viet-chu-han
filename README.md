@@ -7,6 +7,8 @@ https://thanhanphatpc.github.io/luyen-viet-chu-han/
 
 1. Luyện viết · 2. Bài hằng ngày · 3. Bộ thủ · 4. Lượng từ · 5. Từ vựng · 6. Xuất GIF — thanh tab dính trên cùng, trang nhớ tab mở gần nhất; link `?chu=` luôn mở tab 1. Bấm chữ ở tab nào cũng tự chuyển sang tab 1 để xem nét/luyện viết.
 
+Trên cùng có nút **Giao diện** ☀️ Sáng / 🌙 Tối / 🔄 Tự động (theo cài đặt máy) và **Cỡ chữ** A− / A+ (85–160%, bấm % để về 100%); trang nhớ lựa chọn trên từng máy. Trang hiển thị vừa khổ điện thoại.
+
 ## Mở thẳng một từ bằng link
 
 ```
