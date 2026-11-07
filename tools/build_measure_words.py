@@ -5,7 +5,7 @@ Sinh mục "20 lượng từ thông dụng nhất" từ file Excel, ghi vào ind
 Cách dùng:
     python3 tools/build_measure_words.py [--xlsx data/20-luong-tu-thong-dung-nhat.xlsx]
 
-Cột Excel: Lượng từ | Pinyin | Nghĩa Việt | Nghĩa Anh | Ứng dụng phổ biến | Ví dụ
+Cột Excel: Lượng từ | Pinyin | Nghĩa Việt | Nghĩa Anh | Ứng dụng phổ biến | Ví dụ | Ví dụ (tiếng Anh, không bắt buộc)
 Cột "Ví dụ" dạng: câu tiếng Trung (pinyin) nghĩa tiếng Việt — script tự tách 3 phần.
 Thứ tự giữ nguyên như file (thông dụng nhất ở trên). Chạy lại an toàn (ghi đè khối cũ).
 """
@@ -35,11 +35,11 @@ def main():
     for r in ws.iter_rows(min_row=2, values_only=True):
         if not r or not r[0]:
             continue
-        hz, py, vi, en, use, ex = [str(x or '').strip() for x in (list(r) + [''] * 6)[:6]]
+        hz, py, vi, en, use, ex, exEn = [str(x or '').strip() for x in (list(r) + [''] * 7)[:7]]
         m = EX.match(ex)
         exCn, exPy, exVi = (m.group(1), m.group(2), m.group(3)) if m else (ex, '', '')
         items.append({'hz': hz, 'py': py, 'vi': vi, 'en': en, 'use': use,
-                      'exCn': exCn, 'exPy': exPy, 'exVi': exVi})
+                      'exCn': exCn, 'exPy': exPy, 'exVi': exVi, 'exEn': exEn})
     if not items:
         sys.exit('LỖI: file không có dòng dữ liệu nào.')
 
