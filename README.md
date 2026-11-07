@@ -47,3 +47,8 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 | 02/11 – 08/11/2026 | 2 | 6 | 12 |
 | **Tổng cộng** | **2** | **6** | **12** |
 <!-- WEEK-STATS:END -->
+
+## Chữ ngoài bộ 2663 chữ HSK
+
+- Chữ trong bài học hằng ngày: `tools/add_lesson.py` tự bổ sung dữ liệu nét vào `index.html` (dùng offline được ở mọi máy).
+- Chữ anh tự nạp/gõ (Excel, dán tay, mục 1): khi có mạng, trang tự tải nét từ `cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1` và lưu vào trình duyệt (khoá `lvch_hz_cache_v1`) → lần sau dùng không cần mạng trên máy đó. Không có mạng → chip đỏ, có mạng mở lại là tự bổ sung. Chữ không có trong hanzi-writer-data thì báo "không tìm thấy".

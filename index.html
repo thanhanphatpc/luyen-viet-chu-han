@@ -119,7 +119,7 @@
   Cách 1: tải lên file Excel (.xlsx) theo mẫu HSK của anh (chọn được nhiều file cùng lúc) — tự tìm cột "Hán tự", tự tách từ nhiều chữ, tự loại trùng.<br>
   Cách 2: dán tay danh sách chữ vào ô bên dưới (chữ mới được cộng thêm vào danh sách cũ).<br>
   Danh sách tự lưu trên máy này — tắt trình duyệt mở lại vẫn còn. Chữ mới của lần nạp gần nhất có viền xanh.<br>
-  Lưu ý: bản offline này chỉ có dữ liệu nét cho 2663 chữ trong phạm vi HSK 1–6 — chữ ngoài phạm vi này sẽ hiện chip màu đỏ (không luyện/xuất GIF được khi offline).
+  Dữ liệu nét: có sẵn 2663 chữ HSK 1–6 (dùng không cần mạng); chữ trong bài học hằng ngày được bổ sung tự động. Chữ ngoài phạm vi này: <b>khi có mạng trang tự tải nét</b> rồi lưu lại trên máy (lần sau không cần mạng); khi không có mạng chữ đó hiện chip màu đỏ, có mạng mở lại trang là tự bổ sung.
 </div>
 <div class="controls">
   <label class="file-btn">📂 Tải file Excel (.xlsx) — chọn được nhiều file
@@ -206,6 +206,46 @@ window.EXTRA_META = {};
 <!-- LESSON-DATA:END -->
 <script>
   const GIF_SIZE = 200;
+  // ---------- Bổ sung dữ liệu nét từ mạng cho chữ ngoài bộ có sẵn (cache trên máy) ----------
+  const HZ_CACHE_KEY = 'lvch_hz_cache_v1';
+  const HZ_CDN = c => 'https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/' + encodeURIComponent(c) + '.json';
+  let hzCache = {};
+  try { hzCache = JSON.parse(localStorage.getItem(HZ_CACHE_KEY) || '{}') || {}; } catch (e) { hzCache = {}; }
+  (function () { const b = window.HANZI_DATA_BUNDLE || (window.HANZI_DATA_BUNDLE = {}); for (const k in hzCache) if (!b[k]) b[k] = hzCache[k]; })();
+  const hzPending = {}, hzNotFound = new Set();
+  // Trả về Promise dữ liệu nét của 1 chữ: có sẵn → dùng luôn; chưa có → tải từ jsDelivr và lưu lại.
+  function fetchCharData(c) {
+    const b = window.HANZI_DATA_BUNDLE;
+    if (b[c]) return Promise.resolve(b[c]);
+    if (hzNotFound.has(c)) return Promise.reject(new Error('notfound'));
+    if (!hzPending[c]) {
+      hzPending[c] = fetch(HZ_CDN(c)).then(r => {
+        if (r.status === 404) { hzNotFound.add(c); throw new Error('notfound'); }
+        if (!r.ok) throw new Error('http ' + r.status);
+        return r.json();
+      }).then(d => {
+        if (!d || !Array.isArray(d.strokes) || !Array.isArray(d.medians)) { hzNotFound.add(c); throw new Error('bad data'); }
+        const v = {strokes: d.strokes, medians: d.medians};
+        if (Array.isArray(d.radStrokes)) v.radStrokes = d.radStrokes;
+        b[c] = v; hzCache[c] = v;
+        try { localStorage.setItem(HZ_CACHE_KEY, JSON.stringify(hzCache)); } catch (e) { /* đầy bộ nhớ / riêng tư: vẫn dùng được trong phiên này */ }
+        return v;
+      }).catch(err => { delete hzPending[c]; throw err; });
+    }
+    return hzPending[c];
+  }
+  // Tải nền cho nhiều chữ còn thiếu (tối đa 4 luồng); gọi onDone(sốChữTảiĐược) khi xong.
+  function fillMissingChars(chars, onDone) {
+    const queue = Array.from(new Set(chars)).filter(c => !window.HANZI_DATA_BUNDLE[c] && !hzNotFound.has(c));
+    if (!queue.length || (navigator.onLine === false)) { if (onDone) onDone(0); return; }
+    let got = 0, running = 0;
+    const next = () => {
+      if (!queue.length) { if (running === 0 && onDone) { onDone(got); onDone = null; } return; }
+      const c = queue.shift(); running++;
+      fetchCharData(c).then(() => { got++; }).catch(() => {}).then(() => { running--; next(); });
+    };
+    for (let i = 0; i < 4; i++) next();
+  }
   // placeholder anchor for later insertions (kept for diff-safety)
   let writer = null;
   let currentChars = [];
@@ -247,7 +287,8 @@ window.EXTRA_META = {};
 
   function charDataLoader(char, onComplete, onError) {
     const data = window.HANZI_DATA_BUNDLE[char];
-    if (data) { onComplete(data); } else { if (onError) onError(); }
+    if (data) { onComplete(data); return; }
+    fetchCharData(char).then(onComplete).catch(err => { if (onError) onError(err); });
   }
 
   let voicesReady = (window.speechSynthesis && window.speechSynthesis.getVoices().length > 0);
@@ -314,7 +355,10 @@ window.EXTRA_META = {};
       outlineColor: '#DDDDDD', showOutline: true,
       strokeAnimationSpeed: 1, delayBetweenStrokes: 200,
       charDataLoader: function(char, onComplete) {
-        charDataLoader(char, onComplete, () => setStatus('Chữ "' + char + '" không có trong bộ dữ liệu offline (chỉ gồm ' + Object.keys(window.HANZI_DATA_BUNDLE).length + ' chữ HSK 1–6).'));
+        if (!window.HANZI_DATA_BUNDLE[char]) setStatus('Đang tải dữ liệu nét chữ "' + char + '" từ mạng...');
+        charDataLoader(char, d => { onComplete(d); refreshMissingMarks(); }, err => setStatus(
+          err && err.message === 'notfound' ? 'Không tìm thấy dữ liệu nét cho chữ "' + char + '" (kể cả trên mạng).'
+            : 'Chữ "' + char + '" chưa có dữ liệu nét trên máy — cần kết nối mạng để tải lần đầu, sau đó dùng offline được.'));
       },
       onLoadCharDataSuccess: function() {
         setStatus('Đã tải xong. Bấm "Xem hoạt hình nét" hoặc "Luyện viết".');
@@ -417,7 +461,7 @@ window.EXTRA_META = {};
       if (!window.HANZI_DATA_BUNDLE[c]) span.classList.add('chip-missing');
       if (newSet.has(c)) { span.classList.add('chip-new'); span.title = 'Chữ mới của lần nạp gần nhất'; }
       span.textContent = c;
-      span.title = window.HANZI_DATA_BUNDLE[c] ? 'Bấm để nạp vào khung luyện viết ở mục 1' : 'Chữ này không có trong bộ dữ liệu offline';
+      span.title = window.HANZI_DATA_BUNDLE[c] ? 'Bấm để nạp vào khung luyện viết ở mục 1' : 'Chưa có dữ liệu nét (cần mạng để tải)';
       span.style.cursor = 'pointer';
       span.onclick = () => {
         loadChar(c);
@@ -426,8 +470,9 @@ window.EXTRA_META = {};
       chipList.appendChild(span);
     });
     const missingCount = currentChars.filter(c => !window.HANZI_DATA_BUNDLE[c]).length;
+    if (missingCount) fillMissingChars(currentChars, got => { if (got) renderChipList(); });
     document.getElementById('charCount').textContent = currentChars.length ?
-      ('Đã nhận diện ' + currentChars.length + ' chữ' + (missingCount ? (', ' + missingCount + ' chữ ngoài phạm vi HSK 1–6 (không có dữ liệu offline)') : '') + '. Bấm vào 1 chữ để luyện viết ngay ở mục 1.') : '';
+      ('Đã nhận diện ' + currentChars.length + ' chữ' + (missingCount ? (', ' + missingCount + ' chữ chưa có dữ liệu nét (màu đỏ — ' + (navigator.onLine === false ? 'cần mạng để tải' : (currentChars.every(c => window.HANZI_DATA_BUNDLE[c] || hzNotFound.has(c)) ? 'không tìm thấy dữ liệu nét, kể cả trên mạng' : 'đang tải từ mạng…')) + ')') : '') + '. Bấm vào 1 chữ để luyện viết ngay ở mục 1.') : '';
   }
 
   function extractFromTextarea() {
@@ -627,9 +672,17 @@ window.EXTRA_META = {};
     });
     selectStripChar(chars[0]);
     loadChar(chars[0], {autoplay: !!(opts && opts.autoplay)});
+    fillMissingChars(chars, got => { if (got) refreshMissingMarks(); });
     return true;
   }
   window.openWord = openWord;
+
+  // Sau khi tải được nét từ mạng: bỏ màu đỏ ở dải chữ của từ.
+  function refreshMissingMarks() {
+    document.querySelectorAll('#wordStrip .ws-chars button.missing').forEach(b => {
+      if (window.HANZI_DATA_BUNDLE[b.dataset.c]) { b.classList.remove('missing'); b.removeAttribute('title'); }
+    });
+  }
 
   // Thống kê từ mới theo tuần (thứ Hai → Chủ nhật), tính từ DAILY_LESSONS.
   function renderWeekStats() {
