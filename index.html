@@ -64,6 +64,14 @@
   .ws-chars button.missing { border-color:#C62828; color:#C62828; }
   .lesson-day { background:white; border:1px solid var(--outline); border-radius:10px; padding:8px 12px; margin-bottom:10px; }
   .lesson-day summary { cursor:pointer; font-size:15px; color:var(--ink); padding:4px 0; }
+  .ld-title { font-size:15px; color:var(--ink); padding:4px 0; }
+  .lesson-picker { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+  .lesson-picker select { flex:1 1 220px; min-width:0; max-width:100%; font-size:16px; padding:9px 10px; border-radius:8px; border:1px solid var(--outline); background:white; color:var(--ink); }
+  .lesson-picker button { padding:9px 14px; font-size:16px; }
+  .lesson-picker button:disabled { opacity:0.35; }
+  .lesson-search { width:100%; box-sizing:border-box; font-size:16px; padding:9px 12px; border-radius:8px; border:1px solid var(--outline); margin-bottom:6px; }
+  .ls-result { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .ls-result button { font-size:14px; padding:6px 10px; }
   .lesson-word { border-top:1px dashed var(--outline); padding:10px 0; }
   .week-stats { width:100%; max-width:560px; border-collapse:collapse; font-size:14px; margin:6px 0 12px; background:white; border-radius:8px; overflow:hidden; }
   .week-stats th, .week-stats td { padding:6px 10px; border-bottom:1px solid var(--outline); text-align:left; }
@@ -645,16 +653,90 @@ window.EXTRA_META = {};
       });
     });
     const keys = Object.keys(weeks).sort().reverse();
-    let rows = keys.map(k => {
+    let rows = keys.map((k, i) => {
       const w = weeks[k], sun = new Date(w.mon); sun.setDate(w.mon.getDate() + 6);
-      return '<tr><td>' + fmt(w.mon) + ' – ' + fmt(sun) + '/' + sun.getFullYear() + '</td><td class="n">' + w.days +
+      return '<tr' + (i >= 4 ? ' class="wk-old" style="display:none"' : '') + '><td>' + fmt(w.mon) + ' – ' + fmt(sun) + '/' + sun.getFullYear() + '</td><td class="n">' + w.days +
         '</td><td class="n">' + w.words + '</td><td class="n">' + w.chars + '</td></tr>';
     }).join('');
     rows += '<tr class="total"><td>Tổng cộng</td><td class="n">' + LESSONS.length + '</td><td class="n">' + seenW.size +
       '</td><td class="n">' + seenC.size + '</td></tr>';
     box.innerHTML = '<div class="sub" style="margin-bottom:0"><b>📊 Từ mới theo tuần</b></div>' +
       '<table class="week-stats"><thead><tr><th>Tuần</th><th class="n">Số bài</th><th class="n">Từ mới</th><th class="n">Chữ Hán mới</th></tr></thead><tbody>' +
-      rows + '</tbody></table>';
+      rows + '</tbody></table>' +
+      (keys.length > 4 ? '<button class="secondary" id="wkMore" style="font-size:13px;padding:6px 12px;margin:-6px 0 12px">Xem cả ' + keys.length + ' tuần</button>' : '');
+    const more = document.getElementById('wkMore');
+    if (more) more.onclick = () => {
+      const show = more.dataset.open !== '1';
+      box.querySelectorAll('.wk-old').forEach(r => r.style.display = show ? '' : 'none');
+      more.dataset.open = show ? '1' : '';
+      more.textContent = show ? 'Chỉ xem 4 tuần gần nhất' : 'Xem cả ' + keys.length + ' tuần';
+    };
+  }
+
+  // Mục "Bài học hằng ngày": thanh chọn ngày (nhóm theo tuần) + nút ◀ ▶ + ô tìm từ; chỉ hiện 1 ngày.
+  function lessonWeekLabel(d) {
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(d.date || '');
+    if (!m) return 'Khác';
+    const pad = n => String(n).padStart(2, '0');
+    const dt = new Date(+m[3], +m[2] - 1, +m[1]);
+    const mon = new Date(dt); mon.setDate(dt.getDate() - ((dt.getDay() + 6) % 7));
+    const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+    return 'Tuần ' + pad(mon.getDate()) + '/' + pad(mon.getMonth() + 1) + ' – ' + pad(sun.getDate()) + '/' + pad(sun.getMonth() + 1) + '/' + sun.getFullYear();
+  }
+  const WEEKDAY_VI = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+  function lessonWeekday(d) {
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(d.date || '');
+    return m ? WEEKDAY_VI[new Date(+m[3], +m[2] - 1, +m[1]).getDay()] : '';
+  }
+  function foldVi(s) {
+    return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, '');
+  }
+  let LESSON_SORTED = [];
+  let currentLessonDay = null;
+
+  function renderLessonDay(day) {
+    const d = LESSON_SORTED.find(x => x.day === day) || LESSON_SORTED[0];
+    if (!d) return;
+    currentLessonDay = d.day;
+    const sel = document.getElementById('lessonSelect');
+    if (sel) sel.value = String(d.day);
+    const idx = LESSON_SORTED.indexOf(d);
+    document.getElementById('lessonNewer').disabled = idx <= 0;
+    document.getElementById('lessonOlder').disabled = idx >= LESSON_SORTED.length - 1;
+    document.getElementById('lessonPos').textContent = (LESSON_SORTED.length - idx) + '/' + LESSON_SORTED.length;
+    const box = document.getElementById('lessonDayBox');
+    box.innerHTML = '<div class="lesson-day"><div class="ld-title"><b>Day' + d.day + '</b> · ' + esc(d.topic || '') +
+      (d.date ? '<span class="ws-day">' + esc(lessonWeekday(d) + ' ' + d.date) + '</span>' : '') + '</div>' +
+      (d.words || []).map(w =>
+        '<div class="lesson-word"><div class="lw-head"><button class="lw-hz" data-w="' + esc(w.hz) + '">' + esc(w.hz) + '</button>' +
+        '<span class="info-pinyin">' + esc(w.py) + '</span><button class="speak-btn" data-say="' + esc(w.hz) + '">🔊</button></div>' +
+        '<div class="lw-mean">' + (w.pos ? '<span class="lw-pos">' + esc(w.pos) + '</span> ' : '') + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + '</div>' +
+        (w.exCn ? '<div class="ex-cn">' + esc(w.exCn) + ' <button class="speak-btn" data-say="' + esc(w.exCn) + '">🔊</button></div>' +
+          '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' : '') +
+        '</div>').join('') +
+      '<div class="controls" style="margin-top:8px"><button class="secondary" data-day="' + d.day + '">Nạp cả ngày vào mục 2 (luyện / xuất GIF)</button></div></div>';
+    box.querySelectorAll('.lw-hz').forEach(b => b.onclick = () => { openWord(b.dataset.w, {autoplay: true}); scrollToTarget(); });
+    box.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say));
+    box.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
+      addChars((d.words || []).map(w => w.hz), 'Day' + d.day);
+      document.getElementById('chipList').scrollIntoView({behavior: 'smooth', block: 'center'});
+    });
+  }
+
+  function searchLessons(q) {
+    const out = document.getElementById('lessonSearchResult');
+    const f = foldVi(q);
+    if (!f) { out.innerHTML = ''; return; }
+    const hits = [];
+    LESSON_SORTED.forEach(d => (d.words || []).forEach(w => {
+      const hay = [w.hz, foldVi(w.py), foldVi(w.vi), foldVi(w.en)].join('|');
+      if (hay.indexOf(f) >= 0 || (w.hz && q.trim() && w.hz.indexOf(q.trim()) >= 0)) hits.push({d: d, w: w});
+    }));
+    out.innerHTML = hits.length ? hits.slice(0, 30).map(h =>
+      '<button class="secondary ls-hit" data-day="' + h.d.day + '"><b>' + esc(h.w.hz) + '</b> ' + esc(h.w.vi) + ' <span class="ws-day">Day' + h.d.day + '</span></button>').join('') +
+      (hits.length > 30 ? '<div class="sub">… và ' + (hits.length - 30) + ' kết quả nữa, gõ cụ thể hơn.</div>' : '')
+      : '<div class="sub">Không tìm thấy từ nào.</div>';
+    out.querySelectorAll('.ls-hit').forEach(b => b.onclick = () => { renderLessonDay(+b.dataset.day); });
   }
 
   function renderLessons() {
@@ -664,27 +746,43 @@ window.EXTRA_META = {};
       box.innerHTML = '<div class="sub">Chưa có bài nào — bài Day1 sẽ tự xuất hiện ở đây sau buổi học đầu tiên.</div>';
       return;
     }
-    const sorted = LESSONS.slice().sort((a, b) => b.day - a.day);
-    box.innerHTML = sorted.map((d, i) =>
-      '<details class="lesson-day"' + (i === 0 ? ' open' : '') + '><summary><b>Day' + d.day + '</b> · ' + esc(d.topic || '') +
-      (d.date ? '<span class="ws-day">' + esc(d.date) + '</span>' : '') + '</summary>' +
-      (d.words || []).map(w =>
-        '<div class="lesson-word"><div class="lw-head"><button class="lw-hz" data-w="' + esc(w.hz) + '">' + esc(w.hz) + '</button>' +
-        '<span class="info-pinyin">' + esc(w.py) + '</span><button class="speak-btn" data-say="' + esc(w.hz) + '">🔊</button></div>' +
-        '<div class="lw-mean">' + (w.pos ? '<span class="lw-pos">' + esc(w.pos) + '</span> ' : '') + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + '</div>' +
-        (w.exCn ? '<div class="ex-cn">' + esc(w.exCn) + ' <button class="speak-btn" data-say="' + esc(w.exCn) + '">🔊</button></div>' +
-          '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' : '') +
-        '</div>').join('') +
-      '<div class="controls" style="margin-top:8px"><button class="secondary" data-day="' + d.day + '">Nạp cả ngày vào mục 2 (luyện / xuất GIF)</button></div></details>'
-    ).join('');
-    box.querySelectorAll('.lw-hz').forEach(b => b.onclick = () => { openWord(b.dataset.w, {autoplay: true}); scrollToTarget(); });
-    box.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say));
-    box.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
-      const d = LESSONS.find(x => String(x.day) === b.dataset.day);
-      if (!d) return;
-      addChars((d.words || []).map(w => w.hz), 'Day' + d.day);
-      document.getElementById('chipList').scrollIntoView({behavior: 'smooth', block: 'center'});
+    LESSON_SORTED = LESSONS.slice().sort((a, b) => b.day - a.day);
+    const groups = [];
+    LESSON_SORTED.forEach(d => {
+      const g = lessonWeekLabel(d);
+      if (!groups.length || groups[groups.length - 1].label !== g) groups.push({label: g, days: []});
+      groups[groups.length - 1].days.push(d);
     });
+    box.innerHTML =
+      '<div class="lesson-picker">' +
+        '<button class="secondary" id="lessonOlder" title="Ngày trước">◀</button>' +
+        '<select id="lessonSelect" aria-label="Chọn ngày học">' +
+          groups.map(g => '<optgroup label="' + esc(g.label) + '">' + g.days.map(d =>
+            '<option value="' + d.day + '">Day' + d.day + ' · ' + esc(lessonWeekday(d) + ' ' + (d.date || '').slice(0, 5)) + ' · ' + esc(d.topic || '') + '</option>').join('') + '</optgroup>').join('') +
+        '</select>' +
+        '<button class="secondary" id="lessonNewer" title="Ngày sau">▶</button>' +
+        '<span class="count-badge" id="lessonPos"></span>' +
+      '</div>' +
+      '<input type="search" id="lessonSearch" class="lesson-search" placeholder="🔍 Tìm từ đã học: chữ Hán, pinyin (không dấu cũng được), nghĩa Việt/Anh…">' +
+      '<div id="lessonSearchResult" class="ls-result"></div>' +
+      '<div id="lessonDayBox"></div>';
+    document.getElementById('lessonSelect').onchange = e => renderLessonDay(+e.target.value);
+    document.getElementById('lessonOlder').onclick = () => {
+      const i = LESSON_SORTED.findIndex(x => x.day === currentLessonDay);
+      if (i < LESSON_SORTED.length - 1) renderLessonDay(LESSON_SORTED[i + 1].day);
+    };
+    document.getElementById('lessonNewer').onclick = () => {
+      const i = LESSON_SORTED.findIndex(x => x.day === currentLessonDay);
+      if (i > 0) renderLessonDay(LESSON_SORTED[i - 1].day);
+    };
+    document.getElementById('lessonSearch').oninput = e => searchLessons(e.target.value);
+    // Mặc định: bài mới nhất; nếu mở link ?chu=<từ đã học> thì mở đúng ngày của từ đó.
+    let start = LESSON_SORTED[0].day;
+    try {
+      const w = (new URLSearchParams(location.search).get('chu') || '').trim();
+      if (w && WORD_INDEX[w]) start = WORD_INDEX[w].day;
+    } catch (e) { /* ignore */ }
+    renderLessonDay(start);
   }
 
   function initFromUrl() {
