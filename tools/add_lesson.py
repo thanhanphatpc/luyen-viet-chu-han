@@ -89,6 +89,56 @@ def char_pinyin(c):
         return ''
 
 
+README = os.path.join(ROOT, 'README.md')
+STATS_BEGIN = '<!-- WEEK-STATS:BEGIN (tự động sinh bởi tools/add_lesson.py) -->'
+STATS_END = '<!-- WEEK-STATS:END -->'
+
+
+def week_stats(lessons):
+    """Đếm từ mới / chữ Hán mới theo tuần (thứ Hai → Chủ nhật). Từ đã gặp ở ngày trước không tính lại."""
+    seen_w, seen_c, weeks = set(), set(), {}
+    for d in sorted(lessons, key=lambda x: x['day']):
+        try:
+            date = dt.datetime.strptime(d.get('date', ''), '%d/%m/%Y').date()
+        except ValueError:
+            continue
+        mon = date - dt.timedelta(days=date.weekday())
+        wk = weeks.setdefault(mon, {'days': 0, 'words': 0, 'chars': 0})
+        wk['days'] += 1
+        for w in d.get('words', []):
+            if not w.get('hz') or w['hz'] in seen_w:
+                continue
+            seen_w.add(w['hz'])
+            wk['words'] += 1
+            for c in HAN.findall(w['hz']):
+                if c not in seen_c:
+                    seen_c.add(c)
+                    wk['chars'] += 1
+    return weeks, len(seen_w), len(seen_c)
+
+
+def update_readme(lessons):
+    if not os.path.exists(README):
+        return
+    weeks, tw, tc = week_stats(lessons)
+    rows = ['| Tuần | Số bài | Từ mới | Chữ Hán mới |', '|---|---:|---:|---:|']
+    for mon in sorted(weeks, reverse=True):
+        sun = mon + dt.timedelta(days=6)
+        w = weeks[mon]
+        rows.append(f"| {mon:%d/%m} – {sun:%d/%m/%Y} | {w['days']} | {w['words']} | {w['chars']} |")
+    rows.append(f"| **Tổng cộng** | **{len(lessons)}** | **{tw}** | **{tc}** |")
+    block = STATS_BEGIN + '\n' + '\n'.join(rows) + '\n' + STATS_END
+    r = open(README, encoding='utf-8').read()
+    if STATS_BEGIN in r and STATS_END in r:
+        i = r.index(STATS_BEGIN); j = r.index(STATS_END) + len(STATS_END)
+        r = r[:i] + block + r[j:]
+    else:
+        r = r.rstrip('\n') + '\n\n## Thống kê từ mới theo tuần\n\nTự cập nhật mỗi lần chạy `tools/add_lesson.py` (tuần tính từ thứ Hai đến Chủ nhật; từ đã học ở ngày trước không tính lại).\n\n' + block + '\n'
+    open(README, 'w', encoding='utf-8').write(r)
+    for mon in sorted(weeks, reverse=True)[:1]:
+        print(f"Tuần {mon:%d/%m}: {weeks[mon]['words']} từ mới, {weeks[mon]['chars']} chữ Hán mới")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--input', required=True)
@@ -167,6 +217,7 @@ def main():
     if missing:
         print('KHÔNG tìm thấy dữ liệu nét cho: ' + ', '.join(missing))
     print(f'Tổng số ngày đã học: {len(lessons)}')
+    update_readme(lessons)
 
 
 if __name__ == '__main__':

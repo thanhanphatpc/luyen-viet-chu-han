@@ -65,6 +65,11 @@
   .lesson-day { background:white; border:1px solid var(--outline); border-radius:10px; padding:8px 12px; margin-bottom:10px; }
   .lesson-day summary { cursor:pointer; font-size:15px; color:var(--ink); padding:4px 0; }
   .lesson-word { border-top:1px dashed var(--outline); padding:10px 0; }
+  .week-stats { width:100%; max-width:560px; border-collapse:collapse; font-size:14px; margin:6px 0 12px; background:white; border-radius:8px; overflow:hidden; }
+  .week-stats th, .week-stats td { padding:6px 10px; border-bottom:1px solid var(--outline); text-align:left; }
+  .week-stats th { background:var(--accent); color:var(--ink); font-weight:600; }
+  .week-stats td.n, .week-stats th.n { text-align:right; }
+  .week-stats tr.total td { font-weight:600; }
   .lw-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .lw-hz { background:var(--accent); color:var(--ink); font-size:24px; padding:4px 14px; }
   .lw-mean { font-size:14px; color:#333; margin:4px 0; }
@@ -98,6 +103,7 @@
 
 <h2>📅 Bài học hằng ngày</h2>
 <div class="sub">Từ mới mỗi sáng (bài Gemini 7:00) được tự động thêm vào đây. Bấm vào chữ để xem nét và luyện viết. Mở thẳng một từ bằng link dạng <b>…/luyen-viet-chu-han/?chu=发展</b>.</div>
+<div id="weekStats"></div>
 <div id="lessonList"></div>
 
 <h2>2. Nạp danh sách từ vựng</h2>
@@ -184,7 +190,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 </script>
 <!-- LESSON-DATA:BEGIN (tự động sinh bởi tools/add_lesson.py — không sửa tay) -->
 <script id="lesson-data">
-window.DAILY_LESSONS = [];
+window.DAILY_LESSONS = [{"day":0,"date":"06/11/2026","topic":"Giao tiếp – Cảm xúc","words":[{"hz":"沟通","py":"gōutōng","pos":"ĐT/DT","vi":"giao tiếp, trao đổi","en":"to communicate","exCn":"我们需要多沟通。","exPy":"Wǒmen xūyào duō gōutōng.","exVi":"Chúng ta cần giao tiếp nhiều hơn."},{"hz":"情绪","py":"qíngxù","pos":"DT","vi":"cảm xúc, tâm trạng","en":"emotion, mood","exCn":"他今天情绪不好。","exPy":"Tā jīntiān qíngxù bù hǎo.","exVi":"Hôm nay tâm trạng anh ấy không tốt."},{"hz":"激动","py":"jīdòng","pos":"TT/ĐT","vi":"xúc động, phấn khích, kích động","en":"excited, thrilled","exCn":"听到这个消息，我很激动。","exPy":"Tīng dào zhège xiāoxi, wǒ hěn jīdòng.","exVi":"Nghe được tin này, tôi rất xúc động/phấn khích."}]},{"day":1,"date":"07/11/2026","topic":"Đời sống – du lịch","words":[{"hz":"签证","py":"qiānzhèng","pos":"DT","vi":"thị thực, visa","en":"visa","exCn":"我明天去办旅游签证。","exPy":"Wǒ míngtiān qù bàn lǚyóu qiānzhèng.","exVi":"Ngày mai tôi đi làm visa du lịch."},{"hz":"体验","py":"tǐyàn","pos":"ĐT/DT","vi":"trải nghiệm","en":"experience","exCn":"我想去农村体验生活。","exPy":"Wǒ xiǎng qù nóngcūn tǐyàn shēnghuó.","exVi":"Tôi muốn về nông thôn trải nghiệm cuộc sống."},{"hz":"丰富","py":"fēngfù","pos":"TT/ĐT","vi":"phong phú, đa dạng, làm phong phú","en":"rich, abundant, to enrich","exCn":"这里的海鲜很丰富。","exPy":"Zhèlǐ de hǎixiān hěn fēngfù.","exVi":"Hải sản ở đây rất phong phú."}]}];
 window.EXTRA_HANZI = {};
 window.EXTRA_META = {};
 (function(){var b=window.HANZI_DATA_BUNDLE||(window.HANZI_DATA_BUNDLE={}),m=window.CHAR_META||(window.CHAR_META={}),k;for(k in window.EXTRA_HANZI)if(!b[k])b[k]=window.EXTRA_HANZI[k];for(k in window.EXTRA_META)if(!m[k])m[k]=window.EXTRA_META[k];})();
@@ -617,7 +623,42 @@ window.EXTRA_META = {};
   }
   window.openWord = openWord;
 
+  // Thống kê từ mới theo tuần (thứ Hai → Chủ nhật), tính từ DAILY_LESSONS.
+  function renderWeekStats() {
+    const box = document.getElementById('weekStats');
+    if (!LESSONS.length) { box.innerHTML = ''; return; }
+    const pad = n => String(n).padStart(2, '0');
+    const fmt = d => pad(d.getDate()) + '/' + pad(d.getMonth() + 1);
+    const seenW = new Set(), seenC = new Set(), weeks = {};
+    LESSONS.slice().sort((a, b) => a.day - b.day).forEach(d => {
+      const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(d.date || '');
+      if (!m) return;
+      const dt = new Date(+m[3], +m[2] - 1, +m[1]);
+      const mon = new Date(dt); mon.setDate(dt.getDate() - ((dt.getDay() + 6) % 7));
+      const key = mon.getFullYear() + '-' + pad(mon.getMonth() + 1) + '-' + pad(mon.getDate());
+      const wk = weeks[key] || (weeks[key] = {mon: mon, days: 0, words: 0, chars: 0});
+      wk.days++;
+      (d.words || []).forEach(w => {
+        if (!w.hz || seenW.has(w.hz)) return;
+        seenW.add(w.hz); wk.words++;
+        hanChars(w.hz).forEach(c => { if (!seenC.has(c)) { seenC.add(c); wk.chars++; } });
+      });
+    });
+    const keys = Object.keys(weeks).sort().reverse();
+    let rows = keys.map(k => {
+      const w = weeks[k], sun = new Date(w.mon); sun.setDate(w.mon.getDate() + 6);
+      return '<tr><td>' + fmt(w.mon) + ' – ' + fmt(sun) + '/' + sun.getFullYear() + '</td><td class="n">' + w.days +
+        '</td><td class="n">' + w.words + '</td><td class="n">' + w.chars + '</td></tr>';
+    }).join('');
+    rows += '<tr class="total"><td>Tổng cộng</td><td class="n">' + LESSONS.length + '</td><td class="n">' + seenW.size +
+      '</td><td class="n">' + seenC.size + '</td></tr>';
+    box.innerHTML = '<div class="sub" style="margin-bottom:0"><b>📊 Từ mới theo tuần</b></div>' +
+      '<table class="week-stats"><thead><tr><th>Tuần</th><th class="n">Số bài</th><th class="n">Từ mới</th><th class="n">Chữ Hán mới</th></tr></thead><tbody>' +
+      rows + '</tbody></table>';
+  }
+
   function renderLessons() {
+    renderWeekStats();
     const box = document.getElementById('lessonList');
     if (!LESSONS.length) {
       box.innerHTML = '<div class="sub">Chưa có bài nào — bài Day1 sẽ tự xuất hiện ở đây sau buổi học đầu tiên.</div>';

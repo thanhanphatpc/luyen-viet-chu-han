@@ -36,3 +36,14 @@ Chạy lại cùng một Day sẽ ghi đè Day đó, nên an toàn khi chạy l�
 - Mỗi lần nạp báo `+N chữ mới (…)`; chữ mới của lần nạp gần nhất có viền xanh.
 - Danh sách tự lưu trong trình duyệt (localStorage, khoá `lvch_vocab_v1`) — mở lại trang vẫn còn. Lưu theo từng trình duyệt/từng máy; Safari chế độ riêng tư không lưu.
 - "Xoá danh sách" hỏi xác nhận rồi xoá cả bản đã lưu.
+
+## Thống kê từ mới theo tuần
+
+Tự cập nhật mỗi lần chạy `tools/add_lesson.py` (tuần tính từ thứ Hai đến Chủ nhật; từ đã học ở ngày trước không tính lại).
+
+<!-- WEEK-STATS:BEGIN (tự động sinh bởi tools/add_lesson.py) -->
+| Tuần | Số bài | Từ mới | Chữ Hán mới |
+|---|---:|---:|---:|
+| 02/11 – 08/11/2026 | 2 | 6 | 12 |
+| **Tổng cộng** | **2** | **6** | **12** |
+<!-- WEEK-STATS:END -->
