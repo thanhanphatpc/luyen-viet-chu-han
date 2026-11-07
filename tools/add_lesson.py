@@ -6,7 +6,8 @@ Cách dùng:
     python3 tools/add_lesson.py --input bai_hoc.txt [--topic "kinh-doanh-ban-hang"] [--hwd /duong/dan/hanzi-writer-data]
 
 - --input : file text chứa nội dung bài (chỉ cần có các dòng dạng
-            Day3|发展|fāzhǎn|ĐT|phát triển|to develop|公司发展得很快。|Gōngsī fāzhǎn de hěn kuài.|Công ty phát triển rất nhanh.)
+            Day3|发展|fāzhǎn|ĐT|phát triển|to develop|公司发展得很快。|Gōngsī fāzhǎn de hěn kuài.|Công ty phát triển rất nhanh.|The company is developing fast.)
+            Trường cuối (câu ví dụ tiếng Anh) không bắt buộc: thiếu thì script tự tìm trong thân bài.
             Có thể dán nguyên cả bài, script tự lọc các dòng DATA. Dùng "-" để đọc từ stdin.
 - --topic : tên chủ đề (lấy từ tên file Docs "Day3-kinh-doanh-ban-hang"). Có thể truyền cả tên file.
 - --readme: cập nhật thêm bảng "Thống kê từ mới theo tuần" trong README.md.
@@ -45,16 +46,37 @@ def parse_lines(text):
             continue
         day = int(m.group(1))
         f = [x.strip() for x in m.group(2).split('|')]
-        f += [''] * (8 - len(f))
+        f += [''] * (9 - len(f))
         hz = ''.join(HAN.findall(f[0]))
         if not hz:
             continue
         word = {'hz': hz, 'py': f[1], 'pos': f[2], 'vi': f[3], 'en': f[4],
-                'exCn': f[5], 'exPy': f[6], 'exVi': f[7]}
+                'exCn': f[5], 'exPy': f[6], 'exVi': f[7], 'exEn': f[8]}
         lst = days.setdefault(day, [])
         if all(w['hz'] != hz for w in lst):
             lst.append(word)
     return days
+
+
+def find_example_en(text, ex_cn, ex_vi, ex_py=''):
+    """Bài thiếu trường câu tiếng Anh: tìm trong thân bài dòng tiếng Anh ngay sau câu ví dụ (sau pinyin + nghĩa Việt)."""
+    if not ex_cn:
+        return ''
+    lines = text.splitlines()
+    for i, ln in enumerate(lines):
+        if ex_cn not in ln or ln.lstrip().startswith(('Day', '`Day')):
+            continue
+        for nxt in lines[i + 1:i + 6]:
+            t = re.sub(r'^[^A-Za-z]*', '', nxt).strip()
+            if HAN.search(nxt) or not t:
+                continue
+            if (ex_vi and ex_vi in nxt) or (ex_py and ex_py in nxt):
+                continue
+            if re.search(r'[À-ỹđĐ]', t):  # còn dấu tiếng Việt / pinyin → bỏ qua
+                continue
+            if re.match(r'^[A-Za-z][A-Za-z0-9 ,.;:!?\'"()/-]+$', t) and len(t.split()) >= 2:
+                return t
+    return ''
 
 
 def topic_from(arg):
@@ -150,6 +172,10 @@ def main():
 
     text = sys.stdin.read() if a.input == '-' else open(a.input, encoding='utf-8').read()
     new_days = parse_lines(text)
+    for words in new_days.values():
+        for w in words:
+            if not w['exEn']:
+                w['exEn'] = find_example_en(text, w['exCn'], w['exVi'], w['exPy'])
     if not new_days:
         print('LỖI: không tìm thấy dòng DATA-LUYEN-VIET nào (dạng DayN|Hán tự|...).', file=sys.stderr)
         sys.exit(2)
@@ -198,7 +224,7 @@ def main():
                         'rad': '', 'radName': '',
                         'vi': w['vi'] if single else f"(trong từ {w['hz']}: {w['vi']})",
                         'viSrc': 'lesson', 'en': w['en'] if single else '',
-                        'exCn': w['exCn'], 'exPy': w['exPy'], 'exVi': w['exVi']}
+                        'exCn': w['exCn'], 'exPy': w['exPy'], 'exVi': w['exVi'], 'exEn': w.get('exEn', '')}
 
     dumps = lambda o: json.dumps(o, ensure_ascii=False, separators=(',', ':'))
     new_block = (BEGIN + ' (tự động sinh bởi tools/add_lesson.py — không sửa tay) -->\n'

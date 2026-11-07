@@ -16,7 +16,7 @@ Cũng dùng được dạng `#发展`, hoặc gõ cả từ vào ô ở mục 1 
 
 1. 7:00 Gemini soạn bài 3 từ, lưu Google Docs tên `DayN-ten-chu-de`, cuối bài có khối `### DATA-LUYEN-VIET`:
    ```
-   Day3|发展|fāzhǎn|ĐT|phát triển|to develop|公司发展得很快。|Gōngsī fāzhǎn de hěn kuài.|Công ty phát triển rất nhanh.
+   Day3|发展|fāzhǎn|ĐT|phát triển|to develop|公司发展得很快。|Gōngsī fāzhǎn de hěn kuài.|Công ty phát triển rất nhanh.|The company is developing fast.
    ```
 2. Tác vụ định kỳ của Claude đọc file Docs mới, chạy:
    ```
