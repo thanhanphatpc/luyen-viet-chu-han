@@ -52,3 +52,10 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 
 - Chữ trong bài học hằng ngày: `tools/add_lesson.py` tự bổ sung dữ liệu nét vào `index.html` (dùng offline được ở mọi máy).
 - Chữ anh tự nạp/gõ (Excel, dán tay, mục 1): khi có mạng, trang tự tải nét từ `cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1` và lưu vào trình duyệt (khoá `lvch_hz_cache_v1`) → lần sau dùng không cần mạng trên máy đó. Không có mạng → chip đỏ, có mạng mở lại là tự bổ sung. Chữ không có trong hanzi-writer-data thì báo "không tìm thấy".
+
+## 214 bộ thủ (mục 4 trên trang)
+
+- Nguồn: `data/Danh_sach_214_Bo_Thu.xlsx` (STT, Bộ thủ, Số nét, Pinyin, Âm Hán Việt, Ý nghĩa).
+- Xếp theo **mức dùng** = số chữ trong 2663 chữ HSK 1–6 thuộc bộ đó; dạng giản thể/biến thể (氵 讠 钅 ⺼ 罒…) tính vào bộ gốc, 阝 trái = 阜, phải = 邑. Trang cho đổi cách xếp (Khang Hy / số nét), tìm bộ, bấm bộ để xem và luyện các chữ thuộc bộ.
+- Bảng đã xếp: `data/bo-thu-214.csv` (mở được bằng Excel).
+- Sửa file Excel thì chạy lại: `python3 tools/build_radicals.py` (ghi khối `RADICAL-DATA` trong `index.html`, không sửa tay).
