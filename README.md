@@ -9,6 +9,8 @@ https://thanhanphatpc.github.io/luyen-viet-chu-han/
 
 Trên cùng có nút **Giao diện** ☀️ Sáng / 🌙 Tối / 🔄 Tự động (theo cài đặt máy) và **Cỡ chữ** A− / A+ (85–160%, bấm % để về 100%); trang nhớ lựa chọn trên từng máy. Trang hiển thị vừa khổ điện thoại.
 
+Tab 1 có lưới **150 chữ thông dụng nhất** (theo tần suất chữ Hán hiện đại, danh sách ở `data/150-chu-thong-dung.csv`): bấm chữ để xem nét/luyện viết, nút Hiện nghĩa, nút thêm cả 150 chữ vào danh sách từ vựng.
+
 ## Mở thẳng một từ bằng link
 
 ```

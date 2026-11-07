@@ -77,6 +77,20 @@
   .rad-chars { display:none; padding:4px 10px 10px; flex-wrap:wrap; gap:6px; }
   .rad-item.open .rad-chars { display:flex; }
   .rad-chars button { font-size:calc(20px * var(--fs)); padding:4px 10px; background:var(--card); color:var(--ink); border:1px solid var(--accent); }
+  .common-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; margin-top:18px; }
+  .common-head h3 { margin:0; font-size:calc(15px * var(--fs)); color:var(--ink); }
+  .common-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(calc(64px * var(--fs)), 1fr)); gap:6px; }
+  .common-grid.show-mean { grid-template-columns:repeat(auto-fill, minmax(calc(84px * var(--fs)), 1fr)); }
+  .cg-cell { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; background:var(--card); color:var(--ink);
+    border:1px solid var(--outline); border-radius:10px; padding:8px 4px 6px; min-height:calc(70px * var(--fs)); }
+  .cg-cell:hover { border-color:var(--ink); }
+  .cg-cell.active { background:var(--ink); color:var(--on-ink); border-color:var(--ink); }
+  .cg-rank { position:absolute; top:3px; left:6px; font-size:calc(9px * var(--fs)); color:var(--muted2); }
+  .cg-cell.active .cg-rank, .cg-cell.active .cg-py, .cg-cell.active .cg-vi { color:var(--on-ink); }
+  .cg-hz { font-size:calc(26px * var(--fs)); line-height:1.15; }
+  .cg-py { font-size:calc(11px * var(--fs)); color:var(--muted); }
+  .cg-vi { display:none; font-size:calc(10px * var(--fs)); color:var(--muted); max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .common-grid.show-mean .cg-vi { display:block; }
   .rad-forms { font-size:calc(12px * var(--fs)); color:var(--muted); }
   .mw-list { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:8px; margin-top:8px; }
   .mw-item { background:var(--card); border:1px solid var(--outline); border-radius:10px; padding:8px 12px; }
@@ -219,7 +233,15 @@
   <div class="char-box"><div id="target"></div></div>
   <div id="charInfo"></div>
 </div>
-<div class="preset-list" id="presetList"></div>
+<div class="common-head">
+  <h3>⭐ 150 chữ thông dụng nhất</h3>
+  <span class="count-badge">xếp theo tần suất trong tiếng Trung hiện đại · bấm chữ để xem nét và luyện viết</span>
+</div>
+<div class="controls" style="margin:6px 0 8px">
+  <button class="secondary" id="commonToggle">Hiện nghĩa</button>
+  <button class="secondary" id="commonToVocab">Thêm 150 chữ vào danh sách (mục 5)</button>
+</div>
+<div id="commonGrid" class="common-grid"></div>
 </section>
 
 <section class="tab-panel" id="tab-bai" data-tab="bai">
@@ -567,6 +589,7 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     if (!char) c = hanChars(c)[0] || c;
     const autoplay = !!(opts && opts.autoplay);
     input.value = c;
+    if (typeof markCommonActive === 'function') markCommonActive(c);
     document.getElementById('target').innerHTML = '';
     renderCharInfo(c);
     writer = HanziWriter.create('target', c, {
@@ -610,13 +633,38 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     });
   }
 
-  const presetListEl = document.getElementById('presetList');
-  [...new Set(presetChars)].forEach(c => {
-    const btn = document.createElement('button');
-    btn.textContent = c;
-    btn.onclick = () => loadChar(c);
-    presetListEl.appendChild(btn);
-  });
+  // ---------- 150 chữ thông dụng nhất (theo tần suất chữ Hán hiện đại) ----------
+  const COMMON_150 = Array.from('的一是不了在人有我他这个们中来上大为和国地到以说时要就出会可也你对生能而子那得于着下自之年过发后作里用道行所然家种事成方多经么去法学如都同现当没动面起看定天分还进好小部其些主样理心她本前开但因只从想实日军者意无力它与长把机十民第公此已工使情明性知全三又关点正业外将两高间由问很最重并物手应战向头文体政');
+  let commonShowMean = false;
+  try { commonShowMean = localStorage.getItem('lvch_common_mean') === '1'; } catch (e) { /* ignore */ }
+  function renderCommonGrid() {
+    const grid = document.getElementById('commonGrid');
+    const cur = (document.getElementById('charInput').value || '').trim();
+    grid.classList.toggle('show-mean', commonShowMean);
+    grid.innerHTML = COMMON_150.map((c, i) => {
+      const m = window.CHAR_META[c] || {};
+      const vi = String(m.vi || '').split(/[;；]/)[0].trim();
+      return '<button class="cg-cell' + (c === cur ? ' active' : '') + '" data-c="' + c + '" title="' + esc((m.py || '') + ' — ' + (m.vi || '')) + '">' +
+        '<span class="cg-rank">' + (i + 1) + '</span><span class="cg-hz">' + c + '</span>' +
+        '<span class="cg-py">' + esc(m.py || '') + '</span><span class="cg-vi">' + esc(vi) + '</span></button>';
+    }).join('');
+    grid.querySelectorAll('.cg-cell').forEach(b => b.onclick = () => {
+      const strip = document.getElementById('wordStrip'); if (strip) strip.style.display = 'none';
+      loadChar(b.dataset.c, {autoplay: true});
+      goTo('target');
+    });
+    const tg = document.getElementById('commonToggle');
+    tg.textContent = commonShowMean ? 'Ẩn nghĩa' : 'Hiện nghĩa';
+  }
+  function markCommonActive(c) {
+    document.querySelectorAll('#commonGrid .cg-cell').forEach(b => b.classList.toggle('active', b.dataset.c === c));
+  }
+  document.getElementById('commonToggle').onclick = () => {
+    commonShowMean = !commonShowMean;
+    try { localStorage.setItem('lvch_common_mean', commonShowMean ? '1' : '0'); } catch (e) { /* ignore */ }
+    renderCommonGrid();
+  };
+  document.getElementById('commonToVocab').onclick = () => { addChars(COMMON_150, '150 chữ thông dụng'); goTo('chipList'); };
   // Chữ mở đầu được nạp bởi initFromUrl() ở cuối script (hỗ trợ link ?chu=).
 
   // ---------- Vocabulary loading ----------
@@ -1130,6 +1178,7 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   document.getElementById('radSort').onchange = () => renderRadicals();
   document.getElementById('radMore').onclick = () => { radShowAll = !radShowAll; renderRadicals(); };
   renderRadicals();
+  renderCommonGrid();
 
   // ---------- 20 lượng từ thông dụng nhất ----------
   const MWS = Array.isArray(window.MEASURE_WORDS) ? window.MEASURE_WORDS : [];
