@@ -115,7 +115,15 @@
   .lesson-day summary { cursor:pointer; font-size:calc(15px * var(--fs)); color:var(--ink); padding:4px 0; }
   .ld-title { font-size:calc(15px * var(--fs)); color:var(--ink); padding:4px 0; }
   .lesson-picker { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
-  .lesson-picker select { flex:1 1 220px; min-width:0; max-width:100%; font-size:calc(16px * var(--fs)); padding:9px 10px; border-radius:8px; border:1px solid var(--outline); background:var(--card); color:var(--ink); }
+  .lesson-dd { position:relative; flex:1 1 220px; min-width:0; max-width:100%; }
+  .lesson-dd-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; text-align:left; font-size:calc(16px * var(--fs)); padding:9px 10px; border-radius:8px; border:1px solid var(--outline); background:var(--card); color:var(--ink); cursor:pointer; }
+  .lesson-dd-toggle span:first-child { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .lesson-dd-panel { display:none; position:absolute; z-index:30; top:calc(100% + 4px); left:0; right:0; max-height:60vh; overflow-y:auto; -webkit-overflow-scrolling:touch; background:var(--card); border:1px solid var(--outline); border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.35); padding:4px 0; }
+  .lesson-dd.open .lesson-dd-panel { display:block; }
+  .lesson-dd-row { display:flex; align-items:center; gap:10px; min-height:44px; padding:6px 12px; box-sizing:border-box; font-size:calc(15px * var(--fs)); color:var(--text); cursor:pointer; }
+  .lesson-dd-row input { width:20px; height:20px; flex:none; margin:0; accent-color:var(--ink); }
+  .lesson-dd-all { font-weight:600; color:var(--ink); border-bottom:1px solid var(--outline); }
+  .lesson-dd-week { padding:8px 12px 2px; font-size:calc(13px * var(--fs)); color:var(--muted); }
   .lesson-picker button { padding:9px 14px; font-size:calc(16px * var(--fs)); }
   .lesson-picker button:disabled { opacity:0.35; }
   .lesson-search { background:var(--card); color:var(--text); width:100%; box-sizing:border-box; font-size:calc(16px * var(--fs)); padding:9px 12px; border-radius:8px; border:1px solid var(--outline); margin-bottom:6px; }
@@ -208,6 +216,7 @@
 <div class="download-banner">
   <p>📱 Trên điện thoại (đặc biệt iPhone/Safari), bấm nút này để tải hẳn 1 file về máy — dùng lại mãi mãi không cần mạng, kể cả ở chế độ máy bay.</p>
   <button id="downloadPageBtn" onclick="downloadThisPage()">⬇ Tải file này về máy</button>
+  <button id="savePageChange" class="secondary" style="display:none" onclick="downloadThisPage(true)">Đổi nơi lưu</button>
 </div>
 
 <nav class="tabbar" id="tabbar" role="tablist">
@@ -492,36 +501,108 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   // Tạo Blob URL cho gif.worker.js từ mã nguồn đã nhúng sẵn (không cần tải mạng)
   const GIF_WORKER_BLOB_URL = URL.createObjectURL(new Blob([GIF_WORKER_SRC], {type: 'application/javascript'}));
 
-  // Nút "Tải file này về máy" — tự đóng gói toàn bộ trang hiện tại thành 1 file .html
-  // và kích hoạt tải xuống thật sự (để Safari/Chrome trên điện thoại nhận diện là file, cho lưu vào Tệp/Files).
-  function downloadThisPage() {
+  // Nút "Tải file này về máy" — tự đóng gói toàn bộ trang hiện tại thành 1 file .html.
+  // Chrome/Edge máy tính: chọn file 1 lần, các lần sau lưu đè đúng file đó (nhớ file trong IndexedDB).
+  // Safari/iPhone không có API này: tải xuống như cũ để lưu vào Tệp/Files.
+  const SAVE_LABEL = '⬇ Tải file này về máy';
+  const CAN_OVERWRITE = typeof window.showSaveFilePicker === 'function';
+  let savedPageHandle = null;
+
+  function saveDb(mode, fn) {
+    return new Promise((resolve, reject) => {
+      const open = indexedDB.open('lvch_save_v1', 1);
+      open.onupgradeneeded = () => open.result.createObjectStore('h');
+      open.onerror = () => reject(open.error);
+      open.onsuccess = () => {
+        const tx = open.result.transaction('h', mode);
+        const req = fn(tx.objectStore('h'));
+        tx.oncomplete = () => { open.result.close(); resolve(req.result); };
+        tx.onerror = () => reject(tx.error);
+      };
+    });
+  }
+  function rememberHandle(h) {
+    savedPageHandle = h;
+    return saveDb('readwrite', st => h ? st.put(h, 'page') : st.delete('page')).catch(() => {});
+  }
+  function refreshSaveBtn() {
+    document.getElementById('downloadPageBtn').textContent = savedPageHandle ? '💾 Lưu đè: ' + savedPageHandle.name : SAVE_LABEL;
+    document.getElementById('savePageChange').style.display = savedPageHandle ? '' : 'none';
+  }
+  function buildPageBlob() {
+    const docClone = document.documentElement.cloneNode(true);
+    docClone.removeAttribute('data-theme'); docClone.style.removeProperty('--fs');
+    if (!docClone.getAttribute('style')) docClone.removeAttribute('style');
+    // Trả nút về trạng thái ban đầu trong bản lưu.
+    const cb = docClone.querySelector('#downloadPageBtn');
+    cb.removeAttribute('disabled'); cb.textContent = SAVE_LABEL;
+    docClone.querySelector('#savePageChange').style.display = 'none';
+    return new Blob(['<!DOCTYPE html>\n' + docClone.outerHTML], {type: 'text/html'});
+  }
+  function pickSaveFile() {
+    return window.showSaveFilePicker({
+      suggestedName: 'luyen-viet-chu-han.html',
+      id: 'lvch',
+      types: [{description: 'Trang HTML', accept: {'text/html': ['.html']}}]
+    });
+  }
+  async function writeHandle(h, blob) {
+    const w = await h.createWritable();
+    await w.write(blob);
+    await w.close();
+  }
+  async function saveOverPage(blob, changeTarget) {
+    let h = changeTarget ? null : savedPageHandle;
+    if (h) {
+      let perm = await h.queryPermission({mode: 'readwrite'});
+      if (perm !== 'granted') perm = await h.requestPermission({mode: 'readwrite'});
+      if (perm !== 'granted') h = null;
+    }
+    if (h) {
+      try { await writeHandle(h, blob); return h; }
+      catch (e) { if (e.name !== 'NotFoundError') throw e; } // file cũ đã bị xoá/đổi chỗ → chọn lại
+    }
+    h = await pickSaveFile();
+    await writeHandle(h, blob);
+    await rememberHandle(h);
+    return h;
+  }
+  function downloadPageBlob(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'luyen-viet-chu-han.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+  async function downloadThisPage(changeTarget) {
     const btn = document.getElementById('downloadPageBtn');
-    const originalText = btn.textContent;
     btn.textContent = 'Đang chuẩn bị file...';
     btn.disabled = true;
-    setTimeout(function() {
-      try {
-        const docClone = document.documentElement.cloneNode(true);
-        docClone.removeAttribute('data-theme'); docClone.style.removeProperty('--fs');
-        if (!docClone.getAttribute('style')) docClone.removeAttribute('style');
-        const htmlContent = '<!DOCTYPE html>\n' + docClone.outerHTML;
-        const blob = new Blob([htmlContent], {type: 'text/html'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'luyen-viet-chu-han.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(url), 5000);
-        btn.textContent = '✓ Đã tải — kiểm tra mục Tệp tải xuống';
-      } catch (e) {
-        btn.textContent = 'Lỗi, thử lại';
+    let msg;
+    try {
+      await new Promise(r => setTimeout(r, 50));
+      const blob = buildPageBlob();
+      if (CAN_OVERWRITE) {
+        const h = await saveOverPage(blob, changeTarget === true);
+        msg = '✓ Đã lưu đè: ' + h.name;
+      } else {
+        downloadPageBlob(blob);
+        msg = '✓ Đã tải — kiểm tra mục Tệp tải xuống';
       }
-      setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 4000);
-    }, 50);
+    } catch (e) {
+      if (e && e.name === 'AbortError') { btn.disabled = false; refreshSaveBtn(); return; } // bấm Huỷ
+      msg = 'Lỗi, thử lại';
+    }
+    btn.textContent = msg;
+    setTimeout(() => { btn.disabled = false; refreshSaveBtn(); }, 3000);
   }
   window.downloadThisPage = downloadThisPage;
+  if (CAN_OVERWRITE) {
+    saveDb('readonly', st => st.get('page')).then(h => { if (h) { savedPageHandle = h; refreshSaveBtn(); } }).catch(() => {});
+  }
 
   function charDataLoader(char, onComplete, onError) {
     const data = window.HANZI_DATA_BUNDLE[char];
@@ -1014,19 +1095,14 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   }
   let LESSON_SORTED = [];
   let currentLessonDay = null;
+  let selectedLessonDays = new Set();
 
-  function renderLessonDay(day) {
-    const d = LESSON_SORTED.find(x => x.day === day) || LESSON_SORTED[0];
-    if (!d) return;
-    currentLessonDay = d.day;
-    const sel = document.getElementById('lessonSelect');
-    if (sel) sel.value = String(d.day);
-    const idx = LESSON_SORTED.indexOf(d);
-    document.getElementById('lessonNewer').disabled = idx <= 0;
-    document.getElementById('lessonOlder').disabled = idx >= LESSON_SORTED.length - 1;
-    document.getElementById('lessonPos').textContent = (LESSON_SORTED.length - idx) + '/' + LESSON_SORTED.length;
-    const box = document.getElementById('lessonDayBox');
-    box.innerHTML = '<div class="lesson-day"><div class="ld-title"><b>Day' + d.day + '</b> · ' + esc(d.topic || '') +
+  function lessonLabel(d) {
+    return 'Day' + d.day + ' · ' + lessonWeekday(d) + ' ' + (d.date || '').slice(0, 5) + ' · ' + (d.topic || '');
+  }
+
+  function lessonDayHtml(d) {
+    return '<div class="lesson-day"><div class="ld-title"><b>Day' + d.day + '</b> · ' + esc(d.topic || '') +
       (d.date ? '<span class="ws-day">' + esc(lessonWeekday(d) + ' ' + d.date) + '</span>' : '') + '</div>' +
       (d.words || []).map(w =>
         '<div class="lesson-word"><div class="lw-head"><button class="lw-hz" data-w="' + esc(w.hz) + '">' + esc(w.hz) + '</button>' +
@@ -1037,12 +1113,44 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
           (w.exEn ? '<div class="ex-en">' + esc(w.exEn) + '</div>' : '') : '') +
         '</div>').join('') +
       '<div class="controls" style="margin-top:8px"><button class="secondary" data-day="' + d.day + '">Thêm cả ngày vào danh sách từ vựng (mục 5)</button></div></div>';
+  }
+
+  // Hiển thị các bài đang được tích chọn, mới nhất ở trên.
+  function renderSelectedLessons() {
+    const days = LESSON_SORTED.filter(d => selectedLessonDays.has(d.day));
+    const total = LESSON_SORTED.length;
+    const single = days.length === 1 ? days[0] : null;
+    if (single) currentLessonDay = single.day;
+    const idx = single ? LESSON_SORTED.indexOf(single) : -1;
+    document.getElementById('lessonDdLabel').textContent =
+      !days.length ? 'Chọn bài học…' :
+      single ? lessonLabel(single) :
+      days.length === total ? 'Tất cả bài học (' + total + ')' :
+      'Đã chọn ' + days.length + ' bài: ' + days.map(d => 'Day' + d.day).join(', ');
+    document.querySelectorAll('#lessonDdPanel input[data-pick]').forEach(c => { c.checked = selectedLessonDays.has(+c.dataset.pick); });
+    const all = document.getElementById('lessonPickAll');
+    all.checked = days.length === total;
+    all.indeterminate = days.length > 0 && days.length < total;
+    // ◀ ▶ chỉ dùng khi đang xem đúng 1 bài.
+    document.getElementById('lessonNewer').disabled = !single || idx <= 0;
+    document.getElementById('lessonOlder').disabled = !single || idx >= total - 1;
+    document.getElementById('lessonPos').textContent = single ? (total - idx) + '/' + total : days.length + '/' + total + ' bài';
+    const box = document.getElementById('lessonDayBox');
+    box.innerHTML = days.length ? days.map(lessonDayHtml).join('') : '<div class="sub">Chưa chọn bài nào — mở sổ ở trên và tích bài muốn xem.</div>';
     box.querySelectorAll('.lw-hz').forEach(b => b.onclick = () => { openWord(b.dataset.w, {autoplay: true}); scrollToTarget(); });
     box.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say));
     box.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
+      const d = LESSON_SORTED.find(x => x.day === +b.dataset.day);
       addChars((d.words || []).map(w => w.hz), 'Day' + d.day);
       goTo('chipList');
     });
+  }
+
+  function renderLessonDay(day) {
+    const d = LESSON_SORTED.find(x => x.day === day) || LESSON_SORTED[0];
+    if (!d) return;
+    selectedLessonDays = new Set([d.day]);
+    renderSelectedLessons();
   }
 
   function searchLessons(q) {
@@ -1078,17 +1186,34 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     box.innerHTML =
       '<div class="lesson-picker">' +
         '<button class="secondary" id="lessonOlder" title="Ngày trước">◀</button>' +
-        '<select id="lessonSelect" aria-label="Chọn ngày học">' +
-          groups.map(g => '<optgroup label="' + esc(g.label) + '">' + g.days.map(d =>
-            '<option value="' + d.day + '">Day' + d.day + ' · ' + esc(lessonWeekday(d) + ' ' + (d.date || '').slice(0, 5)) + ' · ' + esc(d.topic || '') + '</option>').join('') + '</optgroup>').join('') +
-        '</select>' +
+        '<div class="lesson-dd" id="lessonDd">' +
+          '<button type="button" class="lesson-dd-toggle" id="lessonDdToggle" aria-haspopup="true" aria-expanded="false"><span id="lessonDdLabel"></span><span aria-hidden="true">▾</span></button>' +
+          '<div class="lesson-dd-panel" id="lessonDdPanel">' +
+            '<label class="lesson-dd-row lesson-dd-all"><input type="checkbox" id="lessonPickAll">Chọn tất cả</label>' +
+            groups.map(g => '<div class="lesson-dd-week">' + esc(g.label) + '</div>' + g.days.map(d =>
+              '<label class="lesson-dd-row"><input type="checkbox" data-pick="' + d.day + '">' + esc(lessonLabel(d)) + '</label>').join('')).join('') +
+          '</div>' +
+        '</div>' +
         '<button class="secondary" id="lessonNewer" title="Ngày sau">▶</button>' +
         '<span class="count-badge" id="lessonPos"></span>' +
       '</div>' +
       '<input type="search" id="lessonSearch" class="lesson-search" placeholder="🔍 Tìm từ đã học: chữ Hán, pinyin (không dấu cũng được), nghĩa Việt/Anh…">' +
       '<div id="lessonSearchResult" class="ls-result"></div>' +
       '<div id="lessonDayBox"></div>';
-    document.getElementById('lessonSelect').onchange = e => renderLessonDay(+e.target.value);
+    const dd = document.getElementById('lessonDd');
+    const ddToggle = document.getElementById('lessonDdToggle');
+    const setDd = open => { dd.classList.toggle('open', open); ddToggle.setAttribute('aria-expanded', open ? 'true' : 'false'); };
+    ddToggle.onclick = () => setDd(!dd.classList.contains('open'));
+    document.addEventListener('pointerdown', e => { if (!dd.contains(e.target)) setDd(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setDd(false); });
+    document.getElementById('lessonPickAll').onchange = e => {
+      selectedLessonDays = new Set(e.target.checked ? LESSON_SORTED.map(d => d.day) : []);
+      renderSelectedLessons();
+    };
+    document.querySelectorAll('#lessonDdPanel input[data-pick]').forEach(c => c.onchange = () => {
+      if (c.checked) selectedLessonDays.add(+c.dataset.pick); else selectedLessonDays.delete(+c.dataset.pick);
+      renderSelectedLessons();
+    });
     document.getElementById('lessonOlder').onclick = () => {
       const i = LESSON_SORTED.findIndex(x => x.day === currentLessonDay);
       if (i < LESSON_SORTED.length - 1) renderLessonDay(LESSON_SORTED[i + 1].day);
