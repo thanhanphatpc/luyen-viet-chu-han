@@ -107,6 +107,9 @@
   .ws-py { font-size:calc(16px * var(--fs)); color:var(--muted); margin-left:6px; }
   .ws-mean { font-size:calc(14px * var(--fs)); color:var(--text2); margin:2px 0 8px; }
   .ws-day { display:inline-block; background:var(--accent); color:var(--ink); font-size:calc(11px * var(--fs)); padding:1px 8px; border-radius:10px; margin-left:4px; vertical-align:middle; }
+  .ws-ex { border-top:1px dashed var(--outline); margin-top:10px; padding-top:8px; }
+  .ws-note { display:inline-block; background:var(--accent); color:var(--muted); font-size:calc(11px * var(--fs)); padding:1px 8px; border-radius:10px; margin-left:4px; vertical-align:middle; }
+  .chip-word { font-size:calc(20px * var(--fs)); border:1px solid var(--ink); }
   .ws-chars { display:flex; flex-wrap:wrap; gap:8px; }
   .ws-chars button { background:var(--card); color:var(--ink); border:1px solid var(--ink); font-size:calc(24px * var(--fs)); padding:4px 14px; }
   .ws-chars button.active { background:var(--ink); color:var(--on-ink); }
@@ -301,12 +304,15 @@
   <button class="secondary" onclick="clearVocab()">Xoá danh sách</button>
   <span class="count-badge" id="fileName"></span>
 </div>
-<textarea id="vocabInput" placeholder="Dán danh sách chữ Hán vào đây, ví dụ: 你好，学习，中国人..."></textarea>
+<textarea id="vocabInput" placeholder="Dán danh sách chữ Hán vào đây, ví dụ: 你好，学习，中国人... (từ ghép 2–4 chữ, ngăn cách bằng dấu phẩy, cách hoặc xuống dòng)"></textarea>
 <div class="controls" style="margin-top:8px;">
   <button class="secondary" onclick="extractFromTextarea()">Trích xuất danh sách chữ</button>
   <span class="count-badge" id="charCount"></span>
 </div>
 <div class="new-msg" id="newCharsMsg"></div>
+<div class="sub" id="wordChipTitle" style="display:none;margin:10px 0 0"></div>
+<div class="chip-list" id="wordChipList"></div>
+<div class="sub" id="charChipTitle" style="display:none;margin:10px 0 0">Từng chữ (dùng cho xuất GIF):</div>
 <div class="chip-list" id="chipList"></div>
 </section>
 
@@ -493,6 +499,8 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   // placeholder anchor for later insertions (kept for diff-safety)
   let writer = null;
   let currentChars = [];
+  let currentWords = [];
+  let lastNewWords = [];
   const statusEl = document.getElementById('status');
   const presetChars = ['你','好','学','习','中','国','人','是','汉','字','写','说','谢','爱'];
 
@@ -749,6 +757,19 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   // Chữ mở đầu được nạp bởi initFromUrl() ở cuối script (hỗ trợ link ?chu=).
 
   // ---------- Vocabulary loading ----------
+  // Từ ghép: cụm 2–4 chữ Hán liền nhau, tách bằng dấu phẩy / khoảng trắng / xuống dòng.
+  function extractWords(rawList) {
+    const set = new Set();
+    rawList.forEach(item => String(item == null ? '' : item).split(/[^\u4e00-\u9fff]+/).forEach(t => {
+      if (t.length >= 2 && t.length <= 4) set.add(t);
+    }));
+    return Array.from(set);
+  }
+  // Nội dung ô dán: từ ghép + chữ chưa nằm trong từ ghép nào, ngăn cách bằng "，" để dán lại không bị nối nhầm.
+  function vocabText() {
+    const covered = new Set(currentWords.join('').split(''));
+    return currentWords.concat(currentChars.filter(c => !covered.has(c))).join('，');
+  }
   function normalizeCharsInput(rawList) {
     const set = new Set();
     rawList.forEach(item => {
@@ -764,7 +785,7 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   const VOCAB_KEY = 'lvch_vocab_v1';
   let lastNewChars = [];
   function saveVocab() {
-    try { localStorage.setItem(VOCAB_KEY, JSON.stringify({chars: currentChars, last: lastNewChars})); } catch (e) { /* Safari riêng tư: bỏ qua */ }
+    try { localStorage.setItem(VOCAB_KEY, JSON.stringify({chars: currentChars, last: lastNewChars, words: currentWords, lastWords: lastNewWords})); } catch (e) { /* Safari riêng tư: bỏ qua */ }
   }
   function loadVocab() {
     try {
@@ -772,6 +793,8 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
       if (v && Array.isArray(v.chars)) {
         currentChars = normalizeCharsInput(v.chars);
         lastNewChars = Array.isArray(v.last) ? v.last.filter(c => currentChars.includes(c)) : [];
+        currentWords = Array.isArray(v.words) ? extractWords(v.words) : [];
+        lastNewWords = Array.isArray(v.lastWords) ? v.lastWords.filter(x => currentWords.includes(x)) : [];
       }
     } catch (e) { /* ignore */ }
   }
@@ -786,21 +809,43 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   function addChars(chars, sourceLabel) {
     const before = new Set(currentChars);
     const added = normalizeCharsInput(chars).filter(c => !before.has(c));
+    const beforeW = new Set(currentWords);
+    const addedW = extractWords(chars).filter(x => !beforeW.has(x));
     currentChars = currentChars.concat(added);
+    currentWords = currentWords.concat(addedW);
     if (added.length) lastNewChars = added;
-    document.getElementById('vocabInput').value = currentChars.join('');
+    if (addedW.length) lastNewWords = addedW;
+    document.getElementById('vocabInput').value = vocabText();
     saveVocab();
     renderChipList();
     const src = sourceLabel ? sourceLabel + ': ' : '';
-    if (added.length) {
-      showNewMsg(src + '+' + added.length + ' chữ mới (' + added.join(' ') + '). Tổng ' + currentChars.length + ' chữ.');
+    const tot = 'Tổng ' + currentChars.length + ' chữ' + (currentWords.length ? ', ' + currentWords.length + ' từ ghép' : '') + '.';
+    if (added.length || addedW.length) {
+      showNewMsg(src + [added.length ? '+' + added.length + ' chữ mới (' + added.join(' ') + ')' : '',
+        addedW.length ? '+' + addedW.length + ' từ ghép (' + addedW.join(' ') + ')' : ''].filter(Boolean).join(', ') + '. ' + tot);
     } else {
-      showNewMsg(src + 'không có chữ mới — tất cả đã có trong danh sách (' + currentChars.length + ' chữ).', true);
+      showNewMsg(src + 'không có chữ mới — tất cả đã có trong danh sách (' + currentChars.length + ' chữ' + (currentWords.length ? ', ' + currentWords.length + ' từ ghép' : '') + ').', true);
     }
     return added;
   }
 
   function renderChipList() {
+    const wl = document.getElementById('wordChipList');
+    wl.innerHTML = '';
+    const wNew = new Set(lastNewWords);
+    currentWords.forEach(wd => {
+      const span = document.createElement('span');
+      span.className = 'chip chip-word' + (wNew.has(wd) ? ' chip-new' : '');
+      span.textContent = wd;
+      span.title = 'Bấm để xem cả từ, nghĩa, câu ví dụ và luyện viết';
+      span.style.cursor = 'pointer';
+      span.onclick = () => { openWord(wd, {autoplay: true}); scrollToTarget(); };
+      wl.appendChild(span);
+    });
+    const wt = document.getElementById('wordChipTitle');
+    wt.style.display = currentWords.length ? 'block' : 'none';
+    wt.textContent = 'Từ ghép (' + currentWords.length + ') — bấm để xem cả từ, nghĩa, câu ví dụ:';
+    document.getElementById('charChipTitle').style.display = currentWords.length ? 'block' : 'none';
     const chipList = document.getElementById('chipList');
     chipList.innerHTML = '';
     const newSet = new Set(lastNewChars);
@@ -821,7 +866,7 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     const missingCount = currentChars.filter(c => !window.HANZI_DATA_BUNDLE[c]).length;
     if (missingCount) fillMissingChars(currentChars, got => { if (got) renderChipList(); });
     document.getElementById('charCount').textContent = currentChars.length ?
-      ('Đã nhận diện ' + currentChars.length + ' chữ' + (missingCount ? (', ' + missingCount + ' chữ chưa có dữ liệu nét (màu đỏ — ' + (navigator.onLine === false ? 'cần mạng để tải' : (currentChars.every(c => window.HANZI_DATA_BUNDLE[c] || hzNotFound.has(c)) ? 'không tìm thấy dữ liệu nét, kể cả trên mạng' : 'đang tải từ mạng…')) + ')') : '') + '. Bấm vào 1 chữ để luyện viết ngay ở mục 1.') : '';
+      ('Đã nhận diện ' + currentChars.length + ' chữ' + (missingCount ? (', ' + missingCount + ' chữ chưa có dữ liệu nét (màu đỏ — ' + (navigator.onLine === false ? 'cần mạng để tải' : (currentChars.every(c => window.HANZI_DATA_BUNDLE[c] || hzNotFound.has(c)) ? 'không tìm thấy dữ liệu nét, kể cả trên mạng' : 'đang tải từ mạng…')) + ')') : '') + (currentWords.length ? ', ' + currentWords.length + ' từ ghép' : '') + '. Bấm vào 1 chữ hoặc 1 từ để luyện viết ngay ở mục 1.') : '';
   }
 
   function extractFromTextarea() {
@@ -833,6 +878,8 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     if (currentChars.length && !confirm('Xoá toàn bộ ' + currentChars.length + ' chữ đã lưu trong danh sách?')) return;
     currentChars = [];
     lastNewChars = [];
+    currentWords = [];
+    lastNewWords = [];
     saveVocab();
     showNewMsg('');
     document.getElementById('vocabInput').value = '';
@@ -1001,20 +1048,56 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
     document.querySelectorAll('#wordStrip .ws-chars button').forEach(b => b.classList.toggle('active', b.dataset.c === c));
   }
 
+  // Thông tin của một từ ghép: ưu tiên bài học hằng ngày; nếu chưa có thì ghép pinyin/nghĩa từng chữ
+  // và tìm câu ví dụ có chứa đúng từ đó trong dữ liệu có sẵn (bài học, 20 lượng từ, câu ví dụ từng chữ).
+  function findExample(word) {
+    const pick = o => ({exCn: o.exCn, exPy: o.exPy, exVi: o.exVi, exEn: o.exEn});
+    for (const d of LESSONS) for (const x of (d.words || [])) if (x.exCn && x.exCn.indexOf(word) >= 0) return pick(x);
+    const mws = Array.isArray(window.MEASURE_WORDS) ? window.MEASURE_WORDS : [];
+    for (const x of mws) if (x.exCn && x.exCn.indexOf(word) >= 0) return pick(x);
+    const meta = window.CHAR_META || {};
+    for (const k of Object.keys(meta)) if (meta[k].exCn && meta[k].exCn.indexOf(word) >= 0) return pick(meta[k]);
+    return null;
+  }
+  function wordInfo(word) {
+    const chars = hanChars(word);
+    const lw = WORD_INDEX[word];
+    if (lw) return Object.assign({}, lw, lw.exCn ? {} : (findExample(word) || {}));
+    if (chars.length < 2) return null;
+    const meta = window.CHAR_META || {};
+    const parts = chars.map(c => ({c: c, py: (meta[c] || {}).py || '', vi: (meta[c] || {}).vi || ''}));
+    const info = findExample(word) || {};
+    info.py = parts.map(x => x.py).join('');
+    info.parts = parts.filter(x => x.py || x.vi);
+    info.approx = true;
+    return info;
+  }
+
   function openWord(word, opts) {
     const chars = hanChars(word);
     if (!chars.length) return false;
     const strip = document.getElementById('wordStrip');
-    const w = WORD_INDEX[word];
+    const w = chars.length > 1 ? wordInfo(word) : WORD_INDEX[word];
     let html = '<div class="ws-word">' + esc(word) + (w && w.py ? '<span class="ws-py">' + esc(w.py) + '</span>' : '') +
       ' <button class="speak-btn" data-say="' + esc(word) + '">🔊</button></div>';
-    if (w) html += '<div class="ws-mean">' + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + '<span class="ws-day">Day' + w.day + '</span></div>';
+    if (w && w.approx) {
+      html += '<div class="ws-mean">' + (w.parts.length ? w.parts.map(x => esc(x.c) + (x.py ? ' <i>' + esc(x.py) + '</i>' : '') + (x.vi ? ': ' + esc(x.vi) : '')).join(' · ') : 'Chưa có nghĩa') +
+        '<span class="ws-note" title="Từ này chưa có trong bài học hằng ngày nên pinyin/nghĩa được ghép từ từng chữ, có thể chưa sát nghĩa cả từ">nghĩa từng chữ</span></div>';
+    } else if (w) {
+      html += '<div class="ws-mean">' + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + (w.day != null ? '<span class="ws-day">Day' + w.day + '</span>' : '') + '</div>';
+    }
     html += '<div class="ws-chars">' + chars.map(c =>
       '<button data-c="' + esc(c) + '"' + (window.HANZI_DATA_BUNDLE[c] ? '' : ' class="missing" title="Chưa có dữ liệu nét"') + '>' + esc(c) + '</button>').join('') + '</div>';
     if (chars.length > 1) html += '<div class="sub" style="margin:6px 0 0">Bấm từng chữ để xem nét và luyện viết.</div>';
+    if (chars.length > 1) {
+      html += '<div class="ws-ex">' + (w && w.exCn
+        ? '<div class="ex-cn">' + esc(w.exCn) + ' <button class="speak-btn" data-say="' + esc(w.exCn) + '">🔊</button></div>' +
+          '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' + (w.exEn ? '<div class="ex-en">' + esc(w.exEn) + '</div>' : '')
+        : '<div class="sub" style="margin:0">Chưa có câu ví dụ cho từ này.</div>') + '</div>';
+    }
     strip.innerHTML = html;
     strip.style.display = 'block';
-    strip.querySelector('[data-say]').onclick = function () { speak(this.dataset.say); };
+    strip.querySelectorAll('[data-say]').forEach(b => b.onclick = function () { speak(this.dataset.say); });
     strip.querySelectorAll('.ws-chars button').forEach(b => b.onclick = () => {
       selectStripChar(b.dataset.c);
       loadChar(b.dataset.c, {autoplay: true});
@@ -1338,9 +1421,9 @@ window.MEASURE_WORDS = [{"hz":"个","py":"gè","vi":"cái, quả, con, người"
   renderLessons();
   loadVocab();
   if (currentChars.length) {
-    document.getElementById('vocabInput').value = currentChars.join('');
+    document.getElementById('vocabInput').value = vocabText();
     renderChipList();
-    showNewMsg('Đã mở lại danh sách đã lưu: ' + currentChars.length + ' chữ' +
+    showNewMsg('Đã mở lại danh sách đã lưu: ' + currentChars.length + ' chữ' + (currentWords.length ? ', ' + currentWords.length + ' từ ghép' : '') +
       (lastNewChars.length ? ' (viền xanh = ' + lastNewChars.length + ' chữ mới của lần nạp gần nhất)' : '') + '.', true);
   }
   initFromUrl();
