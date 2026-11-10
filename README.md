@@ -5,7 +5,7 @@ https://thanhanphatpc.github.io/luyen-viet-chu-han/
 
 ## Bố cục (tab menu)
 
-1. Luyện viết · 2. Bài hằng ngày · 3. Bộ thủ · 4. Lượng từ · 5. Từ vựng · 6. Xuất GIF — thanh tab dính trên cùng, trang nhớ tab mở gần nhất; link `?chu=` luôn mở tab 1. Bấm chữ ở tab nào cũng tự chuyển sang tab 1 để xem nét/luyện viết.
+1. Luyện viết · 2. Bài hằng ngày · 3. Bộ thủ · 4. Lượng từ · 5. Từ vựng · 6. Xuất GIF · 7. Ngữ pháp — thanh tab dính trên cùng, trang nhớ tab mở gần nhất; link `?chu=` luôn mở tab 1. Bấm chữ ở tab nào cũng tự chuyển sang tab 1 để xem nét/luyện viết.
 
 Trên cùng có nút **Giao diện** ☀️ Sáng / 🌙 Tối / 🔄 Tự động (theo cài đặt máy) và **Cỡ chữ** A− / A+ (85–160%, bấm % để về 100%); trang nhớ lựa chọn trên từng máy. Trang hiển thị vừa khổ điện thoại.
 
@@ -69,6 +69,13 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 - 658 chữ trong bộ 2663 không nằm trong từ nào của file → Claude soạn thêm 1 từ thông dụng + câu ví dụ cho mỗi chữ (`lvl` = 0, nhãn "bổ sung").
 - Tra 1 chữ: mục "Câu ví dụ" hiện tối đa 3 từ chứa chữ đó (ưu tiên chính chữ đó → từ thường cấp thấp → thành ngữ), bấm từ để mở cả từ. Tra từ ghép (ô nhập, `?chu=`, tab 5): hiện nghĩa + câu ví dụ của từ.
 - Sửa `data/hsk-tu-vung.json` thì chạy lại: `python3 tools/build_hsk_words.py` (ghi khối `HSK-WORDS` trong `index.html`, không sửa tay).
+
+## Ngữ pháp HSK 2.0 (tab 7)
+
+- Nguồn: `data/ngu-phap-hsk-1-6.xlsx` (mỗi sheet một cấp HSK1…HSK6; cột STT, Điểm ngữ pháp, Cấu trúc, Giải nghĩa, Câu ví dụ, Pinyin, Dịch nghĩa, Ghi chú). Hiện có 161 điểm, 256 câu ví dụ.
+- `data/ngu-phap-bo-sung.json`: phần Claude bổ sung theo từng câu — pinyin viết lại chuẩn (file gốc tách âm tiết, đọc sai 得/儿…) và câu dịch tiếng Anh; trang hiện nhãn "Claude bổ sung".
+- Tab có nút chọn cấp, ô tìm (chữ Hán như 把 / 虽然, tiếng Việt không dấu, tiếng Anh), mở/thu gọn tất cả; mỗi câu có 🔊 và ✍️ (mở các chữ trong câu ở tab 1 để luyện viết).
+- Sửa/thêm vào file Excel thì chạy lại: `python3 tools/build_grammar.py` (ghi khối `GRAMMAR-DATA` trong `index.html`, không sửa tay). Câu mới chưa có trong file bổ sung sẽ được báo ra để bổ sung tiếng Anh.
 
 ## 214 bộ thủ (tab 3)
 

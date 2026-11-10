@@ -1,0 +1,1029 @@
+{
+ "note": "Bổ sung cho file ngữ pháp: exPy = pinyin câu Claude viết lại (file gốc tách âm tiết, đọc sai 得/儿…), exEn = câu dịch tiếng Anh do Claude dịch. Khoá = câu ví dụ tiếng Trung.",
+ "sentences": {
+  "我是学生。": {
+   "exPy": "Wǒ shì xuésheng.",
+   "exEn": "I am a student."
+  },
+  "他是老师。": {
+   "exPy": "Tā shì lǎoshī.",
+   "exEn": "He is a teacher."
+  },
+  "我不喝咖啡。": {
+   "exPy": "Wǒ bù hē kāfēi.",
+   "exEn": "I don't drink coffee."
+  },
+  "他不高兴。": {
+   "exPy": "Tā bù gāoxìng.",
+   "exEn": "He is not happy."
+  },
+  "你是中国人吗？": {
+   "exPy": "Nǐ shì Zhōngguó rén ma?",
+   "exEn": "Are you Chinese?"
+  },
+  "她喝茶吗？": {
+   "exPy": "Tā hē chá ma?",
+   "exEn": "Does she drink tea?"
+  },
+  "你叫什么名字？": {
+   "exPy": "Nǐ jiào shénme míngzi?",
+   "exEn": "What is your name?"
+  },
+  "他在哪里？": {
+   "exPy": "Tā zài nǎlǐ?",
+   "exEn": "Where is he?"
+  },
+  "我的书包在桌子上。": {
+   "exPy": "Wǒ de shūbāo zài zhuōzi shang.",
+   "exEn": "My schoolbag is on the table."
+  },
+  "她的名字很好听。": {
+   "exPy": "Tā de míngzi hěn hǎotīng.",
+   "exEn": "Her name sounds very nice."
+  },
+  "我也是学生。": {
+   "exPy": "Wǒ yě shì xuésheng.",
+   "exEn": "I am a student too."
+  },
+  "她也很高兴。": {
+   "exPy": "Tā yě hěn gāoxìng.",
+   "exEn": "She is happy too."
+  },
+  "我们都是中国人。": {
+   "exPy": "Wǒmen dōu shì Zhōngguó rén.",
+   "exEn": "We are all Chinese."
+  },
+  "苹果和香蕉都很好吃。": {
+   "exPy": "Píngguǒ hé xiāngjiāo dōu hěn hǎochī.",
+   "exEn": "Apples and bananas are both delicious."
+  },
+  "我有三个朋友。": {
+   "exPy": "Wǒ yǒu sān ge péngyou.",
+   "exEn": "I have three friends."
+  },
+  "她买了两本书。": {
+   "exPy": "Tā mǎi le liǎng běn shū.",
+   "exEn": "She bought two books."
+  },
+  "我有一个哥哥。": {
+   "exPy": "Wǒ yǒu yí ge gēge.",
+   "exEn": "I have an older brother."
+  },
+  "桌子上有三本书。": {
+   "exPy": "Zhuōzi shang yǒu sān běn shū.",
+   "exEn": "There are three books on the table."
+  },
+  "你喝茶还是喝咖啡？": {
+   "exPy": "Nǐ hē chá háishi hē kāfēi?",
+   "exEn": "Do you drink tea or coffee?"
+  },
+  "你是老师还是学生？": {
+   "exPy": "Nǐ shì lǎoshī háishi xuésheng?",
+   "exEn": "Are you a teacher or a student?"
+  },
+  "北京很大。": {
+   "exPy": "Běijīng hěn dà.",
+   "exEn": "Beijing is very big."
+  },
+  "这道菜很好吃。": {
+   "exPy": "Zhè dào cài hěn hǎochī.",
+   "exEn": "This dish is delicious."
+  },
+  "我在学校。": {
+   "exPy": "Wǒ zài xuéxiào.",
+   "exEn": "I am at school."
+  },
+  "书在桌子上。": {
+   "exPy": "Shū zài zhuōzi shang.",
+   "exEn": "The book is on the table."
+  },
+  "书包在椅子下面。": {
+   "exPy": "Shūbāo zài yǐzi xiàmian.",
+   "exEn": "The schoolbag is under the chair."
+  },
+  "教室里有很多学生。": {
+   "exPy": "Jiàoshì li yǒu hěn duō xuésheng.",
+   "exEn": "There are many students in the classroom."
+  },
+  "今天我很忙。": {
+   "exPy": "Jīntiān wǒ hěn máng.",
+   "exEn": "I am very busy today."
+  },
+  "她明天去北京。": {
+   "exPy": "Tā míngtiān qù Běijīng.",
+   "exEn": "She is going to Beijing tomorrow."
+  },
+  "请进！": {
+   "exPy": "Qǐng jìn!",
+   "exEn": "Please come in!"
+  },
+  "请坐，喝茶。": {
+   "exPy": "Qǐng zuò, hē chá.",
+   "exEn": "Please sit down and have some tea."
+  },
+  "北京比上海大。": {
+   "exPy": "Běijīng bǐ Shànghǎi dà.",
+   "exEn": "Beijing is bigger than Shanghai."
+  },
+  "今天比昨天冷多了。": {
+   "exPy": "Jīntiān bǐ zuótiān lěng duō le.",
+   "exEn": "Today is much colder than yesterday."
+  },
+  "我已经吃饭了。": {
+   "exPy": "Wǒ yǐjīng chī fàn le.",
+   "exEn": "I have already eaten."
+  },
+  "她已经回家了。": {
+   "exPy": "Tā yǐjīng huí jiā le.",
+   "exEn": "She has already gone home."
+  },
+  "她还在睡觉。": {
+   "exPy": "Tā hái zài shuìjiào.",
+   "exEn": "She is still sleeping."
+  },
+  "我还有一个问题。": {
+   "exPy": "Wǒ hái yǒu yí ge wèntí.",
+   "exEn": "I have one more question."
+  },
+  "快下雨了，带伞吧。": {
+   "exPy": "Kuài xià yǔ le, dài sǎn ba.",
+   "exEn": "It's about to rain, take an umbrella."
+  },
+  "电影快开始了。": {
+   "exPy": "Diànyǐng kuài kāishǐ le.",
+   "exEn": "The movie is about to start."
+  },
+  "他一回家就开始学习。": {
+   "exPy": "Tā yì huí jiā jiù kāishǐ xuéxí.",
+   "exEn": "As soon as he gets home, he starts studying."
+  },
+  "我一看到她就认出来了。": {
+   "exPy": "Wǒ yí kàndào tā jiù rèn chūlai le.",
+   "exEn": "I recognized her as soon as I saw her."
+  },
+  "作业做完了吗？": {
+   "exPy": "Zuòyè zuò wán le ma?",
+   "exEn": "Have you finished your homework?"
+  },
+  "我听懂了老师的话。": {
+   "exPy": "Wǒ tīng dǒng le lǎoshī de huà.",
+   "exEn": "I understood what the teacher said."
+  },
+  "这部电影怎么样？": {
+   "exPy": "Zhè bù diànyǐng zěnmeyàng?",
+   "exEn": "How is this movie?"
+  },
+  "你身体怎么样？": {
+   "exPy": "Nǐ shēntǐ zěnmeyàng?",
+   "exEn": "How is your health?"
+  },
+  "因为下雨，所以我没去。": {
+   "exPy": "Yīnwèi xià yǔ, suǒyǐ wǒ méi qù.",
+   "exEn": "Because it rained, I didn't go."
+  },
+  "因为他很努力，所以成绩很好。": {
+   "exPy": "Yīnwèi tā hěn nǔlì, suǒyǐ chéngjì hěn hǎo.",
+   "exEn": "Because he works very hard, his grades are very good."
+  },
+  "这里的风景非常美。": {
+   "exPy": "Zhèlǐ de fēngjǐng fēicháng měi.",
+   "exEn": "The scenery here is extremely beautiful."
+  },
+  "今天真热啊！": {
+   "exPy": "Jīntiān zhēn rè a!",
+   "exEn": "It's really hot today!"
+  },
+  "我的钱包被偷了。": {
+   "exPy": "Wǒ de qiánbāo bèi tōu le.",
+   "exEn": "My wallet was stolen."
+  },
+  "作业被老师收走了。": {
+   "exPy": "Zuòyè bèi lǎoshī shōu zǒu le.",
+   "exEn": "The homework was collected by the teacher."
+  },
+  "先洗手，再吃饭。": {
+   "exPy": "Xiān xǐ shǒu, zài chī fàn.",
+   "exEn": "Wash your hands first, then eat."
+  },
+  "先做作业，然后看电视。": {
+   "exPy": "Xiān zuò zuòyè, ránhòu kàn diànshì.",
+   "exEn": "Do your homework first, then watch TV."
+  },
+  "我要迟到了，快走！": {
+   "exPy": "Wǒ yào chídào le, kuài zǒu!",
+   "exEn": "I'm going to be late, let's hurry!"
+  },
+  "天要黑了。": {
+   "exPy": "Tiān yào hēi le.",
+   "exEn": "It's getting dark."
+  },
+  "天气越来越冷了。": {
+   "exPy": "Tiānqì yuèláiyuè lěng le.",
+   "exEn": "The weather is getting colder and colder."
+  },
+  "他的汉语越来越好了。": {
+   "exPy": "Tā de Hànyǔ yuèláiyuè hǎo le.",
+   "exEn": "His Chinese is getting better and better."
+  },
+  "这条河多长？": {
+   "exPy": "Zhè tiáo hé duō cháng?",
+   "exEn": "How long is this river?"
+  },
+  "你多大了？": {
+   "exPy": "Nǐ duō dà le?",
+   "exEn": "How old are you?"
+  },
+  "我经常去图书馆学习。": {
+   "exPy": "Wǒ jīngcháng qù túshūguǎn xuéxí.",
+   "exEn": "I often go to the library to study."
+  },
+  "他有时候忘带钥匙。": {
+   "exPy": "Tā yǒu shíhou wàng dài yàoshi.",
+   "exEn": "He sometimes forgets to bring his keys."
+  },
+  "她不但聪明，而且努力。": {
+   "exPy": "Tā búdàn cōngming, érqiě nǔlì.",
+   "exEn": "She is not only smart but also hardworking."
+  },
+  "这里不但便宜，而且好吃。": {
+   "exPy": "Zhèlǐ búdàn piányi, érqiě hǎochī.",
+   "exEn": "This place is not only cheap but also tasty."
+  },
+  "对我来说，健康最重要。": {
+   "exPy": "Duì wǒ lái shuō, jiànkāng zuì zhòngyào.",
+   "exEn": "For me, health is the most important thing."
+  },
+  "对孩子来说，游戏很重要。": {
+   "exPy": "Duì háizi lái shuō, yóuxì hěn zhòngyào.",
+   "exEn": "For children, play is very important."
+  },
+  "我是去年来中国的。": {
+   "exPy": "Wǒ shì qùnián lái Zhōngguó de.",
+   "exEn": "It was last year that I came to China."
+  },
+  "他是坐飞机去的。": {
+   "exPy": "Tā shì zuò fēijī qù de.",
+   "exEn": "He went by plane."
+  },
+  "只有努力学习，才能取得好成绩。": {
+   "exPy": "Zhǐyǒu nǔlì xuéxí, cái néng qǔdé hǎo chéngjì.",
+   "exEn": "Only by studying hard can you get good grades."
+  },
+  "只有你能帮我。": {
+   "exPy": "Zhǐyǒu nǐ néng bāng wǒ.",
+   "exEn": "Only you can help me."
+  },
+  "虽然很贵，但是质量很好。": {
+   "exPy": "Suīrán hěn guì, dànshì zhìliàng hěn hǎo.",
+   "exEn": "Although it is expensive, the quality is very good."
+  },
+  "虽然累，但是我很开心。": {
+   "exPy": "Suīrán lèi, dànshì wǒ hěn kāixīn.",
+   "exEn": "Although I'm tired, I'm very happy."
+  },
+  "这个箱子我搬不动。": {
+   "exPy": "Zhège xiāngzi wǒ bān bu dòng.",
+   "exEn": "I can't move this box."
+  },
+  "今天的作业我做得完。": {
+   "exPy": "Jīntiān de zuòyè wǒ zuò de wán.",
+   "exEn": "I can finish today's homework."
+  },
+  "她唱歌唱得很好听。": {
+   "exPy": "Tā chàng gē chàng de hěn hǎotīng.",
+   "exEn": "She sings very beautifully."
+  },
+  "他跑得很快。": {
+   "exPy": "Tā pǎo de hěn kuài.",
+   "exEn": "He runs very fast."
+  },
+  "请把门关上。": {
+   "exPy": "Qǐng bǎ mén guān shang.",
+   "exEn": "Please close the door."
+  },
+  "他把作业做完了。": {
+   "exPy": "Tā bǎ zuòyè zuò wán le.",
+   "exEn": "He finished his homework."
+  },
+  "他连中文名字都不会写。": {
+   "exPy": "Tā lián Zhōngwén míngzi dōu bú huì xiě.",
+   "exEn": "He can't even write his Chinese name."
+  },
+  "我连饭都没吃就走了。": {
+   "exPy": "Wǒ lián fàn dōu méi chī jiù zǒu le.",
+   "exEn": "I left without even eating."
+  },
+  "你是喜欢夏天还是冬天？": {
+   "exPy": "Nǐ shì xǐhuan xiàtiān háishi dōngtiān?",
+   "exEn": "Do you like summer or winter?"
+  },
+  "这是你的书还是她的？": {
+   "exPy": "Zhè shì nǐ de shū háishi tā de?",
+   "exEn": "Is this your book or hers?"
+  },
+  "请再说一遍。": {
+   "exPy": "Qǐng zài shuō yí biàn.",
+   "exEn": "Please say it again."
+  },
+  "下次再来。": {
+   "exPy": "Xià cì zài lái.",
+   "exEn": "Come again next time."
+  },
+  "这道菜又便宜又好吃。": {
+   "exPy": "Zhè dào cài yòu piányi yòu hǎochī.",
+   "exEn": "This dish is both cheap and delicious."
+  },
+  "她又聪明又漂亮。": {
+   "exPy": "Tā yòu cōngming yòu piàoliang.",
+   "exEn": "She is both smart and beautiful."
+  },
+  "他八点就到了。": {
+   "exPy": "Tā bā diǎn jiù dào le.",
+   "exEn": "He arrived as early as eight o'clock."
+  },
+  "你说，我就去。": {
+   "exPy": "Nǐ shuō, wǒ jiù qù.",
+   "exEn": "If you say so, I'll go."
+  },
+  "这里的风景多美啊！": {
+   "exPy": "Zhèlǐ de fēngjǐng duō měi a!",
+   "exEn": "How beautiful the scenery here is!"
+  },
+  "多么好的天气啊！": {
+   "exPy": "Duōme hǎo de tiānqì a!",
+   "exEn": "What lovely weather!"
+  },
+  "除了英语以外，她还会法语。": {
+   "exPy": "Chúle Yīngyǔ yǐwài, tā hái huì Fǎyǔ.",
+   "exEn": "Besides English, she also speaks French."
+  },
+  "除了他以外，我们都来了。": {
+   "exPy": "Chúle tā yǐwài, wǒmen dōu lái le.",
+   "exEn": "Except for him, all of us came."
+  },
+  "他走进来了。": {
+   "exPy": "Tā zǒu jìnlai le.",
+   "exEn": "He walked in."
+  },
+  "请把书拿出去。": {
+   "exPy": "Qǐng bǎ shū ná chūqu.",
+   "exEn": "Please take the book out."
+  },
+  "他十点才来。": {
+   "exPy": "Tā shí diǎn cái lái.",
+   "exEn": "He didn't come until ten o'clock."
+  },
+  "我才知道这件事。": {
+   "exPy": "Wǒ cái zhīdào zhè jiàn shì.",
+   "exEn": "I only just found out about this."
+  },
+  "为了学好汉语，他每天练习两小时。": {
+   "exPy": "Wèile xué hǎo Hànyǔ, tā měi tiān liànxí liǎng xiǎoshí.",
+   "exEn": "In order to learn Chinese well, he practices two hours every day."
+  },
+  "为了健康，她戒烟了。": {
+   "exPy": "Wèile jiànkāng, tā jiè yān le.",
+   "exEn": "She quit smoking for her health."
+  },
+  "她是班里最高的学生。": {
+   "exPy": "Tā shì bān li zuì gāo de xuésheng.",
+   "exEn": "She is the tallest student in the class."
+  },
+  "这是我吃过的最好吃的菜。": {
+   "exPy": "Zhè shì wǒ chī guo de zuì hǎochī de cài.",
+   "exEn": "This is the most delicious dish I have ever eaten."
+  },
+  "今天没有昨天那么热。": {
+   "exPy": "Jīntiān méiyǒu zuótiān nàme rè.",
+   "exEn": "Today is not as hot as yesterday."
+  },
+  "这本书没有那本那么难。": {
+   "exPy": "Zhè běn shū méiyǒu nà běn nàme nán.",
+   "exEn": "This book is not as difficult as that one."
+  },
+  "要是明天下雨，我们就不去了。": {
+   "exPy": "Yàoshi míngtiān xià yǔ, wǒmen jiù bú qù le.",
+   "exEn": "If it rains tomorrow, we won't go."
+  },
+  "如果你有时间，就来我家吧。": {
+   "exPy": "Rúguǒ nǐ yǒu shíjiān, jiù lái wǒ jiā ba.",
+   "exEn": "If you have time, come to my house."
+  },
+  "书读得越多，知识越丰富。": {
+   "exPy": "Shū dú de yuè duō, zhīshi yuè fēngfù.",
+   "exEn": "The more books you read, the richer your knowledge."
+  },
+  "他越说越兴奋。": {
+   "exPy": "Tā yuè shuō yuè xīngfèn.",
+   "exEn": "The more he talked, the more excited he got."
+  },
+  "我正在吃饭呢，等一会儿。": {
+   "exPy": "Wǒ zhèngzài chī fàn ne, děng yíhuìr.",
+   "exEn": "I'm eating right now, wait a moment."
+  },
+  "他们正在开会呢。": {
+   "exPy": "Tāmen zhèngzài kāihuì ne.",
+   "exEn": "They are having a meeting right now."
+  },
+  "他通过努力学习，考上了大学。": {
+   "exPy": "Tā tōngguò nǔlì xuéxí, kǎo shang le dàxué.",
+   "exEn": "Through hard study, he got into university."
+  },
+  "可以通过这个应用学汉语。": {
+   "exPy": "Kěyǐ tōngguò zhège yìngyòng xué Hànyǔ.",
+   "exEn": "You can learn Chinese through this app."
+  },
+  "我对中国文化很感兴趣。": {
+   "exPy": "Wǒ duì Zhōngguó wénhuà hěn gǎn xìngqù.",
+   "exEn": "I am very interested in Chinese culture."
+  },
+  "她对音乐不感兴趣。": {
+   "exPy": "Tā duì yīnyuè bù gǎn xìngqù.",
+   "exEn": "She is not interested in music."
+  },
+  "不管天气怎么样，我都要去。": {
+   "exPy": "Bùguǎn tiānqì zěnmeyàng, wǒ dōu yào qù.",
+   "exEn": "No matter what the weather is like, I'm going."
+  },
+  "无论遇到什么困难，都要坚持。": {
+   "exPy": "Wúlùn yùdào shénme kùnnan, dōu yào jiānchí.",
+   "exEn": "No matter what difficulties you meet, you must persevere."
+  },
+  "既然你不喜欢，就别吃了。": {
+   "exPy": "Jìrán nǐ bù xǐhuan, jiù bié chī le.",
+   "exEn": "Since you don't like it, don't eat it."
+  },
+  "既然来了，就好好玩儿吧。": {
+   "exPy": "Jìrán lái le, jiù hǎohāor wánr ba.",
+   "exEn": "Since you're here, have a good time."
+  },
+  "我宁可走路，也不坐那辆破车。": {
+   "exPy": "Wǒ nìngkě zǒulù, yě bú zuò nà liàng pò chē.",
+   "exEn": "I would rather walk than ride in that broken-down car."
+  },
+  "她宁愿一个人，也不将就。": {
+   "exPy": "Tā nìngyuàn yí ge rén, yě bù jiāngjiu.",
+   "exEn": "She would rather be alone than settle."
+  },
+  "他以诚信为做人原则。": {
+   "exPy": "Tā yǐ chéngxìn wéi zuòrén yuánzé.",
+   "exEn": "He takes honesty as his principle in life."
+  },
+  "公司以客户为中心。": {
+   "exPy": "Gōngsī yǐ kèhù wéi zhōngxīn.",
+   "exEn": "The company is customer-centered."
+  },
+  "尽管很累，他还是坚持工作。": {
+   "exPy": "Jǐnguǎn hěn lèi, tā háishi jiānchí gōngzuò.",
+   "exEn": "Although he was very tired, he kept on working."
+  },
+  "尽管失败了很多次，她仍然没有放弃。": {
+   "exPy": "Jǐnguǎn shībài le hěn duō cì, tā réngrán méiyǒu fàngqì.",
+   "exEn": "Although she failed many times, she still didn't give up."
+  },
+  "大人都学不会，何况孩子呢？": {
+   "exPy": "Dàrén dōu xué bu huì, hékuàng háizi ne?",
+   "exEn": "Even adults can't learn it, let alone children."
+  },
+  "小事都做不好，何况大事。": {
+   "exPy": "Xiǎoshì dōu zuò bu hǎo, hékuàng dàshì.",
+   "exEn": "If you can't even do small things well, let alone big things."
+  },
+  "请问您是否参加明天的会议？": {
+   "exPy": "Qǐngwèn nín shìfǒu cānjiā míngtiān de huìyì?",
+   "exEn": "May I ask whether you will attend tomorrow's meeting?"
+  },
+  "他是否同意还不知道。": {
+   "exPy": "Tā shìfǒu tóngyì hái bù zhīdào.",
+   "exEn": "It is not yet known whether he agrees."
+  },
+  "请提前告知，以便我们安排。": {
+   "exPy": "Qǐng tíqián gàozhī, yǐbiàn wǒmen ānpái.",
+   "exEn": "Please let us know in advance so that we can make arrangements."
+  },
+  "记下笔记，以便复习。": {
+   "exPy": "Jì xià bǐjì, yǐbiàn fùxí.",
+   "exEn": "Take notes so that you can review them."
+  },
+  "据说他要辞职了。": {
+   "exPy": "Jùshuō tā yào cízhí le.",
+   "exEn": "It is said that he is going to resign."
+  },
+  "据悉，该项目已正式启动。": {
+   "exPy": "Jùxī, gāi xiàngmù yǐ zhèngshì qǐdòng.",
+   "exEn": "It is reported that the project has officially started."
+  },
+  "他的作品受到很多人的欣赏。": {
+   "exPy": "Tā de zuòpǐn shòudào hěn duō rén de xīnshǎng.",
+   "exEn": "His works are admired by many people."
+  },
+  "这个项目受到政府支持。": {
+   "exPy": "Zhège xiàngmù shòudào zhèngfǔ zhīchí.",
+   "exEn": "This project is supported by the government."
+  },
+  "与其等待，不如主动出击。": {
+   "exPy": "Yǔqí děngdài, bùrú zhǔdòng chūjī.",
+   "exEn": "Rather than waiting, it's better to take the initiative."
+  },
+  "与其抱怨，不如改变。": {
+   "exPy": "Yǔqí bàoyuàn, bùrú gǎibiàn.",
+   "exEn": "Rather than complaining, it's better to change."
+  },
+  "由于天气原因，航班延误了。": {
+   "exPy": "Yóuyú tiānqì yuányīn, hángbān yánwù le.",
+   "exEn": "The flight was delayed due to the weather."
+  },
+  "由于努力工作，他得到了晋升。": {
+   "exPy": "Yóuyú nǔlì gōngzuò, tā dédào le jìnshēng.",
+   "exEn": "Thanks to his hard work, he was promoted."
+  },
+  "他不是粗心，相反，他非常认真。": {
+   "exPy": "Tā bú shì cūxīn, xiāngfǎn, tā fēicháng rènzhēn.",
+   "exEn": "He is not careless; on the contrary, he is very conscientious."
+  },
+  "我以为会失败，相反，我们成功了。": {
+   "exPy": "Wǒ yǐwéi huì shībài, xiāngfǎn, wǒmen chénggōng le.",
+   "exEn": "I thought we would fail, but on the contrary, we succeeded."
+  },
+  "他的汉语逐渐进步了。": {
+   "exPy": "Tā de Hànyǔ zhújiàn jìnbù le.",
+   "exEn": "His Chinese has gradually improved."
+  },
+  "我们要逐步实现目标。": {
+   "exPy": "Wǒmen yào zhúbù shíxiàn mùbiāo.",
+   "exEn": "We should achieve our goals step by step."
+  },
+  "他站着说话。": {
+   "exPy": "Tā zhàn zhe shuōhuà.",
+   "exEn": "He is standing while talking."
+  },
+  "门开着呢，进来吧。": {
+   "exPy": "Mén kāi zhe ne, jìnlai ba.",
+   "exEn": "The door is open, come in."
+  },
+  "我们要对自己的行为负责。": {
+   "exPy": "Wǒmen yào duì zìjǐ de xíngwéi fùzé.",
+   "exEn": "We must be responsible for our own actions."
+  },
+  "经理对整个项目负责。": {
+   "exPy": "Jīnglǐ duì zhěnggè xiàngmù fùzé.",
+   "exEn": "The manager is responsible for the whole project."
+  },
+  "已经来不及了，飞机要起飞了。": {
+   "exPy": "Yǐjīng láibují le, fēijī yào qǐfēi le.",
+   "exEn": "It's too late, the plane is about to take off."
+  },
+  "还来得及，快去吧。": {
+   "exPy": "Hái láidejí, kuài qù ba.",
+   "exEn": "There's still time, go quickly."
+  },
+  "这里环境倒是不错，就是太贵了。": {
+   "exPy": "Zhèlǐ huánjìng dàoshì búcuò, jiùshì tài guì le.",
+   "exEn": "The environment here is nice, it's just too expensive."
+  },
+  "他说倒是说了，可没人听。": {
+   "exPy": "Tā shuō dàoshì shuō le, kě méi rén tīng.",
+   "exEn": "He did say it, but nobody listened."
+  },
+  "他把书放在桌子上了。": {
+   "exPy": "Tā bǎ shū fàng zài zhuōzi shang le.",
+   "exEn": "He put the book on the table."
+  },
+  "请把这份材料翻译成越南语。": {
+   "exPy": "Qǐng bǎ zhè fèn cáiliào fānyì chéng Yuènányǔ.",
+   "exEn": "Please translate this document into Vietnamese."
+  },
+  "为了家人，他不得不放弃梦想。": {
+   "exPy": "Wèile jiārén, tā bùdébù fàngqì mèngxiǎng.",
+   "exEn": "For his family's sake, he had to give up his dream."
+  },
+  "我不得不承认，你说得对。": {
+   "exPy": "Wǒ bùdébù chéngrèn, nǐ shuō de duì.",
+   "exEn": "I have to admit that you're right."
+  },
+  "努力固然重要，但方法更关键。": {
+   "exPy": "Nǔlì gùrán zhòngyào, dàn fāngfǎ gèng guānjiàn.",
+   "exEn": "Effort is certainly important, but method is even more crucial."
+  },
+  "金钱固然需要，然而幸福不能用金钱衡量。": {
+   "exPy": "Jīnqián gùrán xūyào, rán'ér xìngfú bù néng yòng jīnqián héngliáng.",
+   "exEn": "Money is certainly necessary, yet happiness cannot be measured by money."
+  },
+  "这个问题非解决不可。": {
+   "exPy": "Zhège wèntí fēi jiějué bùkě.",
+   "exEn": "This problem must be solved."
+  },
+  "她非要亲自去不可。": {
+   "exPy": "Tā fēi yào qīnzì qù bùkě.",
+   "exEn": "She insists on going in person."
+  },
+  "他忙得以至于忘了吃饭。": {
+   "exPy": "Tā máng de yǐzhìyú wàng le chī fàn.",
+   "exEn": "He was so busy that he forgot to eat."
+  },
+  "失业率持续上升，以至于引发了社会问题。": {
+   "exPy": "Shīyèlǜ chíxù shàngshēng, yǐzhìyú yǐnfā le shèhuì wèntí.",
+   "exEn": "The unemployment rate kept rising, to the point that it caused social problems."
+  },
+  "初次见面，不免有些紧张。": {
+   "exPy": "Chūcì jiànmiàn, bùmiǎn yǒuxiē jǐnzhāng.",
+   "exEn": "Meeting for the first time, it's natural to be a little nervous."
+  },
+  "面对如此重大的决定，他不免犹豫。": {
+   "exPy": "Miànduì rúcǐ zhòngdà de juédìng, tā bùmiǎn yóuyù.",
+   "exEn": "Facing such a major decision, he couldn't help hesitating."
+  },
+  "凡是参与者，都能获得证书。": {
+   "exPy": "Fánshì cānyùzhě, dōu néng huòdé zhèngshū.",
+   "exEn": "Every participant can receive a certificate."
+  },
+  "凡是他说的话，我都记下来了。": {
+   "exPy": "Fánshì tā shuō de huà, wǒ dōu jì xiàlai le.",
+   "exEn": "I wrote down everything he said."
+  },
+  "难道你不知道这是错的吗？": {
+   "exPy": "Nándào nǐ bù zhīdào zhè shì cuò de ma?",
+   "exEn": "Don't you know this is wrong?"
+  },
+  "难道我们就这样放弃吗？": {
+   "exPy": "Nándào wǒmen jiù zhèyàng fàngqì ma?",
+   "exEn": "Are we really going to give up just like that?"
+  },
+  "吃了药，病情反而更严重了。": {
+   "exPy": "Chī le yào, bìngqíng fǎn'ér gèng yánzhòng le.",
+   "exEn": "After taking the medicine, the illness actually got worse."
+  },
+  "他没有感谢我，反而批评了我。": {
+   "exPy": "Tā méiyǒu gǎnxiè wǒ, fǎn'ér pīpíng le wǒ.",
+   "exEn": "Instead of thanking me, he criticized me."
+  },
+  "一旦做出承诺，就要兑现。": {
+   "exPy": "Yídàn zuò chū chéngnuò, jiù yào duìxiàn.",
+   "exEn": "Once you make a promise, you must keep it."
+  },
+  "一旦错过这次机会，就很难再有了。": {
+   "exPy": "Yídàn cuòguò zhè cì jīhuì, jiù hěn nán zài yǒu le.",
+   "exEn": "Once you miss this chance, it will be hard to get another."
+  },
+  "就经济发展而言，中国取得了巨大成就。": {
+   "exPy": "Jiù jīngjì fāzhǎn ér yán, Zhōngguó qǔdé le jùdà chéngjiù.",
+   "exEn": "In terms of economic development, China has made great achievements."
+  },
+  "就个人而言，我支持这个决定。": {
+   "exPy": "Jiù gèrén ér yán, wǒ zhīchí zhège juédìng.",
+   "exEn": "Personally speaking, I support this decision."
+  },
+  "在原有设计的基础上，我们进行了改进。": {
+   "exPy": "Zài yuányǒu shèjì de jīchǔ shang, wǒmen jìnxíng le gǎijìn.",
+   "exEn": "We made improvements on the basis of the original design."
+  },
+  "在充分调研的基础上，提出了新方案。": {
+   "exPy": "Zài chōngfèn diàoyán de jīchǔ shang, tíchū le xīn fāng'àn.",
+   "exEn": "A new plan was proposed on the basis of thorough research."
+  },
+  "诚然，改革会带来阵痛，但长远看是必要的。": {
+   "exPy": "Chéngrán, gǎigé huì dàilái zhèntòng, dàn chángyuǎn kàn shì bìyào de.",
+   "exEn": "Admittedly, reform brings growing pains, but in the long run it is necessary."
+  },
+  "诚然他有不足，但整体表现很好。": {
+   "exPy": "Chéngrán tā yǒu bùzú, dàn zhěngtǐ biǎoxiàn hěn hǎo.",
+   "exEn": "Admittedly he has shortcomings, but overall his performance is very good."
+  },
+  "他的抱怨无非是想引起注意而已。": {
+   "exPy": "Tā de bàoyuàn wúfēi shì xiǎng yǐnqǐ zhùyì éryǐ.",
+   "exEn": "His complaining is nothing more than a way to get attention."
+  },
+  "无非是多花点时间，没什么大不了的。": {
+   "exPy": "Wúfēi shì duō huā diǎn shíjiān, méi shénme dàbuliǎo de.",
+   "exEn": "It just means spending a bit more time; it's no big deal."
+  },
+  "你找的人恰恰就是我。": {
+   "exPy": "Nǐ zhǎo de rén qiàqià jiù shì wǒ.",
+   "exEn": "The person you're looking for is precisely me."
+  },
+  "这个问题恰恰暴露了体制的缺陷。": {
+   "exPy": "Zhège wèntí qiàqià bàolù le tǐzhì de quēxiàn.",
+   "exEn": "This problem precisely exposes the flaws of the system."
+  },
+  "贵的东西未必好。": {
+   "exPy": "Guì de dōngxi wèibì hǎo.",
+   "exEn": "Expensive things are not necessarily good."
+  },
+  "他说的未必都是真的。": {
+   "exPy": "Tā shuō de wèibì dōu shì zhēn de.",
+   "exEn": "What he says is not necessarily all true."
+  },
+  "数据显示消费持续增长，由此可见经济形势良好。": {
+   "exPy": "Shùjù xiǎnshì xiāofèi chíxù zēngzhǎng, yóucǐ kějiàn jīngjì xíngshì liánghǎo.",
+   "exEn": "The data show that consumption keeps growing, which shows that the economy is in good shape."
+  },
+  "由此可见，教育投入对国家发展至关重要。": {
+   "exPy": "Yóucǐ kějiàn, jiàoyù tóurù duì guójiā fāzhǎn zhìguān zhòngyào.",
+   "exEn": "It can be seen from this that investment in education is vital to national development."
+  },
+  "看到这幅画，她不禁落下泪来。": {
+   "exPy": "Kàndào zhè fú huà, tā bùjīn luò xià lèi lai.",
+   "exEn": "Seeing this painting, she couldn't help shedding tears."
+  },
+  "听到这个消息，我不禁感叹。": {
+   "exPy": "Tīngdào zhège xiāoxi, wǒ bùjīn gǎntàn.",
+   "exEn": "Hearing this news, I couldn't help sighing."
+  },
+  "生命何其短暂！": {
+   "exPy": "Shēngmìng héqí duǎnzàn!",
+   "exEn": "How short life is!"
+  },
+  "这段历史何其沉重！": {
+   "exPy": "Zhè duàn lìshǐ héqí chénzhòng!",
+   "exEn": "How heavy this period of history is!"
+  },
+  "他之所以成功，是因为付出了常人难以想象的努力。": {
+   "exPy": "Tā zhīsuǒyǐ chénggōng, shì yīnwèi fùchū le chángrén nányǐ xiǎngxiàng de nǔlì.",
+   "exEn": "The reason he succeeded is that he made efforts ordinary people can hardly imagine."
+  },
+  "公司之所以亏损，在于管理不善。": {
+   "exPy": "Gōngsī zhīsuǒyǐ kuīsǔn, zàiyú guǎnlǐ búshàn.",
+   "exEn": "The reason the company is losing money lies in poor management."
+  },
+  "这个方案姑且先用着吧。": {
+   "exPy": "Zhège fāng'àn gūqiě xiān yòng zhe ba.",
+   "exEn": "Let's just use this plan for the time being."
+  },
+  "姑且相信你一次。": {
+   "exPy": "Gūqiě xiāngxìn nǐ yí cì.",
+   "exEn": "I'll believe you this once."
+  },
+  "一方面，科技带来便利；另一方面，也带来了隐患。": {
+   "exPy": "Yì fāngmiàn, kējì dàilái biànlì; lìng yì fāngmiàn, yě dàilái le yǐnhuàn.",
+   "exEn": "On the one hand, technology brings convenience; on the other hand, it also brings hidden dangers."
+  },
+  "固然效率重要，但质量才是根本。": {
+   "exPy": "Gùrán xiàolǜ zhòngyào, dàn zhìliàng cái shì gēnběn.",
+   "exEn": "Efficiency is certainly important, but quality is what really matters."
+  },
+  "谎言终归会被揭穿。": {
+   "exPy": "Huǎngyán zhōngguī huì bèi jiēchuān.",
+   "exEn": "Lies will eventually be exposed."
+  },
+  "他终究还是离开了这座城市。": {
+   "exPy": "Tā zhōngjiū háishi líkāi le zhè zuò chéngshì.",
+   "exEn": "In the end he still left this city."
+  },
+  "该问题尚未得到妥善解决。": {
+   "exPy": "Gāi wèntí shàngwèi dédào tuǒshàn jiějué.",
+   "exEn": "The problem has not yet been properly resolved."
+  },
+  "他向来不喜欢接受别人的帮助。": {
+   "exPy": "Tā xiànglái bù xǐhuan jiēshòu biérén de bāngzhù.",
+   "exEn": "He has never liked accepting help from others."
+  },
+  "这道题难着呢，你可要认真看。": {
+   "exPy": "Zhè dào tí nán zhe ne, nǐ kě yào rènzhēn kàn.",
+   "exEn": "This question is really hard, so read it carefully."
+  },
+  "他对工作过于执着，忽略了家庭。": {
+   "exPy": "Tā duì gōngzuò guòyú zhízhuó, hūlüè le jiātíng.",
+   "exEn": "He is too obsessed with work and has neglected his family."
+  },
+  "你起码要提前一天通知我。": {
+   "exPy": "Nǐ qǐmǎ yào tíqián yì tiān tōngzhī wǒ.",
+   "exEn": "You should at least notify me a day in advance."
+  },
+  "我们至少需要两天才能完成这个项目。": {
+   "exPy": "Wǒmen zhìshǎo xūyào liǎng tiān cái néng wánchéng zhège xiàngmù.",
+   "exEn": "We need at least two days to finish this project."
+  },
+  "对报告中提出的问题，管理层将加以改进。": {
+   "exPy": "Duì bàogào zhōng tíchū de wèntí, guǎnlǐcéng jiāng jiāyǐ gǎijìn.",
+   "exEn": "Management will make improvements regarding the issues raised in the report."
+  },
+  "依据合同规定，双方须在三十日内完成交割。": {
+   "exPy": "Yījù hétong guīdìng, shuāngfāng xū zài sānshí rì nèi wánchéng jiāogē.",
+   "exEn": "According to the contract, both parties must complete the handover within thirty days."
+  },
+  "鉴于他的出色表现，公司决定提拔他为部门经理。": {
+   "exPy": "Jiànyú tā de chūsè biǎoxiàn, gōngsī juédìng tíbá tā wéi bùmén jīnglǐ.",
+   "exEn": "In view of his outstanding performance, the company decided to promote him to department manager."
+  },
+  "这条路太远，况且天色已晚，我们还是明天再去吧。": {
+   "exPy": "Zhè tiáo lù tài yuǎn, kuàngqiě tiānsè yǐ wǎn, wǒmen háishi míngtiān zài qù ba.",
+   "exEn": "This road is too long, and besides it's already getting late, so let's go tomorrow."
+  },
+  "经济持续增长，与此同时，居民生活水平也显著提高。": {
+   "exPy": "Jīngjì chíxù zēngzhǎng, yǔcǐ tóngshí, jūmín shēnghuó shuǐpíng yě xiǎnzhù tígāo.",
+   "exEn": "The economy keeps growing, and at the same time residents' living standards have risen significantly."
+  },
+  "本报告分析了市场趋势，此外还提出了具体建议。": {
+   "exPy": "Běn bàogào fēnxī le shìchǎng qūshì, cǐwài hái tíchū le jùtǐ jiànyì.",
+   "exEn": "This report analyzes market trends and also puts forward specific suggestions."
+  },
+  "归根到底，教育质量取决于教师的素质。": {
+   "exPy": "Guīgēn dàodǐ, jiàoyù zhìliàng qǔjué yú jiàoshī de sùzhì.",
+   "exEn": "In the final analysis, the quality of education depends on the quality of teachers."
+  },
+  "这些问题最终会为技术人员所解决。": {
+   "exPy": "Zhèxiē wèntí zuìzhōng huì wéi jìshù rényuán suǒ jiějué.",
+   "exEn": "These problems will eventually be solved by the technical staff."
+  },
+  "该上班上班，该休息休息，不要互相影响。": {
+   "exPy": "Gāi shàngbān shàngbān, gāi xiūxi xiūxi, búyào hùxiāng yǐngxiǎng.",
+   "exEn": "Work when it's time to work and rest when it's time to rest; don't let one affect the other."
+  },
+  "在专家看来，这项政策有待进一步完善。": {
+   "exPy": "Zài zhuānjiā kànlái, zhè xiàng zhèngcè yǒudài jìnyíbù wánshàn.",
+   "exEn": "In the experts' view, this policy still needs further improvement."
+  },
+  "从长远来看，这项投资是值得的。": {
+   "exPy": "Cóng chángyuǎn lái kàn, zhè xiàng tóuzī shì zhíde de.",
+   "exEn": "In the long run, this investment is worth it."
+  },
+  "努力固然重要，但方向比努力更关键。": {
+   "exPy": "Nǔlì gùrán zhòngyào, dàn fāngxiàng bǐ nǔlì gèng guānjiàn.",
+   "exEn": "Effort is certainly important, but direction is even more crucial than effort."
+  },
+  "诚然，改革会带来阵痛，但长远来看是历史的必然。": {
+   "exPy": "Chéngrán, gǎigé huì dàilái zhèntòng, dàn chángyuǎn lái kàn shì lìshǐ de bìrán.",
+   "exEn": "Admittedly, reform brings growing pains, but in the long run it is a historical necessity."
+  },
+  "初涉职场，不免会犯一些错误。": {
+   "exPy": "Chū shè zhíchǎng, bùmiǎn huì fàn yìxiē cuòwù.",
+   "exEn": "When you first enter the workplace, you're bound to make some mistakes."
+  },
+  "他说话太直接，未免有些伤人。": {
+   "exPy": "Tā shuōhuà tài zhíjiē, wèimiǎn yǒuxiē shāng rén.",
+   "exEn": "He speaks too bluntly, which is rather hurtful."
+  },
+  "凡是参与项目的成员，均须签署保密协议。": {
+   "exPy": "Fánshì cānyù xiàngmù de chéngyuán, jūn xū qiānshǔ bǎomì xiéyì.",
+   "exEn": "All members participating in the project must sign a confidentiality agreement."
+  },
+  "一旦数据泄露，后果将不堪设想。": {
+   "exPy": "Yídàn shùjù xièlòu, hòuguǒ jiāng bùkān shèxiǎng.",
+   "exEn": "Once the data is leaked, the consequences will be unimaginable."
+  },
+  "难道我们就这样坐视不管吗？": {
+   "exPy": "Nándào wǒmen jiù zhèyàng zuòshì bù guǎn ma?",
+   "exEn": "Are we really just going to sit back and do nothing?"
+  },
+  "越解释，他反而越不相信。": {
+   "exPy": "Yuè jiěshì, tā fǎn'ér yuè bù xiāngxìn.",
+   "exEn": "The more you explain, the less he believes."
+  },
+  "你找的人恰恰就是我认识的那位。": {
+   "exPy": "Nǐ zhǎo de rén qiàqià jiù shì wǒ rènshi de nà wèi.",
+   "exEn": "The person you're looking for happens to be the one I know."
+  },
+  "越忙的时候，偏偏又停电了。": {
+   "exPy": "Yuè máng de shíhou, piānpiān yòu tíng diàn le.",
+   "exEn": "Just when we were busiest, the power went out again."
+  },
+  "他的愤怒无非是想引起重视而已。": {
+   "exPy": "Tā de fènnù wúfēi shì xiǎng yǐnqǐ zhòngshì éryǐ.",
+   "exEn": "His anger is nothing more than a wish to be taken seriously."
+  },
+  "名气大的产品未必质量好。": {
+   "exPy": "Míngqì dà de chǎnpǐn wèibì zhìliàng hǎo.",
+   "exEn": "Famous products don't necessarily have good quality."
+  },
+  "宁可少睡几小时，也要把工作做完。": {
+   "exPy": "Nìngkě shǎo shuì jǐ xiǎoshí, yě yào bǎ gōngzuò zuò wán.",
+   "exEn": "I'd rather sleep a few hours less than leave the work unfinished."
+  },
+  "与其坐等机会，不如主动创造机会。": {
+   "exPy": "Yǔqí zuò děng jīhuì, bùrú zhǔdòng chuàngzào jīhuì.",
+   "exEn": "Rather than sitting and waiting for opportunities, it's better to create them."
+  },
+  "既然来都来了，索性住一个星期再走吧。": {
+   "exPy": "Jìrán lái dōu lái le, suǒxìng zhù yí ge xīngqī zài zǒu ba.",
+   "exEn": "Since we're here anyway, we might as well stay a week before leaving."
+  },
+  "他之所以成功，在于他始终保持专注和耐心。": {
+   "exPy": "Tā zhīsuǒyǐ chénggōng, zàiyú tā shǐzhōng bǎochí zhuānzhù hé nàixīn.",
+   "exEn": "The reason he succeeded lies in his constant focus and patience."
+  },
+  "调查数据显示满意度持续上升，由此可见该政策深得民心。": {
+   "exPy": "Diàochá shùjù xiǎnshì mǎnyìdù chíxù shàngshēng, yóucǐ kějiàn gāi zhèngcè shēn dé mínxīn.",
+   "exEn": "Survey data show that satisfaction keeps rising, which shows that the policy is very popular."
+  },
+  "看到老照片，她不禁潸然泪下。": {
+   "exPy": "Kàndào lǎo zhàopiàn, tā bùjīn shānrán lèi xià.",
+   "exEn": "Seeing the old photos, she couldn't help bursting into tears."
+  },
+  "岁月何其短暂，转眼已是白发。": {
+   "exPy": "Suìyuè héqí duǎnzàn, zhuǎnyǎn yǐ shì bái fà.",
+   "exEn": "How short the years are; in the blink of an eye one's hair is white."
+  },
+  "这次旅行别提多开心了，终身难忘。": {
+   "exPy": "Zhè cì lǚxíng biétí duō kāixīn le, zhōngshēn nánwàng.",
+   "exEn": "This trip was so much fun, I'll never forget it."
+  },
+  "他工作太拼命，以至于积劳成疾，住进了医院。": {
+   "exPy": "Tā gōngzuò tài pīnmìng, yǐzhìyú jīláo chéngjí, zhù jìn le yīyuàn.",
+   "exEn": "He worked so desperately hard that he fell ill from overwork and ended up in hospital."
+  },
+  "这件事非弄清楚不可，否则后患无穷。": {
+   "exPy": "Zhè jiàn shì fēi nòng qīngchu bùkě, fǒuzé hòuhuàn wúqióng.",
+   "exEn": "This matter must be cleared up, otherwise there will be endless trouble."
+  },
+  "这个解决方案并不完美，姑且先用着吧。": {
+   "exPy": "Zhège jiějué fāng'àn bìng bù wánměi, gūqiě xiān yòng zhe ba.",
+   "exEn": "This solution isn't perfect, but let's use it for the time being."
+  },
+  "看到这么美的风景，我恨不得马上把家人带来。": {
+   "exPy": "Kàndào zhème měi de fēngjǐng, wǒ hènbude mǎshàng bǎ jiārén dài lái.",
+   "exEn": "Seeing such beautiful scenery, I wish I could bring my family here right away."
+  },
+  "听到这首歌，他不由得想起了童年。": {
+   "exPy": "Tīngdào zhè shǒu gē, tā bùyóude xiǎngqǐ le tóngnián.",
+   "exEn": "Hearing this song, he couldn't help recalling his childhood."
+  },
+  "天气热归热，工作还是得做，不能懈怠。": {
+   "exPy": "Tiānqì rè guī rè, gōngzuò háishi děi zuò, bù néng xièdài.",
+   "exEn": "Hot as it is, the work still has to be done; we can't slack off."
+  },
+  "人家都说你是最好的，你要争气啊。": {
+   "exPy": "Rénjia dōu shuō nǐ shì zuì hǎo de, nǐ yào zhēngqì a.",
+   "exEn": "Everyone says you're the best, so you have to live up to it."
+  },
+  "他工作繁忙，请多体谅他一下。": {
+   "exPy": "Tā gōngzuò fánmáng, qǐng duō tǐliàng tā yíxià.",
+   "exEn": "He is very busy with work, so please be understanding."
+  },
+  "这件事麻烦着呢，不是一时半会儿能解决的。": {
+   "exPy": "Zhè jiàn shì máfan zhe ne, bú shì yìshí bànhuìr néng jiějué de.",
+   "exEn": "This matter is really troublesome; it can't be solved in a short time."
+  },
+  "此项目将于明年一月正式启动。": {
+   "exPy": "Cǐ xiàngmù jiāng yú míngnián yīyuè zhèngshì qǐdòng.",
+   "exEn": "This project will officially launch in January next year."
+  },
+  "请将以下材料提交至指定部门。": {
+   "exPy": "Qǐng jiāng yǐxià cáiliào tíjiāo zhì zhǐdìng bùmén.",
+   "exEn": "Please submit the following documents to the designated department."
+  },
+  "对于这一问题，我们需要认真对待。": {
+   "exPy": "Duìyú zhè yī wèntí, wǒmen xūyào rènzhēn duìdài.",
+   "exEn": "We need to take this issue seriously."
+  },
+  "即使失败一千次，我也不会放弃。": {
+   "exPy": "Jíshǐ shībài yìqiān cì, wǒ yě bú huì fàngqì.",
+   "exEn": "Even if I fail a thousand times, I will not give up."
+  },
+  "掌握基础知识，进而深入研究核心问题。": {
+   "exPy": "Zhǎngwò jīchǔ zhīshi, jìn'ér shēnrù yánjiū héxīn wèntí.",
+   "exEn": "Master the basic knowledge, and then study the core issues in depth."
+  },
+  "通过改进工艺，从而降低了生产成本。": {
+   "exPy": "Tōngguò gǎijìn gōngyì, cóng'ér jiàngdī le shēngchǎn chéngběn.",
+   "exEn": "By improving the process, production costs were reduced."
+  },
+  "就目前形势而言，双方的谈判仍存在较大分歧。": {
+   "exPy": "Jiù mùqián xíngshì ér yán, shuāngfāng de tánpàn réng cúnzài jiào dà fēnqí.",
+   "exEn": "As far as the current situation is concerned, there are still major differences in the negotiations between the two sides."
+  },
+  "在前期调研的基础上，课题组提出了新的研究框架。": {
+   "exPy": "Zài qiánqī diàoyán de jīchǔ shang, kètízǔ tíchū le xīn de yánjiū kuàngjià.",
+   "exEn": "On the basis of preliminary research, the project team proposed a new research framework."
+  },
+  "一方面要注重效率，另一方面也不能忽视质量。": {
+   "exPy": "Yì fāngmiàn yào zhùzhòng xiàolǜ, lìng yì fāngmiàn yě bù néng hūshì zhìliàng.",
+   "exEn": "On the one hand we must focus on efficiency; on the other hand we cannot neglect quality."
+  },
+  "困难重重，尽管如此，团队依然没有放弃。": {
+   "exPy": "Kùnnan chóngchóng, jǐnguǎn rúcǐ, tuánduì yīrán méiyǒu fàngqì.",
+   "exEn": "There were many difficulties; even so, the team still did not give up."
+  },
+  "总而言之，这次改革的核心是提高效率和透明度。": {
+   "exPy": "Zǒng'éryánzhī, zhè cì gǎigé de héxīn shì tígāo xiàolǜ hé tòumíngdù.",
+   "exEn": "In short, the core of this reform is to improve efficiency and transparency."
+  },
+  "这项政策旨在促进公平，换言之，就是让每个人都有平等的机会。": {
+   "exPy": "Zhè xiàng zhèngcè zhǐzài cùjìn gōngpíng, huànyánzhī, jiù shì ràng měi ge rén dōu yǒu píngděng de jīhuì.",
+   "exEn": "This policy aims to promote fairness; in other words, to give everyone equal opportunities."
+  },
+  "他的道歉非但没有解决问题，反而让矛盾更加激化。": {
+   "exPy": "Tā de dàoqiàn fēidàn méiyǒu jiějué wèntí, fǎn'ér ràng máodùn gèngjiā jīhuà.",
+   "exEn": "His apology not only failed to solve the problem but actually made the conflict worse."
+  },
+  "无论如何，我们都要按时完成任务。": {
+   "exPy": "Wúlùn rúhé, wǒmen dōu yào ànshí wánchéng rènwu.",
+   "exEn": "No matter what, we must complete the task on time."
+  },
+  "所谓创新，就是打破常规，寻找新的可能性。": {
+   "exPy": "Suǒwèi chuàngxīn, jiù shì dǎpò chángguī, xúnzhǎo xīn de kěnéngxìng.",
+   "exEn": "So-called innovation means breaking conventions and seeking new possibilities."
+  },
+  "姑且不论成本问题，光是时间上就已经很紧张了。": {
+   "exPy": "Gūqiě bú lùn chéngběn wèntí, guāng shì shíjiān shang jiù yǐjīng hěn jǐnzhāng le.",
+   "exEn": "Leaving aside the cost issue, time alone is already very tight."
+  },
+  "积极准备会带来成功，反之，漫不经心则难逃失败。": {
+   "exPy": "Jījí zhǔnbèi huì dàilái chénggōng, fǎnzhī, mànbùjīngxīn zé nán táo shībài.",
+   "exEn": "Active preparation leads to success; conversely, carelessness can hardly escape failure."
+  },
+  "拖延症、完美主义、诸如此类的心理障碍，都会影响工作效率。": {
+   "exPy": "Tuōyánzhèng, wánměi zhǔyì, zhūrú cǐlèi de xīnlǐ zhàng'ài, dōu huì yǐngxiǎng gōngzuò xiàolǜ.",
+   "exEn": "Procrastination, perfectionism and similar psychological barriers all affect work efficiency."
+  }
+ }
+}
