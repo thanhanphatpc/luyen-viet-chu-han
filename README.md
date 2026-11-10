@@ -61,6 +61,15 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 - Chữ trong bài học hằng ngày: `tools/add_lesson.py` tự bổ sung dữ liệu nét vào `index.html` (dùng offline được ở mọi máy).
 - Chữ anh tự nạp/gõ (Excel, dán tay, mục 1): khi có mạng, trang tự tải nét từ `cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1` và lưu vào trình duyệt (khoá `lvch_hz_cache_v1`) → lần sau dùng không cần mạng trên máy đó. Không có mạng → chip đỏ, có mạng mở lại là tự bổ sung. Chữ không có trong hanzi-writer-data thì báo "không tìm thấy".
 
+## Từ vựng HSK 1–6 kèm câu ví dụ
+
+- Nguồn: 49 file Excel "HSK1–6 từ vựng – câu ví dụ" của anh Thành, gộp thành `data/hsk-tu-vung.json` (5.068 từ/thành ngữ, trùng giữa các file chỉ giữ cấp thấp nhất).
+- Mỗi từ đều có: Hán tự, pinyin, loại từ, nghĩa Việt, nghĩa Anh, câu ví dụ + pinyin câu + nghĩa Việt + nghĩa Anh, cấp HSK (`lvl`).
+- Trường `auto` ghi phần Claude bổ sung (trang hiện nhãn xanh "Claude bổ sung"): `en`/`exEn` = dịch tiếng Anh (file HSK 4–6 không có), `exPy` = pinyin câu tạo bằng pypinyin (file thiếu), `all` = cả mục.
+- 658 chữ trong bộ 2663 không nằm trong từ nào của file → Claude soạn thêm 1 từ thông dụng + câu ví dụ cho mỗi chữ (`lvl` = 0, nhãn "bổ sung").
+- Tra 1 chữ: mục "Câu ví dụ" hiện tối đa 3 từ chứa chữ đó (ưu tiên chính chữ đó → từ thường cấp thấp → thành ngữ), bấm từ để mở cả từ. Tra từ ghép (ô nhập, `?chu=`, tab 5): hiện nghĩa + câu ví dụ của từ.
+- Sửa `data/hsk-tu-vung.json` thì chạy lại: `python3 tools/build_hsk_words.py` (ghi khối `HSK-WORDS` trong `index.html`, không sửa tay).
+
 ## 214 bộ thủ (tab 3)
 
 - Nguồn: `data/Danh_sach_214_Bo_Thu.xlsx` (STT, Bộ thủ, Số nét, Pinyin, Âm Hán Việt, Ý nghĩa).
