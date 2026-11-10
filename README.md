@@ -7,6 +7,8 @@ https://thanhanphatpc.github.io/luyen-viet-chu-han/
 
 1. Luyện viết · 2. Bài hằng ngày · 3. Bộ thủ · 4. Lượng từ · 5. Từ vựng · 6. Xuất GIF · 7. Ngữ pháp · 8. Từ loại — thanh tab dính trên cùng, trang nhớ tab mở gần nhất; link `?chu=` luôn mở tab 1. Bấm chữ ở tab nào cũng tự chuyển sang tab 1 để xem nét/luyện viết.
 
+Phát âm: nút 🔊 đọc tiếng Trung; bấm thẳng vào nghĩa hoặc câu tiếng Anh (chữ xanh xám có 🔊) để nghe tiếng Anh (giọng en-US của máy).
+
 Trên cùng có nút **Giao diện** ☀️ Sáng / 🌙 Tối / 🔄 Tự động (theo cài đặt máy) và **Cỡ chữ** A− / A+ (85–160%, bấm % để về 100%); trang nhớ lựa chọn trên từng máy. Trang hiển thị vừa khổ điện thoại.
 
 Tab 1 có lưới **150 chữ thông dụng nhất** (theo tần suất chữ Hán hiện đại, danh sách ở `data/150-chu-thong-dung.csv`): bấm chữ để xem nét/luyện viết, nút Hiện nghĩa, nút thêm cả 150 chữ vào danh sách từ vựng.

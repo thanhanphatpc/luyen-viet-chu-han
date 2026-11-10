@@ -60,6 +60,9 @@
   .ex-py { font-size:calc(13px * var(--fs)); color:var(--muted); font-style:italic; }
   .ex-vi { font-size:calc(13px * var(--fs)); color:var(--text2); margin-top:2px; }
   .ex-en { font-size:calc(13px * var(--fs)); color:#607D8B; margin-top:1px; }
+  .ex-en, .en-say { cursor:pointer; -webkit-tap-highlight-color:rgba(96,125,139,.25); }
+  .ex-en::after, .en-say::after { content:' 🔊'; font-style:normal; font-size:0.85em; opacity:0.75; }
+  .en-say.speaking, .ex-en.speaking { text-decoration:underline; }
   .rad-sort { font-size:calc(16px * var(--fs)); padding:9px 10px; border-radius:8px; border:1px solid var(--outline); background:var(--card); color:var(--ink); }
   .rad-list { display:flex; flex-direction:column; gap:6px; }
   .rad-item { background:var(--card); border:1px solid var(--outline); border-radius:10px; }
@@ -712,6 +715,17 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
     }
   }
   window.speak = speak;
+  // Bấm vào nghĩa / câu tiếng Anh (.ex-en, .en-say) để nghe phát âm tiếng Anh (giọng en-US có sẵn trên iPhone, chạy cả offline).
+  document.addEventListener('click', function (e) {
+    const el = e.target && e.target.closest ? e.target.closest('.ex-en, .en-say') : null;
+    if (!el || e.target.closest('button, a, input')) return;
+    const t = (el.textContent || '').replace(/🔊/g, '').trim();
+    if (!t) return;
+    speak(t, 'en-US');
+    document.querySelectorAll('.speaking').forEach(x => x.classList.remove('speaking'));
+    el.classList.add('speaking');
+    setTimeout(() => el.classList.remove('speaking'), 1500);
+  });
 
   function renderCharInfo(c) {
     const box = document.getElementById('charInfo');
@@ -729,7 +743,7 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
       rows.push('<div class="info-row"><span class="info-label">Nghĩa TV</span><span>' + m.vi + ' ' + tag + '</span></div>');
     }
     if (m.en) {
-      rows.push('<div class="info-row"><span class="info-label">Nghĩa EN</span><span>' + m.en + '</span></div>');
+      rows.push('<div class="info-row"><span class="info-label">Nghĩa EN</span><span class="en-say">' + esc(m.en) + '</span></div>');
     }
     if (m.exCn) {
       rows.push('<div class="info-row example"><span class="info-label">Câu ví dụ</span><div><div class="ex-cn">' + m.exCn + ' <button class="speak-btn" onclick=\'speak(' + JSON.stringify(m.exCn) + ')\'>🔊 phát âm</button></div><div class="ex-py">' + (m.exPy||'') + '</div><div class="ex-vi">' + (m.exVi||'') + '</div>' + (m.exEn ? '<div class="ex-en">' + esc(m.exEn) + '</div>' : '') + '</div></div>');
@@ -783,7 +797,7 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
       (multi ? '<button class="hw-word" data-word="' + esc(w.hz) + '" title="Mở cả từ">' + esc(w.hz) + '</button>' : '<b class="hw-word1">' + esc(w.hz) + '</b>') +
       ' <span class="ex-py">' + esc(w.py) + '</span>' + (w.pos ? ' <span class="hw-pos">' + esc(w.pos) + '</span>' : '') +
       ' <span class="hw-lvl">' + (w.lvl ? 'HSK ' + w.lvl : 'bổ sung') + '</span></div>' +
-      '<div class="ex-vi">' + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + '</div>' +
+      '<div class="ex-vi">' + esc(w.vi) + (w.en ? ' · <i class="en-say">' + esc(w.en) + '</i>' : '') + '</div>' +
       '<div class="ex-cn">' + esc(w.exCn) + ' <button class="speak-btn" data-say="' + esc(w.exCn) + '">🔊</button></div>' +
       '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' +
       (w.exEn ? '<div class="ex-en">' + esc(w.exEn) + '</div>' : '') + hskAutoNote(w) + '</div>';
@@ -1206,7 +1220,7 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
       html += '<div class="ws-mean">' + (w.parts.length ? w.parts.map(x => esc(x.c) + (x.py ? ' <i>' + esc(x.py) + '</i>' : '') + (x.vi ? ': ' + esc(x.vi) : '')).join(' · ') : 'Chưa có nghĩa') +
         '<span class="ws-note" title="Từ này chưa có trong bài học hằng ngày nên pinyin/nghĩa được ghép từ từng chữ, có thể chưa sát nghĩa cả từ">nghĩa từng chữ</span></div>';
     } else if (w) {
-      html += '<div class="ws-mean">' + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + (w.day != null ? '<span class="ws-day">Day' + w.day + '</span>' : '') + (w.hsk != null ? '<span class="ws-day">' + (w.hsk ? 'HSK ' + w.hsk : 'bổ sung') + '</span>' : '') + '</div>';
+      html += '<div class="ws-mean">' + esc(w.vi) + (w.en ? ' · <i class="en-say">' + esc(w.en) + '</i>' : '') + (w.day != null ? '<span class="ws-day">Day' + w.day + '</span>' : '') + (w.hsk != null ? '<span class="ws-day">' + (w.hsk ? 'HSK ' + w.hsk : 'bổ sung') + '</span>' : '') + '</div>';
     }
     html += '<div class="ws-chars">' + chars.map(c =>
       '<button data-c="' + esc(c) + '"' + (window.HANZI_DATA_BUNDLE[c] ? '' : ' class="missing" title="Chưa có dữ liệu nét"') + '>' + esc(c) + '</button>').join('') + '</div>';
@@ -1312,7 +1326,7 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
       (d.words || []).map(w =>
         '<div class="lesson-word"><div class="lw-head"><button class="lw-hz" data-w="' + esc(w.hz) + '">' + esc(w.hz) + '</button>' +
         '<span class="info-pinyin">' + esc(w.py) + '</span><button class="speak-btn" data-say="' + esc(w.hz) + '">🔊</button></div>' +
-        '<div class="lw-mean">' + (w.pos ? '<span class="lw-pos">' + esc(w.pos) + '</span> ' : '') + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + '</div>' +
+        '<div class="lw-mean">' + (w.pos ? '<span class="lw-pos">' + esc(w.pos) + '</span> ' : '') + esc(w.vi) + (w.en ? ' · <i class="en-say">' + esc(w.en) + '</i>' : '') + '</div>' +
         (w.exCn ? '<div class="ex-cn">' + esc(w.exCn) + ' <button class="speak-btn" data-say="' + esc(w.exCn) + '">🔊</button></div>' +
           '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' +
           (w.exEn ? '<div class="ex-en">' + esc(w.exEn) + '</div>' : '') : '') +
@@ -1608,7 +1622,7 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
     box.innerHTML = rows.map(w =>
       '<div class="mw-item"><div class="lw-head"><span class="mw-rank">#' + w.no + '</span><button class="lw-hz" data-w="' + esc(w.hz) + '">' + esc(w.hz) + '</button>' +
       '<span class="info-pinyin">' + esc(w.py) + '</span><button class="speak-btn" data-say="' + esc(w.hz) + '">🔊</button></div>' +
-      '<div class="lw-mean"><span class="lw-pos">' + esc(w.cat) + '</span> ' + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + '</div>' +
+      '<div class="lw-mean"><span class="lw-pos">' + esc(w.cat) + '</span> ' + esc(w.vi) + (w.en ? ' · <i class="en-say">' + esc(w.en) + '</i>' : '') + '</div>' +
       (w.exCn ? '<div class="ex-cn">' + esc(w.exCn) + ' <button class="speak-btn" data-say="' + esc(w.exCn) + '">🔊</button></div>' +
         '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' +
         (w.exEn ? '<div class="ex-en">' + esc(w.exEn) + '</div>' : '') : '') +
@@ -1642,7 +1656,7 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
     box.innerHTML = rows.map(w =>
       '<div class="mw-item"><div class="lw-head"><span class="mw-rank">#' + w.rank + '</span><button class="lw-hz" data-c="' + esc(w.hz) + '">' + esc(w.hz) + '</button>' +
       '<span class="info-pinyin">' + esc(w.py) + '</span><button class="speak-btn" data-say="' + esc(w.hz) + '">🔊</button></div>' +
-      '<div class="lw-mean"><span class="lw-pos">LT</span> ' + esc(w.vi) + (w.en ? ' · <i>' + esc(w.en) + '</i>' : '') + '</div>' +
+      '<div class="lw-mean"><span class="lw-pos">LT</span> ' + esc(w.vi) + (w.en ? ' · <i class="en-say">' + esc(w.en) + '</i>' : '') + '</div>' +
       (w.use ? '<div class="mw-use">' + esc(w.use) + '</div>' : '') +
       (w.exCn ? '<div class="ex-cn">' + esc(w.exCn) + ' <button class="speak-btn" data-say="' + esc(w.exCn) + '">🔊</button></div>' +
         '<div class="ex-py">' + esc(w.exPy) + '</div><div class="ex-vi">' + esc(w.exVi) + '</div>' +
