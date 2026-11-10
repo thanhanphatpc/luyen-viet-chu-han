@@ -5,7 +5,7 @@ https://thanhanphatpc.github.io/luyen-viet-chu-han/
 
 ## Bố cục (tab menu)
 
-1. Luyện viết · 2. Bài hằng ngày · 3. Bộ thủ · 4. Lượng từ · 5. Từ vựng · 6. Xuất GIF · 7. Ngữ pháp — thanh tab dính trên cùng, trang nhớ tab mở gần nhất; link `?chu=` luôn mở tab 1. Bấm chữ ở tab nào cũng tự chuyển sang tab 1 để xem nét/luyện viết.
+1. Luyện viết · 2. Bài hằng ngày · 3. Bộ thủ · 4. Lượng từ · 5. Từ vựng · 6. Xuất GIF · 7. Ngữ pháp · 8. Từ loại — thanh tab dính trên cùng, trang nhớ tab mở gần nhất; link `?chu=` luôn mở tab 1. Bấm chữ ở tab nào cũng tự chuyển sang tab 1 để xem nét/luyện viết.
 
 Trên cùng có nút **Giao diện** ☀️ Sáng / 🌙 Tối / 🔄 Tự động (theo cài đặt máy) và **Cỡ chữ** A− / A+ (85–160%, bấm % để về 100%); trang nhớ lựa chọn trên từng máy. Trang hiển thị vừa khổ điện thoại.
 
@@ -76,6 +76,13 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 - `data/ngu-phap-bo-sung.json`: phần Claude bổ sung theo từng câu — pinyin viết lại chuẩn (file gốc tách âm tiết, đọc sai 得/儿…) và câu dịch tiếng Anh; trang hiện nhãn "Claude bổ sung".
 - Tab có nút chọn cấp, ô tìm (chữ Hán như 把 / 虽然, tiếng Việt không dấu, tiếng Anh), mở/thu gọn tất cả; mỗi câu có 🔊 và ✍️ (mở các chữ trong câu ở tab 1 để luyện viết).
 - Sửa/thêm vào file Excel thì chạy lại: `python3 tools/build_grammar.py` (ghi khối `GRAMMAR-DATA` trong `index.html`, không sửa tay). Câu mới chưa có trong file bổ sung sẽ được báo ra để bổ sung tiếng Anh.
+
+## Top 50 từ theo từ loại (tab 8)
+
+- Nguồn: `data/top50-tu-loai-hsk.xlsx` (mỗi sheet một từ loại: Động từ, Tính từ, Danh từ, Trạng từ; cột STT, Hán tự, Pinyin, Từ loại, Nghĩa, Ví dụ, Pinyin ví dụ, Nghĩa ví dụ).
+- `data/top50-tu-loai-bo-sung.json`: phần Claude bổ sung theo từng từ — pinyin từ chuẩn (thanh nhẹ 爸爸 bàba, 时候 shíhou…; 长 cháng), nghĩa tiếng Anh, pinyin câu viết lại, câu tiếng Anh.
+- Tab có nút chọn từ loại, ô tìm (chữ Hán, pinyin không dấu, tiếng Việt, tiếng Anh — tìm trên mọi từ loại), nút thêm cả nhóm vào danh sách từ vựng (mục 5); bấm từ để luyện viết.
+- Sửa file Excel thì chạy lại: `python3 tools/build_top50.py` (ghi khối `TOP50-DATA` trong `index.html`, không sửa tay).
 
 ## 214 bộ thủ (tab 3)
 

@@ -1,0 +1,1211 @@
+{
+ "note": "Bổ sung cho file Top 50 từ loại: py = pinyin từ viết liền chuẩn (sửa thanh nhẹ: 爸爸 bàba, 时候 shíhou…; 长 cháng), en = nghĩa tiếng Anh, exPy = pinyin câu viết lại, exEn = dịch câu tiếng Anh — do Claude bổ sung. Khoá = \"Hán tự|câu ví dụ\".",
+ "items": {
+  "是|他是学生。": {
+   "py": "shì",
+   "en": "to be",
+   "exPy": "Tā shì xuésheng.",
+   "exEn": "He is a student."
+  },
+  "有|我有一本书。": {
+   "py": "yǒu",
+   "en": "to have; there is",
+   "exPy": "Wǒ yǒu yì běn shū.",
+   "exEn": "I have a book."
+  },
+  "要|我要喝水。": {
+   "py": "yào",
+   "en": "to want; to need; will",
+   "exPy": "Wǒ yào hē shuǐ.",
+   "exEn": "I want to drink water."
+  },
+  "会|她会说中文。": {
+   "py": "huì",
+   "en": "can; to know how to; will",
+   "exPy": "Tā huì shuō Zhōngwén.",
+   "exEn": "She can speak Chinese."
+  },
+  "到|我们到北京了。": {
+   "py": "dào",
+   "en": "to arrive; to reach",
+   "exPy": "Wǒmen dào Běijīng le.",
+   "exEn": "We have arrived in Beijing."
+  },
+  "来|他来我家了。": {
+   "py": "lái",
+   "en": "to come",
+   "exPy": "Tā lái wǒ jiā le.",
+   "exEn": "He came to my house."
+  },
+  "去|我去学校。": {
+   "py": "qù",
+   "en": "to go",
+   "exPy": "Wǒ qù xuéxiào.",
+   "exEn": "I'm going to school."
+  },
+  "想|我想吃苹果。": {
+   "py": "xiǎng",
+   "en": "to think; to want; to miss",
+   "exPy": "Wǒ xiǎng chī píngguǒ.",
+   "exEn": "I want to eat an apple."
+  },
+  "能|你能帮我吗？": {
+   "py": "néng",
+   "en": "can; to be able to",
+   "exPy": "Nǐ néng bāng wǒ ma?",
+   "exEn": "Can you help me?"
+  },
+  "看|我们去看电影吧。": {
+   "py": "kàn",
+   "en": "to look; to watch; to read",
+   "exPy": "Wǒmen qù kàn diànyǐng ba.",
+   "exEn": "Let's go see a movie."
+  },
+  "做|他在做作业。": {
+   "py": "zuò",
+   "en": "to do; to make",
+   "exPy": "Tā zài zuò zuòyè.",
+   "exEn": "He is doing his homework."
+  },
+  "让|请让我先说。": {
+   "py": "ràng",
+   "en": "to let; to allow; to make",
+   "exPy": "Qǐng ràng wǒ xiān shuō.",
+   "exEn": "Please let me speak first."
+  },
+  "可以|你可以进来。": {
+   "py": "kěyǐ",
+   "en": "can; may",
+   "exPy": "Nǐ kěyǐ jìnlai.",
+   "exEn": "You may come in."
+  },
+  "用|你用筷子吃饭吗？": {
+   "py": "yòng",
+   "en": "to use",
+   "exPy": "Nǐ yòng kuàizi chī fàn ma?",
+   "exEn": "Do you eat with chopsticks?"
+  },
+  "等|请等一下。": {
+   "py": "děng",
+   "en": "to wait",
+   "exPy": "Qǐng děng yíxià.",
+   "exEn": "Please wait a moment."
+  },
+  "知道|我不知道他在哪儿。": {
+   "py": "zhīdào",
+   "en": "to know",
+   "exPy": "Wǒ bù zhīdào tā zài nǎr.",
+   "exEn": "I don't know where he is."
+  },
+  "走|我们走吧！": {
+   "py": "zǒu",
+   "en": "to walk; to leave",
+   "exPy": "Wǒmen zǒu ba!",
+   "exEn": "Let's go!"
+  },
+  "工作|他每天工作八小时。": {
+   "py": "gōngzuò",
+   "en": "to work; job",
+   "exPy": "Tā měi tiān gōngzuò bā xiǎoshí.",
+   "exEn": "He works eight hours every day."
+  },
+  "爱|我爱我的家人。": {
+   "py": "ài",
+   "en": "to love",
+   "exPy": "Wǒ ài wǒ de jiārén.",
+   "exEn": "I love my family."
+  },
+  "需要|我需要你的帮助。": {
+   "py": "xūyào",
+   "en": "to need",
+   "exPy": "Wǒ xūyào nǐ de bāngzhù.",
+   "exEn": "I need your help."
+  },
+  "开始|课开始了。": {
+   "py": "kāishǐ",
+   "en": "to begin; to start",
+   "exPy": "Kè kāishǐ le.",
+   "exEn": "Class has started."
+  },
+  "喜欢|我喜欢打篮球。": {
+   "py": "xǐhuan",
+   "en": "to like",
+   "exPy": "Wǒ xǐhuan dǎ lánqiú.",
+   "exEn": "I like playing basketball."
+  },
+  "吃|你吃早饭了吗？": {
+   "py": "chī",
+   "en": "to eat",
+   "exPy": "Nǐ chī zǎofàn le ma?",
+   "exEn": "Have you had breakfast?"
+  },
+  "找|他在找他的钥匙。": {
+   "py": "zhǎo",
+   "en": "to look for",
+   "exPy": "Tā zài zhǎo tā de yàoshi.",
+   "exEn": "He is looking for his keys."
+  },
+  "觉得|我觉得今天很冷。": {
+   "py": "juéde",
+   "en": "to feel; to think",
+   "exPy": "Wǒ juéde jīntiān hěn lěng.",
+   "exEn": "I think it's very cold today."
+  },
+  "认为|我认为这个想法很好。": {
+   "py": "rènwéi",
+   "en": "to believe; to consider",
+   "exPy": "Wǒ rènwéi zhège xiǎngfǎ hěn hǎo.",
+   "exEn": "I think this idea is very good."
+  },
+  "应该|你应该多休息。": {
+   "py": "yīnggāi",
+   "en": "should; ought to",
+   "exPy": "Nǐ yīnggāi duō xiūxi.",
+   "exEn": "You should rest more."
+  },
+  "带|请带雨伞来。": {
+   "py": "dài",
+   "en": "to bring; to take; to lead",
+   "exPy": "Qǐng dài yǔsǎn lái.",
+   "exEn": "Please bring an umbrella."
+  },
+  "希望|我希望你成功。": {
+   "py": "xīwàng",
+   "en": "to hope; hope",
+   "exPy": "Wǒ xīwàng nǐ chénggōng.",
+   "exEn": "I hope you succeed."
+  },
+  "发现|他发现了一个问题。": {
+   "py": "fāxiàn",
+   "en": "to discover; to find",
+   "exPy": "Tā fāxiàn le yí ge wèntí.",
+   "exEn": "He found a problem."
+  },
+  "听|我喜欢听音乐。": {
+   "py": "tīng",
+   "en": "to listen; to hear",
+   "exPy": "Wǒ xǐhuan tīng yīnyuè.",
+   "exEn": "I like listening to music."
+  },
+  "开|请开门。": {
+   "py": "kāi",
+   "en": "to open; to turn on; to drive",
+   "exPy": "Qǐng kāi mén.",
+   "exEn": "Please open the door."
+  },
+  "叫|他叫什么名字？": {
+   "py": "jiào",
+   "en": "to be called; to call; to shout",
+   "exPy": "Tā jiào shénme míngzi?",
+   "exEn": "What is his name?"
+  },
+  "生活|我喜欢这里的生活。": {
+   "py": "shēnghuó",
+   "en": "to live; life",
+   "exPy": "Wǒ xǐhuan zhèlǐ de shēnghuó.",
+   "exEn": "I like the life here."
+  },
+  "发生|昨天发生了什么？": {
+   "py": "fāshēng",
+   "en": "to happen; to occur",
+   "exPy": "Zuótiān fāshēng le shénme?",
+   "exEn": "What happened yesterday?"
+  },
+  "请|请坐下。": {
+   "py": "qǐng",
+   "en": "please; to invite",
+   "exPy": "Qǐng zuò xià.",
+   "exEn": "Please sit down."
+  },
+  "回|我明天回家。": {
+   "py": "huí",
+   "en": "to return; to go back",
+   "exPy": "Wǒ míngtiān huí jiā.",
+   "exEn": "I'm going home tomorrow."
+  },
+  "买|我想买一件衬衫。": {
+   "py": "mǎi",
+   "en": "to buy",
+   "exPy": "Wǒ xiǎng mǎi yí jiàn chènshān.",
+   "exEn": "I want to buy a shirt."
+  },
+  "问|我可以问你一个问题吗？": {
+   "py": "wèn",
+   "en": "to ask",
+   "exPy": "Wǒ kěyǐ wèn nǐ yí ge wèntí ma?",
+   "exEn": "May I ask you a question?"
+  },
+  "告诉|请告诉我答案。": {
+   "py": "gàosu",
+   "en": "to tell",
+   "exPy": "Qǐng gàosu wǒ dá'àn.",
+   "exEn": "Please tell me the answer."
+  },
+  "成为|他想成为一名医生。": {
+   "py": "chéngwéi",
+   "en": "to become",
+   "exPy": "Tā xiǎng chéngwéi yì míng yīshēng.",
+   "exEn": "He wants to become a doctor."
+  },
+  "担心|妈妈很担心我。": {
+   "py": "dānxīn",
+   "en": "to worry",
+   "exPy": "Māma hěn dānxīn wǒ.",
+   "exEn": "Mom is very worried about me."
+  },
+  "帮|你能帮我搬这个吗？": {
+   "py": "bāng",
+   "en": "to help",
+   "exPy": "Nǐ néng bāng wǒ bān zhège ma?",
+   "exEn": "Can you help me move this?"
+  },
+  "说|他说中文说得很好。": {
+   "py": "shuō",
+   "en": "to say; to speak",
+   "exPy": "Tā shuō Zhōngwén shuō de hěn hǎo.",
+   "exEn": "He speaks Chinese very well."
+  },
+  "给|我给你一杯咖啡。": {
+   "py": "gěi",
+   "en": "to give; for",
+   "exPy": "Wǒ gěi nǐ yì bēi kāfēi.",
+   "exEn": "I'll give you a cup of coffee."
+  },
+  "学|我在学中文。": {
+   "py": "xué",
+   "en": "to study; to learn",
+   "exPy": "Wǒ zài xué Zhōngwén.",
+   "exEn": "I am studying Chinese."
+  },
+  "打|你会打网球吗？": {
+   "py": "dǎ",
+   "en": "to hit; to play (sports)",
+   "exPy": "Nǐ huì dǎ wǎngqiú ma?",
+   "exEn": "Can you play tennis?"
+  },
+  "写|请写下你的名字。": {
+   "py": "xiě",
+   "en": "to write",
+   "exPy": "Qǐng xiě xià nǐ de míngzi.",
+   "exEn": "Please write down your name."
+  },
+  "住|我住在河内。": {
+   "py": "zhù",
+   "en": "to live; to stay",
+   "exPy": "Wǒ zhù zài Hénèi.",
+   "exEn": "I live in Hanoi."
+  },
+  "穿|她穿了一件红色的衣服。": {
+   "py": "chuān",
+   "en": "to wear; to put on",
+   "exPy": "Tā chuān le yí jiàn hóngsè de yīfu.",
+   "exEn": "She is wearing a red outfit."
+  },
+  "好|今天天气很好。": {
+   "py": "hǎo",
+   "en": "good; well",
+   "exPy": "Jīntiān tiānqì hěn hǎo.",
+   "exEn": "The weather is very nice today."
+  },
+  "大|他有一个大家庭。": {
+   "py": "dà",
+   "en": "big; large; old (age)",
+   "exPy": "Tā yǒu yí ge dà jiātíng.",
+   "exEn": "He has a big family."
+  },
+  "多|这里有很多人。": {
+   "py": "duō",
+   "en": "many; much",
+   "exPy": "Zhèlǐ yǒu hěn duō rén.",
+   "exEn": "There are a lot of people here."
+  },
+  "小|这个包太小了。": {
+   "py": "xiǎo",
+   "en": "small; little; young",
+   "exPy": "Zhège bāo tài xiǎo le.",
+   "exEn": "This bag is too small."
+  },
+  "新|他买了一辆新车。": {
+   "py": "xīn",
+   "en": "new",
+   "exPy": "Tā mǎi le yí liàng xīn chē.",
+   "exEn": "He bought a new car."
+  },
+  "快|请说慢一点，别太快。": {
+   "py": "kuài",
+   "en": "fast; quick",
+   "exPy": "Qǐng shuō màn yìdiǎn, bié tài kuài.",
+   "exEn": "Please speak a little slower, not too fast."
+  },
+  "重要|健康是最重要的。": {
+   "py": "zhòngyào",
+   "en": "important",
+   "exPy": "Jiànkāng shì zuì zhòngyào de.",
+   "exEn": "Health is the most important thing."
+  },
+  "长|这条路很长。": {
+   "py": "cháng",
+   "en": "long",
+   "exPy": "Zhè tiáo lù hěn cháng.",
+   "exEn": "This road is very long."
+  },
+  "老|他是一位老朋友。": {
+   "py": "lǎo",
+   "en": "old",
+   "exPy": "Tā shì yí wèi lǎo péngyou.",
+   "exEn": "He is an old friend."
+  },
+  "高|他比我高。": {
+   "py": "gāo",
+   "en": "tall; high",
+   "exPy": "Tā bǐ wǒ gāo.",
+   "exEn": "He is taller than me."
+  },
+  "安全|这条路不太安全。": {
+   "py": "ānquán",
+   "en": "safe; safety",
+   "exPy": "Zhè tiáo lù bú tài ānquán.",
+   "exEn": "This road is not very safe."
+  },
+  "完全|我完全同意你说的。": {
+   "py": "wánquán",
+   "en": "complete; completely",
+   "exPy": "Wǒ wánquán tóngyì nǐ shuō de.",
+   "exEn": "I completely agree with what you said."
+  },
+  "成功|他的计划很成功。": {
+   "py": "chénggōng",
+   "en": "successful; to succeed",
+   "exPy": "Tā de jìhuà hěn chénggōng.",
+   "exEn": "His plan was very successful."
+  },
+  "努力|她学习很努力。": {
+   "py": "nǔlì",
+   "en": "hardworking; to make an effort",
+   "exPy": "Tā xuéxí hěn nǔlì.",
+   "exEn": "She studies very hard."
+  },
+  "少|我家的钱越来越少。": {
+   "py": "shǎo",
+   "en": "few; little; less",
+   "exPy": "Wǒ jiā de qián yuèláiyuè shǎo.",
+   "exEn": "My family has less and less money."
+  },
+  "难|这道题很难。": {
+   "py": "nán",
+   "en": "difficult; hard",
+   "exPy": "Zhè dào tí hěn nán.",
+   "exEn": "This question is very difficult."
+  },
+  "直接|请直接告诉我。": {
+   "py": "zhíjiē",
+   "en": "direct; directly",
+   "exPy": "Qǐng zhíjiē gàosu wǒ.",
+   "exEn": "Please tell me directly."
+  },
+  "重|这个箱子很重。": {
+   "py": "zhòng",
+   "en": "heavy; important",
+   "exPy": "Zhège xiāngzi hěn zhòng.",
+   "exEn": "This box is very heavy."
+  },
+  "远|学校离我家很远。": {
+   "py": "yuǎn",
+   "en": "far",
+   "exPy": "Xuéxiào lí wǒ jiā hěn yuǎn.",
+   "exEn": "The school is very far from my home."
+  },
+  "快乐|祝你生日快乐！": {
+   "py": "kuàilè",
+   "en": "happy; joyful",
+   "exPy": "Zhù nǐ shēngrì kuàilè!",
+   "exEn": "Happy birthday to you!"
+  },
+  "突然|他突然出现了。": {
+   "py": "tūrán",
+   "en": "sudden; suddenly",
+   "exPy": "Tā tūrán chūxiàn le.",
+   "exEn": "He suddenly appeared."
+  },
+  "容易|这个游戏很容易。": {
+   "py": "róngyì",
+   "en": "easy",
+   "exPy": "Zhège yóuxì hěn róngyì.",
+   "exEn": "This game is very easy."
+  },
+  "开心|看到你我很开心。": {
+   "py": "kāixīn",
+   "en": "happy; glad",
+   "exPy": "Kàndào nǐ wǒ hěn kāixīn.",
+   "exEn": "I'm very happy to see you."
+  },
+  "明显|他的进步很明显。": {
+   "py": "míngxiǎn",
+   "en": "obvious; clear",
+   "exPy": "Tā de jìnbù hěn míngxiǎn.",
+   "exEn": "His progress is very obvious."
+  },
+  "正常|今天一切都很正常。": {
+   "py": "zhèngcháng",
+   "en": "normal",
+   "exPy": "Jīntiān yíqiè dōu hěn zhèngcháng.",
+   "exEn": "Everything is normal today."
+  },
+  "黑|她有一双黑色的眼睛。": {
+   "py": "hēi",
+   "en": "black; dark",
+   "exPy": "Tā yǒu yì shuāng hēisè de yǎnjing.",
+   "exEn": "She has black eyes."
+  },
+  "简单|这个方法很简单。": {
+   "py": "jiǎndān",
+   "en": "simple",
+   "exPy": "Zhège fāngfǎ hěn jiǎndān.",
+   "exEn": "This method is very simple."
+  },
+  "清楚|请说清楚一点。": {
+   "py": "qīngchu",
+   "en": "clear",
+   "exPy": "Qǐng shuō qīngchu yìdiǎn.",
+   "exEn": "Please speak a bit more clearly."
+  },
+  "严重|这个问题很严重。": {
+   "py": "yánzhòng",
+   "en": "serious; severe",
+   "exPy": "Zhège wèntí hěn yánzhòng.",
+   "exEn": "This problem is very serious."
+  },
+  "红|她穿着红色的裙子。": {
+   "py": "hóng",
+   "en": "red",
+   "exPy": "Tā chuān zhe hóngsè de qúnzi.",
+   "exEn": "She is wearing a red skirt."
+  },
+  "一般|他的成绩一般。": {
+   "py": "yìbān",
+   "en": "ordinary; average",
+   "exPy": "Tā de chéngjì yìbān.",
+   "exEn": "His grades are just average."
+  },
+  "可爱|那只小猫真可爱！": {
+   "py": "kě'ài",
+   "en": "cute; lovely",
+   "exPy": "Nà zhī xiǎo māo zhēn kě'ài!",
+   "exEn": "That kitten is so cute!"
+  },
+  "近|银行离这里很近。": {
+   "py": "jìn",
+   "en": "near; close",
+   "exPy": "Yínháng lí zhèlǐ hěn jìn.",
+   "exEn": "The bank is very close to here."
+  },
+  "漂亮|她的裙子很漂亮。": {
+   "py": "piàoliang",
+   "en": "beautiful; pretty",
+   "exPy": "Tā de qúnzi hěn piàoliang.",
+   "exEn": "Her skirt is very pretty."
+  },
+  "高兴|见到你我很高兴。": {
+   "py": "gāoxìng",
+   "en": "happy; glad",
+   "exPy": "Jiàndào nǐ wǒ hěn gāoxìng.",
+   "exEn": "I'm very glad to see you."
+  },
+  "幸福|他们的家庭很幸福。": {
+   "py": "xìngfú",
+   "en": "happy; happiness",
+   "exPy": "Tāmen de jiātíng hěn xìngfú.",
+   "exEn": "Their family is very happy."
+  },
+  "白|外面下白雪了。": {
+   "py": "bái",
+   "en": "white",
+   "exPy": "Wàimian xià bái xuě le.",
+   "exEn": "It's snowing outside."
+  },
+  "热|今天天气很热。": {
+   "py": "rè",
+   "en": "hot",
+   "exPy": "Jīntiān tiānqì hěn rè.",
+   "exEn": "It's very hot today."
+  },
+  "低|这家店的价格很低。": {
+   "py": "dī",
+   "en": "low",
+   "exPy": "Zhè jiā diàn de jiàgé hěn dī.",
+   "exEn": "The prices at this shop are very low."
+  },
+  "健康|多运动对健康有好处。": {
+   "py": "jiànkāng",
+   "en": "healthy; health",
+   "exPy": "Duō yùndòng duì jiànkāng yǒu hǎochù.",
+   "exEn": "Exercising more is good for your health."
+  },
+  "满|杯子里的水满了。": {
+   "py": "mǎn",
+   "en": "full",
+   "exPy": "Bēizi li de shuǐ mǎn le.",
+   "exEn": "The cup is full of water."
+  },
+  "差|他的成绩很差。": {
+   "py": "chà",
+   "en": "poor; bad; to lack",
+   "exPy": "Tā de chéngjì hěn chà.",
+   "exEn": "His grades are very poor."
+  },
+  "短|这条裙子太短了。": {
+   "py": "duǎn",
+   "en": "short",
+   "exPy": "Zhè tiáo qúnzi tài duǎn le.",
+   "exEn": "This skirt is too short."
+  },
+  "深|这条河很深。": {
+   "py": "shēn",
+   "en": "deep; dark (color)",
+   "exPy": "Zhè tiáo hé hěn shēn.",
+   "exEn": "This river is very deep."
+  },
+  "认真|他做事很认真。": {
+   "py": "rènzhēn",
+   "en": "serious; conscientious",
+   "exPy": "Tā zuò shì hěn rènzhēn.",
+   "exEn": "He is very conscientious in his work."
+  },
+  "冷|冬天很冷，要穿厚衣服。": {
+   "py": "lěng",
+   "en": "cold",
+   "exPy": "Dōngtiān hěn lěng, yào chuān hòu yīfu.",
+   "exEn": "Winter is very cold, so wear thick clothes."
+  },
+  "自由|这个周末我很自由。": {
+   "py": "zìyóu",
+   "en": "free; freedom",
+   "exPy": "Zhège zhōumò wǒ hěn zìyóu.",
+   "exEn": "I'm completely free this weekend."
+  },
+  "紧张|考试前我很紧张。": {
+   "py": "jǐnzhāng",
+   "en": "nervous; tense",
+   "exPy": "Kǎoshì qián wǒ hěn jǐnzhāng.",
+   "exEn": "I'm very nervous before exams."
+  },
+  "便宜|这里的东西很便宜。": {
+   "py": "piányi",
+   "en": "cheap",
+   "exPy": "Zhèlǐ de dōngxi hěn piányi.",
+   "exEn": "Things here are very cheap."
+  },
+  "贵|这件衣服太贵了。": {
+   "py": "guì",
+   "en": "expensive",
+   "exPy": "Zhè jiàn yīfu tài guì le.",
+   "exEn": "These clothes are too expensive."
+  },
+  "饿|我走了很久，现在很饿。": {
+   "py": "è",
+   "en": "hungry",
+   "exPy": "Wǒ zǒu le hěn jiǔ, xiànzài hěn è.",
+   "exEn": "I walked for a long time and now I'm very hungry."
+  },
+  "人|街上有很多人。": {
+   "py": "rén",
+   "en": "person; people",
+   "exPy": "Jiē shang yǒu hěn duō rén.",
+   "exEn": "There are many people on the street."
+  },
+  "时候|你有时间的时候来找我。": {
+   "py": "shíhou",
+   "en": "time; moment",
+   "exPy": "Nǐ yǒu shíjiān de shíhou lái zhǎo wǒ.",
+   "exEn": "Come and see me when you have time."
+  },
+  "问题|你有什么问题吗？": {
+   "py": "wèntí",
+   "en": "question; problem",
+   "exPy": "Nǐ yǒu shénme wèntí ma?",
+   "exEn": "Do you have any questions?"
+  },
+  "家|我很想家。": {
+   "py": "jiā",
+   "en": "home; family",
+   "exPy": "Wǒ hěn xiǎng jiā.",
+   "exEn": "I miss home very much."
+  },
+  "时间|我没有时间。": {
+   "py": "shíjiān",
+   "en": "time",
+   "exPy": "Wǒ méiyǒu shíjiān.",
+   "exEn": "I don't have time."
+  },
+  "月|我下个月去中国。": {
+   "py": "yuè",
+   "en": "month; moon",
+   "exPy": "Wǒ xià ge yuè qù Zhōngguó.",
+   "exEn": "I'm going to China next month."
+  },
+  "孩子|那个孩子很聪明。": {
+   "py": "háizi",
+   "en": "child",
+   "exPy": "Nàge háizi hěn cōngming.",
+   "exEn": "That child is very smart."
+  },
+  "钱|我没有带钱。": {
+   "py": "qián",
+   "en": "money",
+   "exPy": "Wǒ méiyǒu dài qián.",
+   "exEn": "I didn't bring any money."
+  },
+  "公司|他在一家大公司工作。": {
+   "py": "gōngsī",
+   "en": "company",
+   "exPy": "Tā zài yì jiā dà gōngsī gōngzuò.",
+   "exEn": "He works at a big company."
+  },
+  "东西|桌子上有很多东西。": {
+   "py": "dōngxi",
+   "en": "thing; stuff",
+   "exPy": "Zhuōzi shang yǒu hěn duō dōngxi.",
+   "exEn": "There are a lot of things on the table."
+  },
+  "世界|中国是世界上人口最多的国家。": {
+   "py": "shìjiè",
+   "en": "world",
+   "exPy": "Zhōngguó shì shìjiè shang rénkǒu zuì duō de guójiā.",
+   "exEn": "China is the most populous country in the world."
+  },
+  "情况|请告诉我最新情况。": {
+   "py": "qíngkuàng",
+   "en": "situation; circumstances",
+   "exPy": "Qǐng gàosu wǒ zuì xīn qíngkuàng.",
+   "exEn": "Please tell me the latest situation."
+  },
+  "地方|这是一个美丽的地方。": {
+   "py": "dìfang",
+   "en": "place",
+   "exPy": "Zhè shì yí ge měilì de dìfang.",
+   "exEn": "This is a beautiful place."
+  },
+  "事情|我有事情要告诉你。": {
+   "py": "shìqing",
+   "en": "matter; thing",
+   "exPy": "Wǒ yǒu shìqing yào gàosu nǐ.",
+   "exEn": "I have something to tell you."
+  },
+  "感觉|我有一种奇怪的感觉。": {
+   "py": "gǎnjué",
+   "en": "feeling; to feel",
+   "exPy": "Wǒ yǒu yì zhǒng qíguài de gǎnjué.",
+   "exEn": "I have a strange feeling."
+  },
+  "朋友|他是我最好的朋友。": {
+   "py": "péngyou",
+   "en": "friend",
+   "exPy": "Tā shì wǒ zuì hǎo de péngyou.",
+   "exEn": "He is my best friend."
+  },
+  "关系|他们的关系很好。": {
+   "py": "guānxi",
+   "en": "relationship; connection",
+   "exPy": "Tāmen de guānxi hěn hǎo.",
+   "exEn": "They have a very good relationship."
+  },
+  "水|请给我一杯水。": {
+   "py": "shuǐ",
+   "en": "water",
+   "exPy": "Qǐng gěi wǒ yì bēi shuǐ.",
+   "exEn": "Please give me a glass of water."
+  },
+  "国家|中国是一个大国家。": {
+   "py": "guójiā",
+   "en": "country; nation",
+   "exPy": "Zhōngguó shì yí ge dà guójiā.",
+   "exEn": "China is a big country."
+  },
+  "结果|考试结果出来了。": {
+   "py": "jiéguǒ",
+   "en": "result",
+   "exPy": "Kǎoshì jiéguǒ chūlai le.",
+   "exEn": "The exam results are out."
+  },
+  "女人|那位女人是我妈妈。": {
+   "py": "nǚrén",
+   "en": "woman",
+   "exPy": "Nà wèi nǚrén shì wǒ māma.",
+   "exEn": "That woman is my mother."
+  },
+  "小时|我等了两个小时。": {
+   "py": "xiǎoshí",
+   "en": "hour",
+   "exPy": "Wǒ děng le liǎng ge xiǎoshí.",
+   "exEn": "I waited for two hours."
+  },
+  "机会|这是一个很好的机会。": {
+   "py": "jīhuì",
+   "en": "opportunity; chance",
+   "exPy": "Zhè shì yí ge hěn hǎo de jīhuì.",
+   "exEn": "This is a very good opportunity."
+  },
+  "计划|你有什么计划？": {
+   "py": "jìhuà",
+   "en": "plan; to plan",
+   "exPy": "Nǐ yǒu shénme jìhuà?",
+   "exEn": "What are your plans?"
+  },
+  "路|这条路很难走。": {
+   "py": "lù",
+   "en": "road; way",
+   "exPy": "Zhè tiáo lù hěn nán zǒu.",
+   "exEn": "This road is hard to walk on."
+  },
+  "男人|那个男人是我爸爸。": {
+   "py": "nánrén",
+   "en": "man",
+   "exPy": "Nàge nánrén shì wǒ bàba.",
+   "exEn": "That man is my father."
+  },
+  "学校|我的学校离家很近。": {
+   "py": "xuéxiào",
+   "en": "school",
+   "exPy": "Wǒ de xuéxiào lí jiā hěn jìn.",
+   "exEn": "My school is very close to home."
+  },
+  "原因|他迟到的原因是什么？": {
+   "py": "yuányīn",
+   "en": "reason; cause",
+   "exPy": "Tā chídào de yuányīn shì shénme?",
+   "exEn": "What is the reason he was late?"
+  },
+  "消息|你听说最新消息了吗？": {
+   "py": "xiāoxi",
+   "en": "news; message",
+   "exPy": "Nǐ tīngshuō zuì xīn xiāoxi le ma?",
+   "exEn": "Have you heard the latest news?"
+  },
+  "方式|你有什么学习方式？": {
+   "py": "fāngshì",
+   "en": "way; method",
+   "exPy": "Nǐ yǒu shénme xuéxí fāngshì?",
+   "exEn": "What is your way of studying?"
+  },
+  "妈妈|妈妈做的饭最好吃。": {
+   "py": "māma",
+   "en": "mom; mother",
+   "exPy": "Māma zuò de fàn zuì hǎochī.",
+   "exEn": "Mom's cooking is the best."
+  },
+  "能力|他的工作能力很强。": {
+   "py": "nénglì",
+   "en": "ability",
+   "exPy": "Tā de gōngzuò nénglì hěn qiáng.",
+   "exEn": "He is very capable at work."
+  },
+  "办法|我想不出好办法。": {
+   "py": "bànfǎ",
+   "en": "way; solution",
+   "exPy": "Wǒ xiǎng bu chū hǎo bànfǎ.",
+   "exEn": "I can't think of a good solution."
+  },
+  "电影|我昨晚看了一部电影。": {
+   "py": "diànyǐng",
+   "en": "movie; film",
+   "exPy": "Wǒ zuó wǎn kàn le yí bù diànyǐng.",
+   "exEn": "I watched a movie last night."
+  },
+  "书|他每天看一本书。": {
+   "py": "shū",
+   "en": "book",
+   "exPy": "Tā měi tiān kàn yì běn shū.",
+   "exEn": "He reads a book every day."
+  },
+  "方法|有什么好方法吗？": {
+   "py": "fāngfǎ",
+   "en": "method",
+   "exPy": "Yǒu shénme hǎo fāngfǎ ma?",
+   "exEn": "Is there a good method?"
+  },
+  "先生|王先生，请进！": {
+   "py": "xiānsheng",
+   "en": "Mr.; sir; husband",
+   "exPy": "Wáng xiānsheng, qǐng jìn!",
+   "exEn": "Mr. Wang, please come in!"
+  },
+  "城市|上海是一个大城市。": {
+   "py": "chéngshì",
+   "en": "city",
+   "exPy": "Shànghǎi shì yí ge dà chéngshì.",
+   "exEn": "Shanghai is a big city."
+  },
+  "游戏|孩子们喜欢玩游戏。": {
+   "py": "yóuxì",
+   "en": "game",
+   "exPy": "Háizimen xǐhuan wán yóuxì.",
+   "exEn": "Children like playing games."
+  },
+  "医院|他住在医院里。": {
+   "py": "yīyuàn",
+   "en": "hospital",
+   "exPy": "Tā zhù zài yīyuàn li.",
+   "exEn": "He is staying in the hospital."
+  },
+  "信息|这个信息很重要。": {
+   "py": "xìnxī",
+   "en": "information",
+   "exPy": "Zhège xìnxī hěn zhòngyào.",
+   "exEn": "This information is very important."
+  },
+  "年|今年是二零二五年。": {
+   "py": "nián",
+   "en": "year",
+   "exPy": "Jīnnián shì èr líng èr wǔ nián.",
+   "exEn": "This year is 2025."
+  },
+  "天|今天天气很好。": {
+   "py": "tiān",
+   "en": "day; sky",
+   "exPy": "Jīntiān tiānqì hěn hǎo.",
+   "exEn": "The weather is very nice today."
+  },
+  "老师|我的老师很有耐心。": {
+   "py": "lǎoshī",
+   "en": "teacher",
+   "exPy": "Wǒ de lǎoshī hěn yǒu nàixīn.",
+   "exEn": "My teacher is very patient."
+  },
+  "学生|他是一名好学生。": {
+   "py": "xuésheng",
+   "en": "student",
+   "exPy": "Tā shì yì míng hǎo xuésheng.",
+   "exEn": "He is a good student."
+  },
+  "手机|我的手机没电了。": {
+   "py": "shǒujī",
+   "en": "mobile phone",
+   "exPy": "Wǒ de shǒujī méi diàn le.",
+   "exEn": "My phone's battery is dead."
+  },
+  "饭|你吃饭了吗？": {
+   "py": "fàn",
+   "en": "rice; meal",
+   "exPy": "Nǐ chī fàn le ma?",
+   "exEn": "Have you eaten?"
+  },
+  "名字|你叫什么名字？": {
+   "py": "míngzi",
+   "en": "name",
+   "exPy": "Nǐ jiào shénme míngzi?",
+   "exEn": "What is your name?"
+  },
+  "爸爸|我爸爸是一名工程师。": {
+   "py": "bàba",
+   "en": "dad; father",
+   "exPy": "Wǒ bàba shì yì míng gōngchéngshī.",
+   "exEn": "My father is an engineer."
+  },
+  "语言|学语言需要时间。": {
+   "py": "yǔyán",
+   "en": "language",
+   "exPy": "Xué yǔyán xūyào shíjiān.",
+   "exEn": "Learning a language takes time."
+  },
+  "不|我不喜欢吃辣的。": {
+   "py": "bù",
+   "en": "not; no",
+   "exPy": "Wǒ bù xǐhuan chī là de.",
+   "exEn": "I don't like spicy food."
+  },
+  "就|他一说，我就明白了。": {
+   "py": "jiù",
+   "en": "then; right away; just",
+   "exPy": "Tā yì shuō, wǒ jiù míngbai le.",
+   "exEn": "As soon as he said it, I understood."
+  },
+  "也|我也想去看电影。": {
+   "py": "yě",
+   "en": "also; too",
+   "exPy": "Wǒ yě xiǎng qù kàn diànyǐng.",
+   "exEn": "I want to go see a movie too."
+  },
+  "都|我们都很累了。": {
+   "py": "dōu",
+   "en": "all; both",
+   "exPy": "Wǒmen dōu hěn lèi le.",
+   "exEn": "We are all very tired."
+  },
+  "很|这道菜很好吃。": {
+   "py": "hěn",
+   "en": "very",
+   "exPy": "Zhè dào cài hěn hǎochī.",
+   "exEn": "This dish is delicious."
+  },
+  "还|他还没来。": {
+   "py": "hái",
+   "en": "still; yet; also",
+   "exPy": "Tā hái méi lái.",
+   "exEn": "He hasn't come yet."
+  },
+  "没|我没吃饭。": {
+   "py": "méi",
+   "en": "not (have); haven't",
+   "exPy": "Wǒ méi chī fàn.",
+   "exEn": "I haven't eaten."
+  },
+  "真|今天真冷！": {
+   "py": "zhēn",
+   "en": "really; truly",
+   "exPy": "Jīntiān zhēn lěng!",
+   "exEn": "It's really cold today!"
+  },
+  "已经|他已经回家了。": {
+   "py": "yǐjīng",
+   "en": "already",
+   "exPy": "Tā yǐjīng huí jiā le.",
+   "exEn": "He has already gone home."
+  },
+  "太|这件衣服太大了。": {
+   "py": "tài",
+   "en": "too; extremely",
+   "exPy": "Zhè jiàn yīfu tài dà le.",
+   "exEn": "This piece of clothing is too big."
+  },
+  "最|她是班上最聪明的。": {
+   "py": "zuì",
+   "en": "most",
+   "exPy": "Tā shì bān shang zuì cōngming de.",
+   "exEn": "She is the smartest in the class."
+  },
+  "又|他又迟到了。": {
+   "py": "yòu",
+   "en": "again",
+   "exPy": "Tā yòu chídào le.",
+   "exEn": "He was late again."
+  },
+  "再|请再说一遍。": {
+   "py": "zài",
+   "en": "again; then",
+   "exPy": "Qǐng zài shuō yí biàn.",
+   "exEn": "Please say it again."
+  },
+  "只|我只有一个苹果。": {
+   "py": "zhǐ",
+   "en": "only; just",
+   "exPy": "Wǒ zhǐ yǒu yí ge píngguǒ.",
+   "exEn": "I only have one apple."
+  },
+  "更|他比我更努力。": {
+   "py": "gèng",
+   "en": "more; even more",
+   "exPy": "Tā bǐ wǒ gèng nǔlì.",
+   "exEn": "He works even harder than I do."
+  },
+  "才|他才来，请等一下。": {
+   "py": "cái",
+   "en": "just; only (then)",
+   "exPy": "Tā cái lái, qǐng děng yíxià.",
+   "exEn": "He just got here, please wait a moment."
+  },
+  "非常|这部电影非常好看。": {
+   "py": "fēicháng",
+   "en": "very; extremely",
+   "exPy": "Zhè bù diànyǐng fēicháng hǎokàn.",
+   "exEn": "This movie is extremely good."
+  },
+  "一定|你一定要准时来。": {
+   "py": "yídìng",
+   "en": "certainly; must",
+   "exPy": "Nǐ yídìng yào zhǔnshí lái.",
+   "exEn": "You must come on time."
+  },
+  "却|他很努力，却没有成功。": {
+   "py": "què",
+   "en": "but; yet",
+   "exPy": "Tā hěn nǔlì, què méiyǒu chénggōng.",
+   "exEn": "He worked very hard, yet he didn't succeed."
+  },
+  "一直|他一直在等你。": {
+   "py": "yìzhí",
+   "en": "all along; continuously",
+   "exPy": "Tā yìzhí zài děng nǐ.",
+   "exEn": "He has been waiting for you all this time."
+  },
+  "别|别担心，没事的。": {
+   "py": "bié",
+   "en": "don't",
+   "exPy": "Bié dānxīn, méi shì de.",
+   "exEn": "Don't worry, it's fine."
+  },
+  "必须|你必须按时完成作业。": {
+   "py": "bìxū",
+   "en": "must; have to",
+   "exPy": "Nǐ bìxū ànshí wánchéng zuòyè.",
+   "exEn": "You must finish your homework on time."
+  },
+  "先|我们先吃饭，再出发。": {
+   "py": "xiān",
+   "en": "first",
+   "exPy": "Wǒmen xiān chī fàn, zài chūfā.",
+   "exEn": "Let's eat first and then set off."
+  },
+  "其实|他其实很害羞。": {
+   "py": "qíshí",
+   "en": "actually; in fact",
+   "exPy": "Tā qíshí hěn hàixiū.",
+   "exEn": "He is actually very shy."
+  },
+  "正在|我正在学中文。": {
+   "py": "zhèngzài",
+   "en": "in the process of; -ing",
+   "exPy": "Wǒ zhèngzài xué Zhōngwén.",
+   "exEn": "I am studying Chinese."
+  },
+  "当然|当然，我很乐意帮你。": {
+   "py": "dāngrán",
+   "en": "of course",
+   "exPy": "Dāngrán, wǒ hěn lèyì bāng nǐ.",
+   "exEn": "Of course, I'd be happy to help you."
+  },
+  "甚至|他甚至不记得我的名字。": {
+   "py": "shènzhì",
+   "en": "even; so much so that",
+   "exPy": "Tā shènzhì bú jìde wǒ de míngzi.",
+   "exEn": "He doesn't even remember my name."
+  },
+  "肯定|他肯定知道这件事。": {
+   "py": "kěndìng",
+   "en": "certainly; definitely",
+   "exPy": "Tā kěndìng zhīdào zhè jiàn shì.",
+   "exEn": "He definitely knows about this."
+  },
+  "特别|今天的菜特别好吃。": {
+   "py": "tèbié",
+   "en": "especially; particularly",
+   "exPy": "Jīntiān de cài tèbié hǎochī.",
+   "exEn": "Today's food is especially delicious."
+  },
+  "根本|我根本不知道。": {
+   "py": "gēnběn",
+   "en": "(not) at all; fundamentally",
+   "exPy": "Wǒ gēnběn bù zhīdào.",
+   "exEn": "I have no idea at all."
+  },
+  "永远|我会永远记得你。": {
+   "py": "yǒngyuǎn",
+   "en": "forever; always",
+   "exPy": "Wǒ huì yǒngyuǎn jìde nǐ.",
+   "exEn": "I will always remember you."
+  },
+  "也许|也许明天会下雨。": {
+   "py": "yěxǔ",
+   "en": "perhaps; maybe",
+   "exPy": "Yěxǔ míngtiān huì xià yǔ.",
+   "exEn": "Maybe it will rain tomorrow."
+  },
+  "终于|他终于通过了考试。": {
+   "py": "zhōngyú",
+   "en": "finally; at last",
+   "exPy": "Tā zhōngyú tōngguò le kǎoshì.",
+   "exEn": "He finally passed the exam."
+  },
+  "总是|她总是微笑。": {
+   "py": "zǒngshì",
+   "en": "always",
+   "exPy": "Tā zǒngshì wēixiào.",
+   "exEn": "She is always smiling."
+  },
+  "刚刚|他刚刚离开。": {
+   "py": "gānggāng",
+   "en": "just now; just",
+   "exPy": "Tā gānggāng líkāi.",
+   "exEn": "He just left."
+  },
+  "曾经|我曾经去过北京。": {
+   "py": "céngjīng",
+   "en": "once; ever (in the past)",
+   "exPy": "Wǒ céngjīng qù guo Běijīng.",
+   "exEn": "I have been to Beijing before."
+  },
+  "挺|这部电影挺好看的。": {
+   "py": "tǐng",
+   "en": "quite; rather",
+   "exPy": "Zhè bù diànyǐng tǐng hǎokàn de.",
+   "exEn": "This movie is pretty good."
+  },
+  "到底|你到底想说什么？": {
+   "py": "dàodǐ",
+   "en": "after all; on earth",
+   "exPy": "Nǐ dàodǐ xiǎng shuō shénme?",
+   "exEn": "What on earth do you want to say?"
+  },
+  "马上|我马上就来。": {
+   "py": "mǎshàng",
+   "en": "immediately; right away",
+   "exPy": "Wǒ mǎshàng jiù lái.",
+   "exEn": "I'll be right there."
+  },
+  "至少|他至少学了五年中文。": {
+   "py": "zhìshǎo",
+   "en": "at least",
+   "exPy": "Tā zhìshǎo xué le wǔ nián Zhōngwén.",
+   "exEn": "He has studied Chinese for at least five years."
+  },
+  "首先|首先，我要感谢大家。": {
+   "py": "shǒuxiān",
+   "en": "first; first of all",
+   "exPy": "Shǒuxiān, wǒ yào gǎnxiè dàjiā.",
+   "exEn": "First of all, I'd like to thank everyone."
+  },
+  "重新|请重新开始。": {
+   "py": "chóngxīn",
+   "en": "again; anew",
+   "exPy": "Qǐng chóngxīn kāishǐ.",
+   "exEn": "Please start over."
+  },
+  "经常|我经常去图书馆。": {
+   "py": "jīngcháng",
+   "en": "often; frequently",
+   "exPy": "Wǒ jīngcháng qù túshūguǎn.",
+   "exEn": "I often go to the library."
+  },
+  "可能|他可能明天来。": {
+   "py": "kěnéng",
+   "en": "maybe; possibly",
+   "exPy": "Tā kěnéng míngtiān lái.",
+   "exEn": "He may come tomorrow."
+  },
+  "几乎|他几乎每天都来。": {
+   "py": "jīhū",
+   "en": "almost; nearly",
+   "exPy": "Tā jīhū měi tiān dōu lái.",
+   "exEn": "He comes almost every day."
+  },
+  "一起|我们一起去吧！": {
+   "py": "yìqǐ",
+   "en": "together",
+   "exPy": "Wǒmen yìqǐ qù ba!",
+   "exEn": "Let's go together!"
+  },
+  "越来越|天气越来越热了。": {
+   "py": "yuèláiyuè",
+   "en": "more and more",
+   "exPy": "Tiānqì yuèláiyuè rè le.",
+   "exEn": "The weather is getting hotter and hotter."
+  },
+  "差不多|差不多两个小时。": {
+   "py": "chàbuduō",
+   "en": "almost; about",
+   "exPy": "Chàbuduō liǎng ge xiǎoshí.",
+   "exEn": "About two hours."
+  },
+  "到处|到处都是人。": {
+   "py": "dàochù",
+   "en": "everywhere",
+   "exPy": "Dàochù dōu shì rén.",
+   "exEn": "There are people everywhere."
+  },
+  "一边|他一边吃饭一边看书。": {
+   "py": "yìbiān",
+   "en": "at the same time; while",
+   "exPy": "Tā yìbiān chī fàn yìbiān kàn shū.",
+   "exEn": "He reads while he eats."
+  }
+ }
+}
