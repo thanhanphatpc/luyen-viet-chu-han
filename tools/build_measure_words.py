@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Sinh mục "20 lượng từ thông dụng nhất" từ file Excel, ghi vào index.html (khối MEASURE-DATA).
+Sinh mục "30 lượng từ thông dụng nhất" từ file Excel, ghi vào index.html (khối MEASURE-DATA).
 
 Cách dùng:
-    python3 tools/build_measure_words.py [--xlsx data/20-luong-tu-thong-dung-nhat.xlsx]
+    python3 tools/build_measure_words.py [--xlsx data/30-luong-tu-thong-dung-nhat.xlsx]
 
 Cột Excel: Lượng từ | Pinyin | Nghĩa Việt | Nghĩa Anh | Ứng dụng phổ biến | Ví dụ | Ví dụ (tiếng Anh, không bắt buộc)
 Cột "Ví dụ" dạng: câu tiếng Trung (pinyin) nghĩa tiếng Việt — script tự tách 3 phần.
@@ -25,7 +25,7 @@ EX = re.compile(r'^\s*(.+?)\s*[（(]\s*(.+?)\s*[)）]\s*(.*?)\s*$', re.S)
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--xlsx', default=os.path.join(ROOT, 'data', '20-luong-tu-thong-dung-nhat.xlsx'))
+    ap.add_argument('--xlsx', default=os.path.join(ROOT, 'data', '30-luong-tu-thong-dung-nhat.xlsx'))
     ap.add_argument('--file', default=INDEX)
     a = ap.parse_args()
 
