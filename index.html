@@ -94,6 +94,13 @@
   .cg-py { font-size:calc(11px * var(--fs)); color:var(--muted); }
   .cg-vi { display:none; font-size:calc(10px * var(--fs)); color:var(--muted); max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .common-grid.show-mean .cg-vi { display:block; }
+  .cg-tools { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:6px 0 8px; }
+  .cg-tools input[type=text].cg-search { flex:1 1 180px; width:auto; min-width:0; text-align:left; font-size:max(16px, calc(15px * var(--fs))); padding:8px 12px; }
+  .cg-pager { display:flex; gap:6px; align-items:center; margin:8px 0; }
+  .cg-pager select { flex:1 1 auto; min-width:0; background:var(--card); color:var(--text); border:1px solid var(--outline); border-radius:8px; padding:8px 10px; font-size:max(16px, calc(14px * var(--fs))); }
+  .cg-pager button { flex:0 0 auto; }
+  .cg-pager button:disabled { opacity:.4; }
+  .cg-empty { grid-column:1 / -1; color:var(--muted); font-size:calc(14px * var(--fs)); padding:14px 4px; }
   .rad-forms { font-size:calc(12px * var(--fs)); color:var(--muted); }
   .mw-list { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:8px; margin-top:8px; }
   .mw-item { background:var(--card); border:1px solid var(--outline); border-radius:10px; padding:8px 12px; }
@@ -266,21 +273,29 @@
   <button onclick="loadChar()">Tải chữ</button>
   <button class="secondary" onclick="animateChar()">▶ Xem hoạt hình nét</button>
   <button class="secondary" onclick="startQuiz()">✍ Luyện viết (Quiz)</button>
+  <button class="secondary" id="backToGrid" style="display:none">◀ Về lưới chữ</button>
 </div>
 <div id="status"></div>
 <div class="row">
   <div class="char-box"><div id="target"></div></div>
   <div id="charInfo"></div>
 </div>
-<div class="common-head">
-  <h3>⭐ 150 chữ thông dụng nhất</h3>
+<div class="common-head" id="commonHead">
+  <h3>⭐ 2663 chữ theo độ thông dụng</h3>
   <span class="count-badge">xếp theo tần suất trong tiếng Trung hiện đại · bấm chữ để xem nét và luyện viết</span>
+</div>
+<div class="cg-tools">
+  <input type="text" class="cg-search" id="commonSearch" maxlength="30" placeholder="🔍 Tìm chữ Hán, pinyin, nghĩa" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+  <button class="secondary" id="commonSearchClear" style="display:none">✕ Xoá tìm</button>
 </div>
 <div class="controls" style="margin:6px 0 8px">
   <button class="secondary" id="commonToggle">Hiện nghĩa</button>
   <button class="secondary" id="commonToVocab">Thêm 150 chữ vào danh sách (mục 5)</button>
 </div>
+<div class="cg-pager" id="commonPagerTop"></div>
+<div class="count-badge" id="commonInfo" style="display:none;margin:4px 0 8px"></div>
 <div id="commonGrid" class="common-grid"></div>
+<div class="cg-pager" id="commonPagerBottom"></div>
 </section>
 
 <section class="tab-panel" id="tab-bai" data-tab="bai">
@@ -856,29 +871,117 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
     });
   }
 
-  // ---------- 150 chữ thông dụng nhất (theo tần suất chữ Hán hiện đại) ----------
-  const COMMON_150 = Array.from('的一是不了在人有我他这个们中来上大为和国地到以说时要就出会可也你对生能而子那得于着下自之年过发后作里用道行所然家种事成方多经么去法学如都同现当没动面起看定天分还进好小部其些主样理心她本前开但因只从想实日军者意无力它与长把机十民第公此已工使情明性知全三又关点正业外将两高间由问很最重并物手应战向头文体政');
+  // ---------- Lưới 2663 chữ xếp theo tần suất (bảng tần suất chữ Hán hiện đại của Jun Da) ----------
+  // Chia trang 150 chữ; trang 1 chính là "150 chữ thông dụng nhất".
+  const ALL_CHARS = Array.from('的一是不了在人有我他这个们中来上大为和国地到以说时要就出会可也你对生能而子那得于着下自之年过发后作里用道行所然家种事成方多经么去法学如都同现当没动面起看定天分还进好小部其些主样理心她本前开但因只从想实日军者意无力它与长把机十民第公此已工使情明性知全三又关点正业外将两高间由问很最重并物手应战向头文体政美相见被利什二等产或新己制身果加西斯月话合回特代内信表化老给世位次度门任常先海通教儿原东声提立及比员解水名真论处走义各入几口认条平系气题活尔更别打女变四神总何电数安少报才结反受目太量再感建务做接必场件计管期市直德资命山金指克许统区保至队形社便空决治展马科司五基眼书非则听白却界达光放强即像难且权思王象完设式色路记南品住告类求据程北边死张该交规万取拉格望觉术领共确传师观清今切院让识候带导争运笑飞风步改收根干造言联持组每济车亲极林服快办议往元英士证近失转夫令准布始怎呢存未远叫台单影具字爱击流备兵连调深商算质团集百需价花党华城石级整府离况亚请技际约示复病息究线似官火断精满支视消越器容照须九增研写称企八功吗包片史委乎查轻易早曾除农找装广显吧阿李标谈吃图念六引历首医局突专费号尽另周较注语仅考落青随选列武红响虽推势参希古众构房半节土投某案黑维革划敌致陈律足态护七兴派孩验责营星够章音跟志底站严巴例防族供效续施留讲型料终答紧黄绝奇察母京段依批群项故按河米围江织害斗双境客纪采举杀攻父苏密低朝友诉止细愿千值仍男钱破网热助倒育属坐帝限船脸职速刻乐否刚威毛状率甚独球般普怕弹校苦创假久错承印晚试股拿脑预谁益阳若哪微继送急血惊伤素药适波夜省初喜卫源食险待述陆习置居劳财环排福纳欢雷警获模充负云停木游龙树疑层冷洲冲射略范竟句室异激汉村哈策演简卡罪判担州静退既衣您宗积余痛检差富灵协角占配征修皮挥胜降阶审沉坚善妈读啊超免压银买皇养怀执副乱抗犯追帮宣佛岁航优怪香著田铁控税左右份穿艺背阵草脚概恶块顿敢守酒岛托央户烈洋哥索胡款靠评版宝座释景顾弟登货互付伯慢欧换闻危忙核暗姐介坏讨丽良序升监临亮露永呼味野架域沙掉括舰鱼杂误湾吉减编楚肯测败屋跑梦散温困剑渐封救贵枪缺楼县尚毫移娘朋画班智亦耳恩短掌恐遗固席松秘谢鲁遇康虑幸均销钟诗藏赶剧票损忽巨炮旧端探湖录叶春乡附吸予礼港雨呀板庭妇归睛饭额含顺输摇招婚脱补谓督毒油疗旅泽材灭逐莫笔亡鲜词圣择寻厂睡博烟授诺伦岸奥唐卖炸载健堂旁宫喝借君禁阴园谋避抓荣姑孙逃牙束跳顶玉镇雪午练迫爷篇肉嘴馆遍凡础洞卷坦牛宁纸诸训私庄祖丝翻暴森塔默握戏隐熟骨访弱蒙歌店鬼软典欲伙遭盘爸扩盖弄雄稳忘亿刺拥徒姆齐赛趣曲刀床迎冰虚玩析窗醒妻透购替塞努休虎扬途侵刑绿兄迅套贸毕唯谷轮库迹尤竞街促延震弃甲伟麻川申缓潜闪售灯针哲络抵抱鼓植纯夏忍页杰筑折郑贝尊秀混臣雅振染盛怒舞圆搞狂措姓残秋培迷诚宽宇猛摆毁伸摩盟末悲拍丁硬麦操阻订彩抽赞魔纷沿喊违妹浪汇币丰蓝殊献桌啦瓦援译夺汽烧距裁偏符勇触课敬哭懂墙袭召罚侠厅拜巧侧冒债融惯享戴童犹乘挂奖绍厚纵障讯涉彻刊丈爆乌役描洗患妙镜唱烦签仙彼症仿倾牌陷鸟轰咱菜闭奋庆撤泪茶疾缘播朗杜奶季狗尾仪偷奔珠虫驻孔宜桥淡翼恨繁寒伴叹旦愈潮粮缩罢聚径恰挑袋灰捕珍幕映裂泰隔启尖忠累炎暂估泛荒偿横拒忆孤鼻闹羊呆厉衡胞零穷舍码婆魂灾洪腿胆津俗辩胸晓劲贫仁偶辑恢赖圈摸仰润堆碰艇稍迟辆废净凶署壁御奉旋冬矿抬蛋晨伏吹鸡倍糊盾杯租骑乏隆诊奴摄丧污渡旗甘耐凭扎抢绪粗肩梁幻皆碎宙叔岩荡综爬悉蒂返井壮薄悄扫敏碍殖详矛霍允幅撒剩颗骂赏液番箱贴漫酸郎腰舒眉忧浮辛恋餐吓挺励辞艘键伍峰尺昨黎辈贯侦滑券崇扰宪绕趋慈阅汗枝拖墨胁插箭粉泥氏拔骗慧媒佩愤扑龄驱惜豪掩兼跃尸肃驶堡届欣惠册储飘桑闲惨洁踪勃宾频仇磨递撞拟滚奏巡颜剂绩贡疯坡瞧截燃焦殿伪锁逼颇昏劝呈搜勤戒驾漂饮朵仔柔俩腐幼践籍牧凉牲佳浓稿竹腹跌逻垂遵脉貌狱猜怜惑陶兽帐饰贷昌叙躺钢沟寄扶铺寿惧询汤盗肥尝匆辉奈扣嘛董迁凝慰厌脏腾幽怨鞋丢埋泉涌辖躲晋紫艰慌祝邮吐狠鉴械咬邻赤挤弯椅陪割揭悟聪雾锋梯猫祥阔誉筹丛牵鸣屈旨袖猎臂蛇贺柱抛鼠牢逊迈欺吨琴衰瓶恼诱狼池疼仗冠粒遥尘抚浅纠钻晶岂峡苍喷耗凌敲菌赔涂粹扁亏寂煤熊恭湿循暖糖赋抑秩帽哀宿踏烂抖夹昆擦猪炼恒慎搬纽纹玻渔磁铜齿跨押怖漠疲叛遣醉拳弥斜档稀捷肤疫肿豆削岗晃吞宏癌肚隶履涨耀扭坛拨沃绘伐堪牺墓雇廉拼惩捉覆刷劫嫌瓜歇雕闷乳串娃缴唤赢霸桃妥瘦搭赴岳嘉舱俊址庞耕锐缝悔邀斥宅添挖呵讼氧羽斤酷掠祸乙妨贪挣悬唇仓轨枚盐览傅帅庙屏寺胖璃愚滴疏姿颤丑劣寸扔盯辱匹俱辨饿蜂哦腔郁溃谨糟苗肠忌溜笼丘滋聊挡纲肌壳痕碗穴膀卓贤卧膜毅锦欠茫昂皱夸豫胃舌剥傲拾窝睁携陵哼棉晴铃填饲渴吻扮逆脆喘罩炉柴愉绳胎蓄眠竭喂傻慕浑扇柜悦拦诞饱泡贼亭夕酬儒姻氛泄杆挨蜜吟狭肖甜霞驳裕顽摘矮秒畜咽披辅勾盆疆赌塑畏吵嗯泊肺骤缠羞瞪吊漏斑涛悠俘卑葬铭滩嫁催翅盒蛮歧锅廊拆灌勉盲宰啥胀扯辽抹筒棋裤唉朴咐孕誓喉妄拘链驰栏逝窃艳臭纤棵趁盈愁瞬婴孝颈倘谅蔽畅赠冻跪闯葡厨鸭颠遮谊吁辟瘤嫂框钦庸歉吼衫摊宴嘱衷娇矩讶耸摧薪淋耻胶饥盼脖虹崩账逢赚撑翔倡猴枯凑溪蠢阐旺寓伞碑挪脂谎慨萄狮掘抄晕逮砍掏晰罕挽脾舟剪懒叉拐捐骚拓歪粘坑陌窄兆崖骄刹鞭芒筋聘钩棍嚷弦焰耍俯厘愣厦恳饶钉憾摔叠惹喻谱愧煌溶坠巾滥洒堵瓷姨棒浴哎屁漆巢吩啸滞硕钓蝶膝茂恕渠戚辰舶颁讽笨袍嘲啡泼衔倦涵雀旬僵撕肢垄侨舆谦弊刮郊凄捧浸砖篮蒸饼陡兔荐哑炭坟眨搏咳拢舅昧擅爽咖搁雌哨巩裹昔谬谍媳瞎冤鸦蓬巷栽沾诈瞒咨纺罐桶壤糕颂膨谐隙辣绑宠嘿兑霉挫辐乞裙哇绣杖塘衍攀膊譬踢肆泣屡躁椎砸趟帘帆窜丸斩堤塌贩厢掀乖谜捏滨虏匙苹卸沼钥株剖哗劈怯胳娱娶沫嗓蹲淘嫩衬竖峻捞鄙魄兜哄颖屑蚁壶渗秃旱咸谴稻铸锻恍贬烛汁朽佣碌迄绅榜诵傍禽勿瞄幢睹贿踩蔑缚篷淹煮勘逗炒灿敞蜡辜垫妒谣寞甩枕丐泳泌叮燥掷侮蚀垃烤晒霜蕴圾绸屿妆捆铅逛丙痒钞犬躬昼奠耽蹈陋侣魅侄虐堕狡膏茎喇绒搅缔嫉灶匀鸽澡纬沸畴遏烁嗅叭熬奢拙栋毯泻梳晤稚蔬捣尴诧尬嚼羡旷芽碳惕暑汹腥捡澄萎滔酿诫棕喧删伺梢坝敷庇挠搂噪稼寝哺帜嗽揉腻瘫觅僻蔓咋嵌畔涩蹦浏裔叨啤呕凸熄裳凹膛浇橡聋姥沮萌撇苟蚂俭帖煎墅烫歹伶廓讳瓣枉厕琢讥呻慷锤桨磅惭馈溅钙彰眯墟瞻悼蝴拣渺汰镶趴酌浊撼扛峭磕翘熏缀徊梨肪涕惫挚绎睦窍粥沧怠咙沛崭鞠洽唾袜柬擎疤钝氓杠诬抒醋侈猾徘皂嗦狈搓酱赁蕉筷婪紊兢糙扒屉痪宵岔韧憋衅髦隘濒剔淀缉斟拧椒蔚眶瀑渣辙潇阱哆辫拽滤睬谤捍瘾磋淆烘赂勺迸炫嗨桔惰椭侃瞩蕾炊隧啃舔蹬袱殴柿侥酝澈锈稠搀筛痹甭唠徙筐曝嘈乒蔼烹沐掐咀乓吝肴溉疙揍诽倔攒瘩殃俐拌橙簸惋惮捎馒饺唆榨蹋叼秤惦藐馅暧辕馋啬踊暄嚏晾瘸阂挎雹酗拄掰荤饪熨涮锲啰');
+  const CG_PAGE = 150;
+  const CG_PAGES = Math.ceil(ALL_CHARS.length / CG_PAGE);
+  const CG_MAX_FOUND = 300;
   let commonShowMean = false;
+  let commonPage = 0;
+  let commonQuery = '';
+  let commonShown = [];   // các chữ đang hiện trên lưới (theo trang hoặc theo kết quả tìm)
   try { commonShowMean = localStorage.getItem('lvch_common_mean') === '1'; } catch (e) { /* ignore */ }
+  try { commonPage = Math.min(CG_PAGES - 1, Math.max(0, parseInt(localStorage.getItem('lvch_common_page'), 10) || 0)); } catch (e) { /* ignore */ }
+  // Bỏ dấu (thanh điệu pinyin, dấu tiếng Việt) để tìm không cần gõ dấu.
+  function cgFold(t) {
+    return String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/ü/g, 'u');
+  }
+  let cgIndex = null;
+  function cgBuildIndex() {
+    cgIndex = ALL_CHARS.map(c => {
+      const m = window.CHAR_META[c] || {};
+      return {
+        c: c,
+        py: cgFold(m.py).split(/[\/,;\s]+/).filter(Boolean),
+        vi: String(m.vi || '').toLowerCase(),
+        viF: cgFold(m.vi)
+      };
+    });
+  }
+  function cgSearch(q) {
+    if (!cgIndex) cgBuildIndex();
+    const raw = q.trim().toLowerCase();
+    if (!raw) return [];
+    // 1) Có chữ Hán trong ô tìm: hiện đúng các chữ đó.
+    const han = Array.from(raw).filter(ch => window.CHAR_META[ch]);
+    if (han.length) return han.filter((c, i) => han.indexOf(c) === i);
+    const f = cgFold(raw).replace(/\s+/g, ' ');
+    const fPy = f.replace(/[\s\d]/g, '');
+    const hasMark = raw !== f;   // người dùng gõ có dấu → so nghĩa có dấu cho chính xác
+    const exact = [], prefix = [], mean = [];
+    cgIndex.forEach(e => {
+      if (fPy && e.py.indexOf(fPy) >= 0) exact.push(e.c);
+      else if (hasMark ? e.vi.indexOf(raw) >= 0 : e.viF.indexOf(f) >= 0) mean.push(e.c);
+      else if (fPy.length >= 2 && e.py.some(p => p.indexOf(fPy) === 0)) prefix.push(e.c);
+    });
+    return exact.concat(mean, prefix);
+  }
+  function cgRangeLabel(p) {
+    return (p * CG_PAGE + 1) + '–' + Math.min(ALL_CHARS.length, (p + 1) * CG_PAGE);
+  }
+  function renderCommonPager() {
+    const searching = !!commonQuery.trim();
+    ['commonPagerTop', 'commonPagerBottom'].forEach(id => {
+      const box = document.getElementById(id);
+      box.style.display = searching ? 'none' : '';
+      if (searching) return;
+      let opts = '';
+      for (let p = 0; p < CG_PAGES; p++) opts += '<option value="' + p + '"' + (p === commonPage ? ' selected' : '') + '>Chữ ' + cgRangeLabel(p) + ' (trang ' + (p + 1) + '/' + CG_PAGES + ')</option>';
+      box.innerHTML = '<button class="secondary" data-step="-1" aria-label="Trang trước"' + (commonPage === 0 ? ' disabled' : '') + '>◀</button>' +
+        '<select aria-label="Chọn trang">' + opts + '</select>' +
+        '<button class="secondary" data-step="1" aria-label="Trang sau"' + (commonPage === CG_PAGES - 1 ? ' disabled' : '') + '>▶</button>';
+      box.querySelector('select').onchange = ev => setCommonPage(parseInt(ev.target.value, 10), id === 'commonPagerBottom');
+      box.querySelectorAll('button').forEach(b => b.onclick = () => setCommonPage(commonPage + parseInt(b.dataset.step, 10), id === 'commonPagerBottom'));
+    });
+  }
+  function setCommonPage(p, scrollTop) {
+    commonPage = Math.min(CG_PAGES - 1, Math.max(0, p || 0));
+    try { localStorage.setItem('lvch_common_page', String(commonPage)); } catch (e) { /* ignore */ }
+    renderCommonGrid();
+    if (scrollTop) document.getElementById('commonHead').scrollIntoView({behavior: 'auto', block: 'start'});
+  }
   function renderCommonGrid() {
     const grid = document.getElementById('commonGrid');
     const cur = (document.getElementById('charInput').value || '').trim();
+    const searching = !!commonQuery.trim();
+    const info = document.getElementById('commonInfo');
+    let list, total = 0;
+    if (searching) {
+      const found = cgSearch(commonQuery);
+      total = found.length;
+      list = found.slice(0, CG_MAX_FOUND);
+      info.style.display = '';
+      info.textContent = total ? ('Tìm thấy ' + total + ' chữ' + (total > CG_MAX_FOUND ? ' — hiện ' + CG_MAX_FOUND + ' chữ đầu, gõ thêm để lọc hẹp hơn' : '')) : '';
+    } else {
+      list = ALL_CHARS.slice(commonPage * CG_PAGE, (commonPage + 1) * CG_PAGE);
+      info.style.display = 'none';
+    }
+    commonShown = list;
+    if (!cgRank) { cgRank = {}; ALL_CHARS.forEach((c, i) => { cgRank[c] = i + 1; }); }
     grid.classList.toggle('show-mean', commonShowMean);
-    grid.innerHTML = COMMON_150.map((c, i) => {
+    grid.innerHTML = list.length ? list.map(c => {
       const m = window.CHAR_META[c] || {};
       const vi = String(m.vi || '').split(/[;；]/)[0].trim();
       return '<button class="cg-cell' + (c === cur ? ' active' : '') + '" data-c="' + c + '" title="' + esc((m.py || '') + ' — ' + (m.vi || '')) + '">' +
-        '<span class="cg-rank">' + (i + 1) + '</span><span class="cg-hz">' + c + '</span>' +
+        '<span class="cg-rank">' + cgRank[c] + '</span><span class="cg-hz">' + c + '</span>' +
         '<span class="cg-py">' + esc(m.py || '') + '</span><span class="cg-vi">' + esc(vi) + '</span></button>';
-    }).join('');
+    }).join('') : '<div class="cg-empty">Không tìm thấy chữ nào trong 2663 chữ. Thử gõ pinyin không dấu (ví dụ: zhao) hoặc nghĩa tiếng Việt của một chữ đơn (ví dụ: nước).</div>';
     grid.querySelectorAll('.cg-cell').forEach(b => b.onclick = () => {
       const strip = document.getElementById('wordStrip'); if (strip) strip.style.display = 'none';
       loadChar(b.dataset.c, {autoplay: true});
+      document.getElementById('backToGrid').style.display = '';
       goTo('target');
     });
-    const tg = document.getElementById('commonToggle');
-    tg.textContent = commonShowMean ? 'Ẩn nghĩa' : 'Hiện nghĩa';
+    document.getElementById('commonToggle').textContent = commonShowMean ? 'Ẩn nghĩa' : 'Hiện nghĩa';
+    document.getElementById('commonToVocab').textContent = searching
+      ? 'Thêm ' + list.length + ' chữ tìm được vào danh sách (mục 5)'
+      : 'Thêm ' + list.length + ' chữ trang này vào danh sách (mục 5)';
+    document.getElementById('commonToVocab').disabled = !list.length;
+    document.getElementById('commonSearchClear').style.display = searching ? '' : 'none';
+    renderCommonPager();
   }
+  let cgRank = null;
   function markCommonActive(c) {
     document.querySelectorAll('#commonGrid .cg-cell').forEach(b => b.classList.toggle('active', b.dataset.c === c));
   }
@@ -887,7 +990,25 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
     try { localStorage.setItem('lvch_common_mean', commonShowMean ? '1' : '0'); } catch (e) { /* ignore */ }
     renderCommonGrid();
   };
-  document.getElementById('commonToVocab').onclick = () => { addChars(COMMON_150, '150 chữ thông dụng'); goTo('chipList'); };
+  document.getElementById('commonToVocab').onclick = () => {
+    if (!commonShown.length) return;
+    const label = commonQuery.trim() ? 'kết quả tìm "' + commonQuery.trim() + '"' : 'chữ thông dụng ' + cgRangeLabel(commonPage);
+    addChars(commonShown, label); goTo('chipList');
+  };
+  (function () {
+    const inp = document.getElementById('commonSearch');
+    let timer = null;
+    inp.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { commonQuery = inp.value; renderCommonGrid(); }, 180);
+    });
+    document.getElementById('commonSearchClear').onclick = () => { inp.value = ''; commonQuery = ''; renderCommonGrid(); };
+  })();
+  // Quay lại đúng ô vừa bấm trên lưới (trang/kết quả tìm vẫn giữ nguyên).
+  document.getElementById('backToGrid').onclick = () => {
+    const cell = document.querySelector('#commonGrid .cg-cell.active');
+    goTo(cell || 'commonHead', cell ? 'center' : 'start');
+  };
   // Chữ mở đầu được nạp bởi initFromUrl() ở cuối script (hỗ trợ link ?chu=).
 
   // ---------- Vocabulary loading ----------

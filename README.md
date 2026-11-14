@@ -11,7 +11,11 @@ Phát âm: nút 🔊 đọc tiếng Trung; bấm thẳng vào nghĩa hoặc câu
 
 Trên cùng có nút **Giao diện** ☀️ Sáng / 🌙 Tối / 🔄 Tự động (theo cài đặt máy) và **Cỡ chữ** A− / A+ (85–160%, bấm % để về 100%); trang nhớ lựa chọn trên từng máy. Trang hiển thị vừa khổ điện thoại.
 
-Tab 1 có lưới **150 chữ thông dụng nhất** (theo tần suất chữ Hán hiện đại, danh sách ở `data/150-chu-thong-dung.csv`): bấm chữ để xem nét/luyện viết, nút Hiện nghĩa, nút thêm cả 150 chữ vào danh sách từ vựng.
+Tab 1 có lưới **2663 chữ xếp theo độ thông dụng** (bảng tần suất chữ Hán hiện đại của Jun Da; 150 chữ đầu trùng với `data/150-chu-thong-dung.csv`):
+- chia trang 150 chữ (18 trang), chọn trang bằng ô chọn hoặc nút ◀ ▶ ở đầu/cuối lưới; trang nhớ trang đang xem trên từng máy;
+- ô tìm: gõ chữ Hán, pinyin không dấu (`zhao`, `xing2`) hoặc nghĩa tiếng Việt của chữ đơn (có dấu hoặc không dấu) — tìm trên cả 2663 chữ;
+- bấm chữ để xem nét/luyện viết, nút **◀ Về lưới chữ** đưa về đúng ô vừa bấm;
+- nút Hiện nghĩa; nút thêm các chữ đang hiện (trang hiện tại hoặc kết quả tìm) vào danh sách từ vựng.
 
 ## Mở thẳng một từ bằng link
 
