@@ -97,7 +97,7 @@ Cập nhật khi chạy `tools/add_lesson.py ... --readme`; trên trang web bả
 - Bảng đã xếp: `data/bo-thu-214.csv` (mở được bằng Excel).
 - Sửa file Excel thì chạy lại: `python3 tools/build_radicals.py` (ghi khối `RADICAL-DATA` trong `index.html`, không sửa tay).
 
-## 30 lượng từ thông dụng nhất (tab 4)
+## 50 lượng từ thông dụng nhất (tab 4)
 
-- Nguồn: `data/30-luong-tu-thong-dung-nhat.xlsx` (Lượng từ, Pinyin, Nghĩa Việt, Nghĩa Anh, Ứng dụng phổ biến, Ví dụ "câu (pinyin) nghĩa").
+- Nguồn: `data/50-luong-tu-thong-dung-nhat.xlsx` (Lượng từ, Pinyin, Nghĩa Việt, Nghĩa Anh, Ứng dụng phổ biến, Ví dụ "câu (pinyin) nghĩa").
 - Sửa file Excel thì chạy lại: `python3 tools/build_measure_words.py` (ghi khối `MEASURE-DATA` trong `index.html`, không sửa tay).
