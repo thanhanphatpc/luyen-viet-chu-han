@@ -17,6 +17,10 @@
   .tabbar button { flex:0 0 auto; background:var(--card); color:var(--ink); border:1px solid var(--outline); border-radius:20px; padding:8px 14px; font-size:calc(14px * var(--fs)); white-space:nowrap; }
   .tabbar button.active { background:var(--ink); color:var(--on-ink); border-color:var(--ink); }
   .tab-ic { margin-right:4px; }
+  .return-bar { position:sticky; top:var(--tabh, 54px); z-index:19; display:none; gap:8px; align-items:center; padding:6px 0; background:var(--paper); }
+  .return-bar.show { display:flex; }
+  .return-bar button { font-size:calc(14px * var(--fs)); border-radius:20px; padding:8px 14px; border:1px solid var(--ink); background:var(--ink); color:var(--on-ink); }
+  .return-bar button.rb-x { background:var(--card); color:var(--ink); border-color:var(--outline); padding:8px 12px; }
   .tab-panel { display:none; }
   .tab-panel.active { display:block; }
   .tab-panel > h2:first-child { border-top:none; margin-top:14px; padding-top:0; }
@@ -264,6 +268,8 @@
   <button role="tab" data-tab="nguphap"><span class="tab-ic">📘</span>7. Ngữ pháp</button>
   <button role="tab" data-tab="tuloai"><span class="tab-ic">🏷️</span>8. Từ loại</button>
 </nav>
+
+<div class="return-bar" id="returnBar"><button id="returnBtn" type="button"></button><button id="returnClose" class="rb-x" type="button" aria-label="Ẩn nút quay lại">✕</button></div>
 
 <section class="tab-panel" id="tab-viet" data-tab="viet">
 <h2>1. Luyện viết chữ</h2>
@@ -530,6 +536,30 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
       if (on && b.scrollIntoView) b.scrollIntoView({block: 'nearest', inline: 'nearest'});
     });
     try { localStorage.setItem(TAB_KEY, name); } catch (e) { /* ignore */ }
+    updateReturnBar();
+  }
+  // Nút "Quay lại": nhớ tab + vị trí cuộn trước khi goTo() chuyển sang tab khác
+  // (bấm chữ ở tab Từ loại/Lượng từ/Bộ thủ/Bài hằng ngày... để sang tab 1 luyện viết).
+  let navReady = false, returnTo = null;
+  function activeTabName() { const a = document.querySelector('.tab-panel.active'); return a ? a.dataset.tab : ''; }
+  function tabLabel(name) {
+    const b = document.querySelector('#tabbar button[data-tab="' + name + '"]');
+    return b && b.childNodes[1] ? b.childNodes[1].textContent.trim() : name;
+  }
+  function updateReturnBar() {
+    const bar = document.getElementById('returnBar'); if (!bar) return;
+    const show = !!returnTo && returnTo.tab !== activeTabName();
+    bar.classList.toggle('show', show);
+    if (show) document.getElementById('returnBtn').textContent = '◀ Quay lại ' + tabLabel(returnTo.tab);
+    const tb = document.getElementById('tabbar');
+    if (tb) document.documentElement.style.setProperty('--tabh', tb.offsetHeight + 'px');
+  }
+  function doReturn() {
+    if (!returnTo) return;
+    const r = returnTo; returnTo = null;
+    showTab(r.tab);
+    window.scrollTo({top: r.y, behavior: 'auto'});
+    setTimeout(() => window.scrollTo({top: r.y, behavior: 'auto'}), 60);
   }
   // Chuyển sang tab chứa phần tử rồi cuộn tới phần tử đó.
   function goTo(el, block) {
@@ -537,11 +567,12 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
     if (!el) return;
     const panel = el.closest('.tab-panel');
     const wasHidden = panel && !panel.classList.contains('active');
+    if (panel && wasHidden && navReady) returnTo = {tab: activeTabName(), y: window.scrollY};
     if (panel) showTab(panel.dataset.tab);
     setTimeout(() => el.scrollIntoView({behavior: wasHidden ? 'auto' : 'smooth', block: block || 'center'}), wasHidden ? 30 : 0);
   }
   window.showTab = showTab;
-  document.querySelectorAll('#tabbar button').forEach(b => b.onclick = () => { showTab(b.dataset.tab); window.scrollTo({top: document.getElementById('tabbar').offsetTop, behavior: 'auto'}); });
+  document.querySelectorAll('#tabbar button').forEach(b => b.onclick = () => { returnTo = null; showTab(b.dataset.tab); window.scrollTo({top: document.getElementById('tabbar').offsetTop, behavior: 'auto'}); });
   // ---------- Bổ sung dữ liệu nét từ mạng cho chữ ngoài bộ có sẵn (cache trên máy) ----------
   const HZ_CACHE_KEY = 'lvch_hz_cache_v1';
   const HZ_CDN = c => 'https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/' + encodeURIComponent(c) + '.json';
@@ -1810,6 +1841,11 @@ window.HSK_CHAR_WORDS = {"一":[130,171,273],"七":[78,3803,3980],"三":[87,906,
     try { if (new URLSearchParams(location.search).get('chu') || new URLSearchParams(location.search).get('tu') || location.hash.length > 1) t = 'viet'; } catch (e) { /* ignore */ }
     if (!t) { try { t = localStorage.getItem(TAB_KEY) || ''; } catch (e) { /* ignore */ } }
     showTab(document.getElementById('tab-' + t) ? t : 'viet');
+    document.getElementById('returnBtn').onclick = doReturn;
+    document.getElementById('returnClose').onclick = () => { returnTo = null; updateReturnBar(); };
+    window.addEventListener('resize', updateReturnBar);
+    navReady = true;
+    updateReturnBar();
   })();
 
 </script>
